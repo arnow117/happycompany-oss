@@ -1,0 +1,24 @@
+id: acme-project-kickoff-handoff-consultant
+description: Professional-service project manager should hand off expert delivery tasks to consultant.
+input:
+  channel: harness
+  botName: project-manager-template
+  tenant: acme-demo
+  userId: acme-user-001
+  chatId: harness-acme-project-kickoff
+  text: 启动 ACME-001 项目，需要顾问本周五前产出诊断方案
+fakeReply: 项目经理已创建 ACME-001 启动计划，并把诊断方案交付任务转交给顾问。
+simulated:
+  routing:
+    selectedEmployee: project-manager-template
+  handoffs:
+    - from: project-manager-template
+      to: consultant-template
+      reason: expert-deliverable
+expect:
+  routedEmployee: project-manager-template
+  handoffCount: 1
+  replyContains:
+    - ACME-001
+    - 顾问
+  noErrors: true

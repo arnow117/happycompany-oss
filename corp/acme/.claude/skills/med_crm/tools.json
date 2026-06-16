@@ -1,0 +1,119 @@
+{
+  "name": "med_crm",
+  "version": "1.0.0",
+  "displayName": "医院CRM",
+  "description": "示例医疗医院客户、设备、维保和招投标查询工具",
+  "tools": [
+    {
+      "name": "search_hospitals",
+      "description": "搜索医院，支持按关键词过滤",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "keyword": { "type": "string" } }, "required": ["keyword"] }
+    },
+    {
+      "name": "search_devices",
+      "description": "搜索装机设备，支持按品牌/类型/医院过滤",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "keyword": { "type": "string" }, "hospital_id": { "type": "integer" } } }
+    },
+    {
+      "name": "list_maintenance",
+      "description": "列出维保合同，支持按医院过滤",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "hospital_id": { "type": "integer" }, "expiring_before": { "type": "string" } } }
+    },
+    {
+      "name": "search_bids",
+      "description": "搜索中标信息",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "keyword": { "type": "string" }, "hospital_id": { "type": "integer" } } }
+    },
+    {
+      "name": "add_sales_activity",
+      "description": "添加销售活动/拜访",
+      "riskLevel": "internal_write",
+      "parameters": { "type": "object", "properties": { "hospital_id": { "type": "integer" }, "summary": { "type": "string" } } }
+    },
+    {
+      "name": "add_contact",
+      "description": "添加联系人",
+      "riskLevel": "internal_write",
+      "parameters": { "type": "object", "properties": { "hospital_id": { "type": "integer" }, "name": { "type": "string" } } }
+    },
+    {
+      "name": "add_incident",
+      "description": "新增维修工单或故障记录",
+      "riskLevel": "internal_write",
+      "parameters": { "type": "object", "properties": { "hospital_id": { "type": "integer" }, "description": { "type": "string" } } }
+    },
+    {
+      "name": "global_search",
+      "description": "全局搜索",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "keyword": { "type": "string" } }, "required": ["keyword"] }
+    },
+    {
+      "name": "hospital_info",
+      "description": "医院详情",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "hospital_name": { "type": "string" } }, "required": ["hospital_name"] }
+    },
+    {
+      "name": "contract_intake",
+      "description": "录入合同字段并解析维保周期",
+      "riskLevel": "internal_write",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "contractId": { "type": "string" },
+          "customer": { "type": "string" },
+          "deviceModel": { "type": "string" },
+          "servicePeriodStart": { "type": "string" },
+          "servicePeriodEnd": { "type": "string" },
+          "maintenanceCycle": { "type": "string" },
+          "paymentTerms": { "type": "string" }
+        },
+        "required": ["contractId", "customer", "deviceModel", "servicePeriodStart", "servicePeriodEnd", "maintenanceCycle"]
+      }
+    },
+    {
+      "name": "create_service_record",
+      "description": "记录维修日志和 SERVICE RECORD 回执",
+      "riskLevel": "internal_write",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "recordId": { "type": "string" },
+          "contractId": { "type": "string" },
+          "customer": { "type": "string" },
+          "deviceModel": { "type": "string" },
+          "serviceDate": { "type": "string" },
+          "diagnosis": { "type": "string" },
+          "partsUsed": { "type": "string" },
+          "customerSigned": { "type": "string" }
+        },
+        "required": ["recordId", "contractId", "customer", "deviceModel", "serviceDate", "diagnosis"]
+      }
+    },
+    {
+      "name": "finance_settlement",
+      "description": "记录维修回执后的财务结算和归档状态",
+      "riskLevel": "internal_write",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "settlementId": { "type": "string" },
+          "contractId": { "type": "string" },
+          "serviceRecordId": { "type": "string" },
+          "billingAmount": { "type": "string" },
+          "archiveStatus": { "type": "string" }
+        },
+        "required": ["settlementId", "contractId", "serviceRecordId"]
+      }
+    }
+  ],
+  "server": {
+    "entry": "med_crm/server.py",
+    "python": "python3"
+  }
+}

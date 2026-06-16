@@ -1,0 +1,14 @@
+id: operations-to-customer-service
+fromRole: operations
+toRole: customer-service
+description: 运营向客服同步商品、活动和答复口径的结构化上下文。
+requiredFields:
+  topic: 口径主题
+  effective_time: 生效时间
+  audience: 适用客户或订单范围
+  customer_script: 客服可直接使用的话术
+optionalFields:
+  product_ids: 相关商品或 SKU
+  risk_notes: 风险提示
+  escalation_rule: 需要升级给运营的条件
+

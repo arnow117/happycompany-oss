@@ -1,0 +1,26 @@
+id: architecture-web-runtime-parity
+description: |
+  Architecture smoke: a Web chat shaped message still flows through the same
+  MessageIngressRuntime trace contract as IM and Harness cases.
+input:
+  channel: web
+  botName: sales-zhangsan
+  tenant: acme
+  userId: web-user-001
+  chatId: harness-arch-web-runtime
+  text: Web 页面里查一下浙一医院的维保状态
+fakeReply: Web 入口已通过同一运行时查询浙一医院维保状态。
+simulated:
+  routing:
+    selectedEmployee: sales-zhangsan
+  toolCalls:
+    - name: med_crm:global_search
+      elapsedMs: 12
+expect:
+  routedEmployee: sales-zhangsan
+  toolNamesIncludes:
+    - med_crm:global_search
+  replyContains:
+    - Web
+    - 浙一医院
+  noErrors: true

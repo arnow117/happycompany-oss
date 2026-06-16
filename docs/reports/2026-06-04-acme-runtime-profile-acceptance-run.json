@@ -1,0 +1,200 @@
+{
+  "status": "passed",
+  "mode": "runtime-profile",
+  "profile": "acme-ultimate-20260604141013",
+  "profileRoot": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013",
+  "configPath": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/config.json",
+  "corpDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp",
+  "dataDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/data",
+  "tenant": "acme-happycompany",
+  "tenantSourceDir": "/workspace/corp/acme-happycompany",
+  "targetModified": false,
+  "profileTenantDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp/acme-happycompany",
+  "profileSkillDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp/acme-happycompany/.claude/skills/med_crm",
+  "writeTools": [
+    "contract_intake",
+    "create_service_record",
+    "finance_settlement"
+  ],
+  "missingWriteTools": [],
+  "toolCount": 12,
+  "stage": {
+    "apply": true,
+    "sourceSkillDir": "/workspace/happycompany/corp/acme/.claude/skills/med_crm",
+    "targetSkillDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp/acme-happycompany/.claude/skills/med_crm",
+    "writeTools": [
+      "contract_intake",
+      "create_service_record",
+      "finance_settlement"
+    ],
+    "sourceHasAllWriteTools": true,
+    "targetHasAllWriteTools": true,
+    "missingInSource": [],
+    "missingInTarget": [],
+    "action": "applied",
+    "backupDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp/acme-happycompany/.claude/skills/med_crm/.backups/backup-2026-06-04T14-10-13-635Z",
+    "targetToolsAfter": [
+      "search_hospitals",
+      "search_devices",
+      "list_maintenance",
+      "search_bids",
+      "add_sales_activity",
+      "add_contact",
+      "add_incident",
+      "global_search",
+      "hospital_info",
+      "contract_intake",
+      "create_service_record",
+      "finance_settlement"
+    ]
+  },
+  "acceptance": {
+    "status": "passed",
+    "generatedAt": "2026-06-04T14:10:13.849Z",
+    "skillDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp/acme-happycompany/.claude/skills/med_crm",
+    "flows": [
+      {
+        "id": "acme-bid-win-to-contract-intake",
+        "status": "passed",
+        "steps": [
+          {
+            "tool": "search_bids",
+            "result": {
+              "query": "杭州示例医疗",
+              "items": [
+                {
+                  "id": 6428,
+                  "hospital_id": 6428,
+                  "project_code": "330382263180160000008-WZLCZB-2026-03047",
+                  "announcement_url": "https://zfcg.czt.zj.gov.cn/site/detail?articleId=NdprtXoYFooHk00DeGoBHw==",
+                  "contract_url": null,
+                  "contract_amount": 1618000,
+                  "supplier": "杭州示例医疗器械有限公司",
+                  "contract_no": null,
+                  "publish_date": "2026-04-07",
+                  "device_category": "CT",
+                  "supplier_category": "self",
+                  "stage": "result"
+                }
+              ],
+              "count": 1
+            }
+          },
+          {
+            "tool": "contract_intake",
+            "result": {
+              "created": true,
+              "artifacts": [
+                {
+                  "type": "contract_intake",
+                  "id": "jsrm-540ct-full-service",
+                  "status": "created"
+                },
+                {
+                  "type": "maintenance_schedule",
+                  "id": "schedule-jsrm-540ct-full-service",
+                  "status": "created"
+                }
+              ]
+            }
+          }
+        ],
+        "artifacts": [
+          {
+            "type": "contract_intake",
+            "id": "jsrm-540ct-full-service",
+            "status": "created"
+          },
+          {
+            "type": "maintenance_schedule",
+            "id": "schedule-jsrm-540ct-full-service",
+            "status": "created"
+          }
+        ]
+      },
+      {
+        "id": "acme-maintenance-schedule-dispatch-to-receipt",
+        "status": "passed",
+        "steps": [
+          {
+            "tool": "add_incident",
+            "result": {
+              "created": true,
+              "artifact": {
+                "type": "service_incident",
+                "id": "incident-jsrm-540ct-001",
+                "status": "created"
+              }
+            }
+          },
+          {
+            "tool": "create_service_record",
+            "result": {
+              "created": true,
+              "artifact": {
+                "type": "service_record",
+                "id": "sr-jsrm-540ct-001",
+                "status": "created"
+              }
+            }
+          },
+          {
+            "tool": "finance_settlement",
+            "result": {
+              "created": true,
+              "artifact": {
+                "type": "finance_settlement",
+                "id": "settlement-jsrm-540ct-sr-001",
+                "status": "created"
+              }
+            }
+          }
+        ],
+        "artifacts": [
+          {
+            "type": "service_incident",
+            "id": "incident-jsrm-540ct-001",
+            "status": "created"
+          },
+          {
+            "type": "service_record",
+            "id": "sr-jsrm-540ct-001",
+            "status": "created"
+          },
+          {
+            "type": "finance_settlement",
+            "id": "settlement-jsrm-540ct-sr-001",
+            "status": "created"
+          }
+        ]
+      }
+    ],
+    "artifactCounts": {
+      "contract_intakes": 1,
+      "maintenance_schedules": 1,
+      "service_incidents": 1,
+      "service_records": 1,
+      "finance_settlements": 1
+    }
+  },
+  "registry": {
+    "status": "passed",
+    "tenant": "acme-happycompany",
+    "corpDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp",
+    "toolCount": 12,
+    "tools": [
+      {
+        "name": "med_crm:contract_intake",
+        "found": true
+      },
+      {
+        "name": "med_crm:create_service_record",
+        "found": true
+      },
+      {
+        "name": "med_crm:finance_settlement",
+        "found": true
+      }
+    ]
+  }
+}

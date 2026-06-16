@@ -1,0 +1,35 @@
+id: runtime-profile-web-entry-default
+description: Web entry resolves actor binding into one isolated employee runtime session.
+input:
+  channel: harness
+  botName: legacy-web-entry
+  tenant: tenant-a
+  userId: user-sales
+  chatId: harness-runtime-web-default
+  text: 查一下客户进度
+  runtime:
+    tenant: tenant-a
+    entryId: web-bot
+    actorId: user-sales
+    target:
+      employeeId: sales-zhangsan
+    resolved:
+      channel: web
+      employeeId: sales-zhangsan
+      instanceId: tenant-a:user-sales:sales-zhangsan
+      workdir: /tmp/tenant-a/agents/sales-zhangsan/user-sales
+      sdkSessionScope: tenant-a:web-bot:user-sales:sales-zhangsan:harness-runtime-web-default
+fakeReply: 客户进度已经整理完成。
+expect:
+  replyContains:
+    - 客户进度
+  runtime:
+    tenant: tenant-a
+    entryId: web-bot
+    actorId: user-sales
+    employeeId: sales-zhangsan
+    instanceId: tenant-a:user-sales:sales-zhangsan
+    sdkSessionScope: tenant-a:web-bot:user-sales:sales-zhangsan:harness-runtime-web-default
+    workdirContains: agents/sales-zhangsan/user-sales
+    mode: single_employee
+  noErrors: true

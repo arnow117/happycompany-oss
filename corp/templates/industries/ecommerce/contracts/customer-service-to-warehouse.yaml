@@ -1,0 +1,16 @@
+id: customer-service-to-warehouse
+fromRole: customer-service
+toRole: warehouse
+description: 客服将售后或物流异常交接给仓储核查的结构化上下文。
+requiredFields:
+  order_id: 订单编号
+  customer_id: 客户标识
+  sku_id: 商品 SKU
+  issue_type: 问题类型，如未收到货、破损、错发、退货入库
+  requested_action: 期望动作，如核查、补发、退货质检
+optionalFields:
+  shipment_id: 物流单号
+  photos: 客户提供的图片或附件
+  customer_message: 客户原始描述
+  deadline: 期望反馈时间
+

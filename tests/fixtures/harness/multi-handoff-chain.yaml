@@ -1,0 +1,35 @@
+id: multi-handoff-chain
+description: |
+  复合诉求（维修 + 退款）需要两段连续 handoff：销售→服务（维修核验）→财务（退款处理）。
+  断言 trace.handoffs 完整记录链路，长度等于 2、顺序与设计一致。
+
+  FDE 场景：员工网络 handoff 关系是 spec §R12-R13 contract tree 的基础。这条 fixture
+  防止 handoff 链路被中间环节"吞掉"——常见 bug 类型是 selectedEmployee 后中转员工把任务
+  直接处理掉、不再 handoff，trace 表面看完成了实际没走完链。
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-multi-008
+  chatId: harness-multi-handoff
+  text: 浙一医院维保合同 HX-2025-007 上周报修但维修没解决，要退一部分款。
+fakeReply: |
+  已记录维保合同 HX-2025-007 的维修工单，并已通知财务核算退款金额，预计 3 个工作日内回复。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  handoffs:
+    - from: sales-zhangsan
+      to: service-li
+      reason: warranty-claim-verification
+    - from: service-li
+      to: finance-wangwu
+      reason: partial-refund-processing
+expect:
+  routedEmployee: sales-zhangsan
+  replyContains:
+    - HX-2025-007
+    - 财务
+  handoffCount: 2
+  noErrors: true

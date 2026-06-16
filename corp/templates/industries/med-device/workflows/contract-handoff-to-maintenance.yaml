@@ -1,0 +1,20 @@
+id: contract-handoff-to-maintenance
+name: 合同签署后交接维修
+role: sales
+description: 销售确认合同签署完成后，将维修执行所需信息交接给维修数字员工。
+triggerExamples:
+  - 合同已经签了，安排维修
+  - 这个客户维保合同生效了
+  - 把这个合同交给李四处理
+steps:
+  - 确认合同是否已经签署或生效
+  - 校验客户、设备、合同编号、服务周期、金额、响应时效是否齐全
+  - 缺少关键字段时向用户追问
+  - 生成维修任务说明
+  - 调用 handoff，将结构化 context 交给维修数字员工
+missingInfoPolicy: 如果 contract_id、customer、device_model、service_period_start、service_period_end 任一字段缺失，不要交接，先追问用户。
+output:
+  type: handoff
+  targetRole: maintenance
+  contract: sales-to-maintenance
+

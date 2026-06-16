@@ -1,0 +1,49 @@
+{
+  "name": "happycompany",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "dev:profile": "tsx src/index.ts --profile",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "harness:fake": "node --import tsx src/harness-cli.ts --suite tests/fixtures/harness --fake",
+    "harness:real": "node --import tsx src/harness-cli.ts --suite tests/fixtures/harness",
+    "acme:acceptance": "node scripts/run-acme-acceptance-suite.mjs",
+    "fde:new": "node scripts/fde-new.mjs",
+    "e2e:story-report": "node scripts/generate-e2e-story-report.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.126",
+    "@hono/node-server": "^2.0.0",
+    "@larksuiteoapi/node-sdk": "^1.58.0",
+    "archiver": "^8.0.0",
+    "better-sqlite3": "^12.9.0",
+    "cron-parser": "^5.5.0",
+    "dingtalk-stream": "^2.1.6-beta.1",
+    "hono": "^4.12.15",
+    "pino": "^9.5.0",
+    "pino-pretty": "^13.0.0",
+    "ws": "^8.20.0",
+    "yaml": "^2.8.4",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/archiver": "^7.0.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.18.1",
+    "@vitest/coverage-v8": "^4.1.5",
+    "playwright": "^1.59.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.5"
+  }
+}

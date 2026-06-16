@@ -1,0 +1,27 @@
+id: architecture-memory-search-trace
+description: |
+  Architecture smoke: employee memory_search must be observable in
+  IngressTrace.memory and scoped to the selected employee workspace.
+input:
+  channel: dingtalk
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-bound-001
+  chatId: harness-arch-memory-search
+  text: 查一下我之前记录过的浙一医院签约偏好
+fakeReply: 已从销售员工记忆中找到浙一医院签约偏好：希望六月前完成。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  memory:
+    - operation: search
+      subject: sales-zhangsan
+      workspace: corp/acme/agents/sales-zhangsan
+expect:
+  routedEmployee: sales-zhangsan
+  memoryWorkspaceContains: corp/acme/agents/sales-zhangsan
+  replyContains:
+    - 记忆
+    - 浙一医院
+  noErrors: true

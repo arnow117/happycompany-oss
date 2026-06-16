@@ -1,0 +1,21 @@
+id: agent-builder-forked-employee-isolated-workspace
+description: Fork 出来的员工使用独立 workspace，不复用源员工目录。
+input:
+  channel: harness
+  botName: sales-zhangsan-fork-test
+  tenant: builder-demo
+  userId: employee:sales-zhangsan-fork-test
+  chatId: harness-agent-builder-forked-employee-isolated-workspace
+  text: 请基于销售张三复制出的员工记录客户跟进
+fakeReply: Fork 员工已使用独立工作目录记录跟进。
+simulated:
+  routing:
+    selectedEmployee: sales-zhangsan-fork-test
+  memory:
+    - operation: append
+      subject: sales-zhangsan-fork-test
+      workspace: builder-demo/agents/sales-zhangsan-fork-test/memory.md
+expect:
+  routedEmployee: sales-zhangsan-fork-test
+  memoryWorkspaceContains: agents/sales-zhangsan-fork-test
+  noErrors: true

@@ -1,0 +1,23 @@
+id: agent-builder-dirty-draft-requires-retest
+description: 草稿测试通过后修改配置，需要重新测试才能再次进入发布态。
+input:
+  channel: harness
+  botName: maintenance-qa
+  tenant: builder-demo
+  userId: employee:maintenance-qa
+  chatId: harness-agent-builder-dirty-draft-requires-retest
+  text: 修改草稿描述后重新运行测试
+fakeReply: 草稿已重新测试通过。
+simulated:
+  routing:
+    selectedEmployee: maintenance-qa
+  toolCalls:
+    - name: med_crm:list_maintenance
+      elapsedMs: 7
+expect:
+  routedEmployee: maintenance-qa
+  toolNamesIncludes:
+    - med_crm:list_maintenance
+  replyContains:
+    - 重新测试通过
+  noErrors: true

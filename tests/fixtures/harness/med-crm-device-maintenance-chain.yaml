@@ -1,0 +1,28 @@
+id: med-crm-device-maintenance-chain
+description: Device service questions should combine device lookup and maintenance contract lookup.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-bound-001
+  chatId: harness-med-crm-device-maintenance
+  text: 浙一医院那台 CT 设备现在还有没有维保覆盖
+fakeReply: 已查询浙一医院 CT 设备装机信息和维保合同，当前设备仍在维保覆盖期内。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  toolCalls:
+    - name: med_crm:search_devices
+      elapsedMs: 25
+    - name: med_crm:list_maintenance
+      elapsedMs: 31
+expect:
+  routedEmployee: sales-zhangsan
+  toolNamesIncludes:
+    - med_crm:search_devices
+    - med_crm:list_maintenance
+  replyContains:
+    - CT
+    - 维保
+  noErrors: true

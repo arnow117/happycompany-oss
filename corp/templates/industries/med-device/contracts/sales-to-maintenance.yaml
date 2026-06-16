@@ -1,0 +1,20 @@
+id: sales-to-maintenance
+fromRole: sales
+toRole: maintenance
+description: 销售在合同签署后交接给维修执行的结构化上下文。
+requiredFields:
+  contract_id: 合同编号
+  customer: 医院或客户名称
+  device_model: 设备型号
+  device_system_id: 设备系统编号
+  service_period_start: 服务开始日期
+  service_period_end: 服务结束日期
+  contract_amount: 合同金额
+  response_time_hours: 响应时效
+optionalFields:
+  contract_type: 合同类型，如全保、技术保、备件销售、球管销售
+  half_year_amount: 半年结算金额
+  scheduled_maintenance_per_year: 每年计划保养次数
+  parts_included: 是否包含零部件
+  notes: 其他注意事项
+

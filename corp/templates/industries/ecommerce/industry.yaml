@@ -1,0 +1,20 @@
+id: ecommerce
+name: 电商零售
+description: 适合电商/零售企业，覆盖客服、运营、仓储三类核心角色。
+version: 1.1.0
+businessObjects:
+  - customer
+  - order
+  - product
+  - inventory
+  - shipment
+  - refund
+roles:
+  - customer-service
+  - operations
+  - warehouse
+defaultWorkflows:
+  - order-after-sales-triage
+  - promotion-sync-to-customer-service
+  - stock-exception-handoff
+

@@ -1,0 +1,41 @@
+node_modules/
+dist/
+*.tsbuildinfo
+data/
+.runtime/
+config.json
+coverage/
+logs/
+*.db
+.DS_Store
+.superpowers/
+.playwright-mcp/
+test-results/
+web/playwright-report/
+web/e2e/__screenshots__/
+web/e2e/__journey-output__/
+web/e2e/__probe-output__/
+.test-server-pid
+tests/.test-server-pid
+config.e2e.json
+config.test.json
+# Runtime agent workdirs are local/customer state; keep only explicit test fixtures tracked.
+agents/*
+!agents/__test-bot__/
+!agents/__test-bot__/**
+agents/__test-bot__/memory/
+
+# FDE 工具链：每个客户/项目租户实例只在本地或客户私有仓库维护
+# 仓库只跟踪 corp/templates/ 作为通用行业模板与角色片段，并跟踪 acme demo fixture 供测试使用
+corp/*
+!corp/templates/
+!corp/templates/**
+!corp/acme/
+!corp/acme/**
+
+# 防御性兜底：即使有人误把客户目录加进 templates/，PII 与会话仍然不入库
+corp/*/people.json
+corp/*/*/.session-*.json
+corp/*/agents/*/.session-*.json
+.gstack/
+e2e-report/

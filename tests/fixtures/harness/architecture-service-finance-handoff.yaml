@@ -1,0 +1,26 @@
+id: architecture-service-finance-handoff
+description: |
+  Architecture smoke: service employee can hand off a refund/accounting task to
+  finance without losing the handoff trace.
+input:
+  channel: harness
+  botName: service-li
+  tenant: acme
+  userId: user-service-001
+  chatId: harness-arch-service-finance
+  text: 维修完成但客户要求按停机天数计算赔付，请财务核算。
+fakeReply: 服务员工已完成维修说明，并移交财务员工核算赔付金额。
+simulated:
+  routing:
+    selectedEmployee: service-li
+  handoffs:
+    - from: service-li
+      to: finance-wangwu
+      reason: compensation-accounting
+expect:
+  routedEmployee: service-li
+  handoffCount: 1
+  replyContains:
+    - 财务
+    - 赔付
+  noErrors: true

@@ -1,0 +1,20 @@
+{
+  "web": { "port": 3100 },
+  "dataDir": "data",
+  "corpDir": "$HAPPYCOMPANY_CORP_DIR",
+  "claude": {
+    "apiKey": "$ANTHROPIC_API_KEY",
+    "model": "claude-sonnet-4-6",
+    "directorEnabled": true,
+    "directorModel": "claude-haiku-4-5"
+  },
+  "bots": {
+    "web-bot": {
+      "channel": "web",
+      "displayName": "Assistant",
+      "agentDir": "agents/web-bot",
+      "routingMode": "employee-director",
+      "entryEmployeeId": "dispatcher"
+    }
+  }
+}

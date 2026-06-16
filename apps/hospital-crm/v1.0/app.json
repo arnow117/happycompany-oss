@@ -1,0 +1,12 @@
+{
+  "name": "hospital-crm",
+  "description": "医疗器械 CRM 管理 — 医院、设备、维保、中标、采购意向、联系人",
+  "currentVersion": "v1.0",
+  "versions": [
+    {
+      "version": "v1.0",
+      "publishedAt": "2026-05-03T10:00:00Z",
+      "dir": "apps/hospital-crm/v1.0"
+    }
+  ]
+}

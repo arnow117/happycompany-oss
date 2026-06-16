@@ -1,0 +1,22 @@
+id: memory-scoped-to-employee
+description: Employee memory_append writes into its own workspace, not a sibling employee's.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-bound-001
+  chatId: harness-memory
+  text: 帮我记一条：客户希望在 6 月之前完成签约。
+fakeReply: 已记录到销售员工的记忆中。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  memory:
+    - operation: append
+      subject: sales-zhangsan
+      workspace: corp/acme/agents/sales-zhangsan
+expect:
+  routedEmployee: sales-zhangsan
+  memoryWorkspaceContains: corp/acme/agents/sales-zhangsan
+  noErrors: true

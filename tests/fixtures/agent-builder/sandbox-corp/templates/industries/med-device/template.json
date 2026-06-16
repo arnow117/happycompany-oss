@@ -1,0 +1,9 @@
+{
+  "id": "med-device",
+  "name": "医疗器械",
+  "description": "Agent Builder sandbox 医疗器械模板",
+  "version": "1.0.0",
+  "employees": [
+    { "template": "employees/maintenance-qa.yaml", "role": "maintenance-qa" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "kb-management",
+  "description": "知识库管理 — 文档入库、检索查询、知识卡片管理（纯文件方案）",
+  "currentVersion": "v1.0",
+  "versions": [
+    {
+      "version": "v1.0",
+      "publishedAt": "2026-05-03T12:00:00Z",
+      "dir": "apps/kb-management/v1.0"
+    }
+  ]
+}

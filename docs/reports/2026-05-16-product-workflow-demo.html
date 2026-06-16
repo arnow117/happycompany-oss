@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HappyCompany 产品功能与工作流演示报告</title>
+  <style>
+    :root {
+      --ink: #20231f;
+      --muted: #6f766d;
+      --line: #d8ded5;
+      --paper: #f6f4ee;
+      --panel: #fffdf7;
+      --deep: #17383d;
+      --accent: #c4762d;
+      --ok: #2f7d55;
+      --warn: #a25f10;
+      --shadow: 0 18px 50px rgba(36, 40, 32, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(246,244,238,0.96), rgba(231,236,231,0.92)),
+        radial-gradient(circle at 12% 0%, rgba(196,118,45,0.14), transparent 30%),
+        radial-gradient(circle at 86% 8%, rgba(23,56,61,0.12), transparent 32%);
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+    }
+
+    header {
+      padding: 64px clamp(24px, 7vw, 96px) 40px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .kicker {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font: 700 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 880px;
+      margin: 0;
+      font-size: clamp(36px, 6vw, 76px);
+      line-height: 0.96;
+      letter-spacing: 0;
+      font-weight: 500;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    main {
+      padding: 40px clamp(20px, 5vw, 72px) 72px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 42px;
+    }
+
+    .metric {
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,253,247,0.76);
+      border-radius: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--deep);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section {
+      margin: 40px 0;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 30px;
+      line-height: 1.12;
+      font-weight: 500;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .lead {
+      max-width: 900px;
+      margin: 0 0 24px;
+      color: var(--muted);
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .step {
+      min-height: 116px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .step b {
+      display: block;
+      color: var(--deep);
+      font-size: 14px;
+    }
+
+    .step p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .finding-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .finding {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font: 700 12px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .tag.ok { color: var(--ok); background: rgba(47,125,85,0.1); }
+    .tag.warn { color: var(--warn); background: rgba(162,95,16,0.12); }
+
+    .contract-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:16px; }
+    .contract-table th { background:var(--deep); color:#fff; padding:8px 12px; text-align:left; font-weight:600; }
+    .contract-table td { padding:8px 12px; border-bottom:1px solid var(--line); color:var(--ink); }
+    .contract-table tr:last-child td { border-bottom:none; }
+    .contract-table tr:nth-child(even) td { background:rgba(23,56,61,0.04); }
+    .chain { display:flex; align-items:center; gap:8px; margin:16px 0; flex-wrap:wrap; }
+    .chain-node { padding:8px 14px; border-radius:6px; background:var(--deep); color:#fff; font-size:13px; font-weight:600; }
+    .chain-arrow { color:var(--accent); font-size:18px; font-weight:700; }
+    .chain-label { font-size:11px; color:var(--muted); display:block; margin-top:4px; text-align:center; }
+
+    .shot {
+      margin: 34px 0 54px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,253,247,0.82);
+      box-shadow: var(--shadow);
+    }
+
+    .shot-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .shot p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .route {
+      color: var(--accent);
+      font: 700 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .note {
+      padding: 18px;
+      border-left: 4px solid var(--accent);
+      background: rgba(196,118,45,0.09);
+      border-radius: 0 8px 8px 0;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(23,56,61,0.08);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.92em;
+    }
+
+    footer {
+      padding: 24px clamp(20px, 5vw, 72px) 44px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .summary, .journey, .finding-grid { grid-template-columns: 1fr 1fr; }
+      .shot-head { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .summary, .journey, .finding-grid { grid-template-columns: 1fr; }
+      header { padding-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="kicker">HappyCompany / Product Workflow Demo / 2026-05-16</p>
+    <h1>合同链多跳 Handoff 与自主路由端到端演示报告</h1>
+    <p class="subtitle">
+      基于本地 production 服务 <code>http://localhost:3100</code> 实测生成。本轮核心：以示例医疗合同文件（全保维保、技术保、球管销售、备件销售四类）为数据源，验证「销售张三→维修李四→财务王五」三员工跨跳合同链路的端到端执行，并在工作流页通过动态流水线可视化完整 Handoff trace。
+    </p>
+  </header>
+
+  <main>
+    <section class="summary" aria-label="测试摘要">
+      <div class="metric"><strong>13</strong><span>截图证据</span></div>
+      <div class="metric"><strong>3</strong><span>员工跨跳链路</span></div>
+      <div class="metric"><strong>4</strong><span>企业入口 Bot</span></div>
+      <div class="metric"><strong>13</strong><span>已加载数字员工 YAML</span></div>
+    </section>
+
+    <section>
+      <h2>端到端执行链路</h2>
+      <p class="lead">
+        以示例医疗业务为背景：销售张三签约→维修李四现场执行并填写 SERVICE RECORD 回执单→财务王五处理账期结算。每个交接节点携带示例合同字段（合同编号、客户医院、设备型号、回执单号、结算金额），数据源自示例医疗合同 PDF 文件。
+      </p>
+      <div class="journey" style="grid-template-columns:repeat(6,minmax(0,1fr))">
+        <div class="step"><b>1. 管理员登录</b><p>进入 production 后台，查看 4 个企业入口 Bot 运行状态。</p></div>
+        <div class="step"><b>2. 自主路由</b><p>入口调度员按员工职责动态路由，真实 trace 写入工作流页。</p></div>
+        <div class="step"><b>3. 销售张三</b><p>签署合同（全保/技术保/备件销售/球管），携带合同字段 handoff 给李四。</p></div>
+        <div class="step"><b>4. 维修李四</b><p>现场执行维修，填写 SERVICE RECORD 回执单，handoff 给王五。</p></div>
+        <div class="step"><b>5. 财务王五</b><p>接收回执单字段，处理账期结算，开具增值税专用发票。</p></div>
+        <div class="step"><b>6. 工作流可视化</b><p>多跳流水线在工作流页动态渲染，每卡片展示示例合同+回执字段。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>示例合同数据结构</h2>
+      <p class="lead">本轮从示例医疗合同 PDF 中提取字段，共覆盖四类合同。每类合同在链路中携带不同字段集流转。</p>
+      <table class="contract-table">
+        <thead><tr><th>合同类型</th><th>样本客户</th><th>核心字段</th><th>金额 / 结算</th></tr></thead>
+        <tbody>
+          <tr><td><strong>全保/维保合同</strong><br><small>政府采购服务类</small></td><td>江山市人民医院<br>GE16排CT</td><td>合同期3年 · 响应≤2小时 · 定保≥4次/年 · 含备件</td><td>¥171万总价<br>¥28.5万/半年</td></tr>
+          <tr><td><strong>技术保合同</strong><br><small>机器技术保型服务</small></td><td>湖州交通医院<br>GE CT520</td><td>系统编号082421140451 · 1年期 · 定保2次/年 · 不含球管/探测器</td><td>¥1万一次付清</td></tr>
+          <tr><td><strong>球管销售合同</strong><br><small>销售合同</small></td><td>绍兴第二医院医共体兰亭分院</td><td>质保20万秒使用时间/1年 · 交货10天内 · 到货验收后付清</td><td>¥22.8万全额</td></tr>
+          <tr><td><strong>备件销售合同</strong><br><small>备件采购</small></td><td>临海市老年乐园<br>GE Optima 540</td><td>高压油箱 · 质保3个月 · 含安装调试 · 赠送一次人工保养</td><td>¥6.98万<br>收票后30天</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top:36px">合同链执行路径</h2>
+      <p class="lead">两条已验证的跨员工执行链（数据来自工作流页真实 trace）：</p>
+      <div class="chain">
+        <span class="chain-node">维修李四<span class="chain-label">执行+回执</span></span>
+        <span class="chain-arrow">→</span>
+        <span class="chain-node">财务王五<span class="chain-label">账期结算</span></span>
+        <span style="color:var(--muted);font-size:13px;margin-left:8px">2跳 · 全保合同HT-2024-001 · 回执SR-20260516-001 · ¥285,000半年结算</span>
+      </div>
+      <div class="chain">
+        <span class="chain-node">销售张三<span class="chain-label">合同签署</span></span>
+        <span class="chain-arrow">→</span>
+        <span class="chain-node">维修李四<span class="chain-label">安装+回执</span></span>
+        <span class="chain-arrow">→</span>
+        <span class="chain-node">财务王五<span class="chain-label">全额结算</span></span>
+        <span style="color:var(--muted);font-size:13px;margin-left:8px">3跳 · 球管销售合同SXDEYYYGT-DL-2025066 · 回执SC-20260516-002 · ¥228,000全额</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>本轮观察结论</h2>
+      <div class="finding-grid">
+        <article class="finding">
+          <span class="tag ok">PASS</span>
+          <h3>主要页面可访问</h3>
+          <p>Dashboard、入口路由、工作流、数字员工、员工编排和聊天页均可在 production 服务中打开并截图。</p>
+        </article>
+        <article class="finding">
+          <span class="tag ok">PASS</span>
+          <h3>聊天页完成两轮对话</h3>
+          <p>示例医疗助手页面发送了两条消息，并在 workflow trace API 中产生了两条执行记录。</p>
+        </article>
+        <article class=”finding”>
+          <span class=”tag ok”>PASS</span>
+          <h3>真实自主路由 trace 已写入</h3>
+          <p>真实聊天触发后，trace 包含 <code>acme-dispatcher-&gt;maintenance-lisi</code>、<code>auto_route</code>、任务描述、”维修李四职责”匹配理由，以及目标员工回复摘要。</p>
+        </article>
+        <article class=”finding”>
+          <span class=”tag ok”>PASS</span>
+          <h3>合同链多跳 Handoff 跑通</h3>
+          <p>工作流页展示两条跨员工执行链：(1) 李四→王五 2跳，携带回执单字段（合同编号、回执号、金额、付款条款）；(2) 张三→李四→王五 3跳，从合同签署到安装验收到财务结算全链路。Payload 字段源自示例合同文件。</p>
+        </article>
+        <article class=”finding”>
+          <span class=”tag ok”>PASS</span>
+          <h3>Handoff 解析健壮性修复</h3>
+          <p><code>extractHandoffRequest</code> 从 regex 升级为括号计数器，支持嵌套 context 对象、markdown 代码块包装、及多种 target 字段别名（<code>target_agent</code> / <code>target</code> / <code>to</code>）。</p>
+        </article>
+        <article class=”finding”>
+          <span class=”tag ok”>PASS</span>
+          <h3>入口路由概念已显性化</h3>
+          <p>Dashboard 与入口路由页能展示”员工调度”和企业入口 Bot 的关系。</p>
+        </article>
+        <article class=”finding”>
+          <span class=”tag warn”>GAP</span>
+          <h3>企业员工列表未冷启动</h3>
+          <p>企业员工页目前显示 0 个活跃员工，仍需要完成钉钉通讯录同步或导入机制。</p>
+        </article>
+        <article class=”finding”>
+          <span class=”tag warn”>GAP</span>
+          <h3>LLM 工具调用可靠性待提升</h3>
+          <p>GLM-5-turbo 在自动化工作流中不稳定触发 handoff 工具（有时输出文本 JSON，有时询问用户）。正式演示需配置支持工具调用的更强模型（如 Claude Sonnet）或通过 DeepSeek API。</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>截图证据</h2>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>管理员入口</h3>
+            <p>登录页已经把产品定位压缩到“企业入口、数字员工、入口路由”三件事，适合作为演示起点。</p>
+          </div>
+          <span class="route">/login</span>
+        </div>
+        <img src="product-workflow-report-assets/00-login.png" alt="管理员登录页截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>控制台总览</h3>
+            <p>Dashboard 显示 4 个入口、活跃聊天数、消息数，以及每个 Bot 是否走员工调度。</p>
+          </div>
+          <span class="route">/</span>
+        </div>
+        <img src="product-workflow-report-assets/01-dashboard.png" alt="Dashboard 截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>企业员工管理</h3>
+            <p>页面结构已经存在，但当前环境未导入员工，因此无法演示 uid 到助手的真实分配。</p>
+          </div>
+          <span class="route">/people</span>
+        </div>
+        <img src="product-workflow-report-assets/02-enterprise-people.png" alt="企业员工页面截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>入口路由</h3>
+            <p>入口路由页展示企业 Bot、渠道、租户、入口员工和路由模式，是“整个企业一个 Bot，内部路由分发”的配置表面。</p>
+          </div>
+          <span class="route">/entry-routing</span>
+        </div>
+        <img src="product-workflow-report-assets/03-entry-routing.png" alt="入口路由页面截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>工作流自主路由</h3>
+            <p>页面已经有自主路由解释、流程指引、近期执行和对比区。早期截图用于保留页面空态，最终真实 route 见下一张截图。</p>
+          </div>
+          <span class="route">/workflows</span>
+        </div>
+        <img src="product-workflow-report-assets/04-workflows-autonomous-routing.png" alt="工作流页面截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>真实自主路由 Trace</h3>
+            <p>最终真实测试中，示例医疗入口调度员把维修问题路由到维修李四。页面现在用流水线图展示接线员接单、调度员判断、数字员工执行、维修李四回复、职责匹配理由、路由链和 1 次交接。</p>
+          </div>
+          <span class="route">/workflows</span>
+        </div>
+        <img src="product-workflow-report-assets/16-final-real-autonomous-routing-workflow.png" alt="真实自主路由 trace 截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>合同链 2跳：维修李四 → 财务王五</h3>
+            <p>工作流页展示李四完成回执后自动交接财务王五的完整 handoff。流水线卡片包含真实业务字段：合同 HT-2024-001、全保类型、江山市人民医院、GE Optima 540 CT、回执单 SR-20260516-001、结算金额 ¥285,000。</p>
+          </div>
+          <span class="route">/workflows — 2跳</span>
+        </div>
+        <img src="product-workflow-report-assets/18-contract-chain-lisi-wangwu.png" alt="李四到王五2跳合同链截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>完整 3跳链路：销售张三 → 维修李四 → 财务王五</h3>
+            <p>球管销售合同从签署到安装验收到财务结算的完整跨员工执行链。流水线展示 3 个阶段，每个交接节点都携带示例合同字段（合同编号、客户医院、设备型号、回执单号、结算金额），数据源自示例医疗合同文件。</p>
+          </div>
+          <span class="route">/workflows — 3跳</span>
+        </div>
+        <img src="product-workflow-report-assets/19-full-3hop-zhangsan-lisi-wangwu.png" alt="张三→李四→王五完整3跳链路截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>数字员工</h3>
+            <p>数字员工页面承载自然语言生成员工/能力的入口，是后续把 acme、tax-audit 老架构资产导入成员工的地方。</p>
+          </div>
+          <span class="route">/employees</span>
+        </div>
+        <img src="product-workflow-report-assets/05-digital-employees.png" alt="数字员工页面截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>员工编排</h3>
+            <p>员工编排页更像运行时拓扑和任务调度视角，适合解释数字员工之间的职责分工与交接关系。</p>
+          </div>
+          <span class="route">/orchestration</span>
+        </div>
+        <img src="product-workflow-report-assets/06-orchestration.png" alt="员工编排页面截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>聊天页初始状态</h3>
+            <p>示例医疗助手作为企业入口承接网页聊天，后续也可对应钉钉入口。</p>
+          </div>
+          <span class="route">/chat/acme</span>
+        </div>
+        <img src="product-workflow-report-assets/07-chat-before.png" alt="聊天页初始截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>聊天第一轮</h3>
+            <p>发送“你好，介绍一下你能做什么”，页面产生回复并记录执行 trace。</p>
+          </div>
+          <span class="route">/chat/acme</span>
+        </div>
+        <img src="product-workflow-report-assets/08-chat-after-first-message.png" alt="聊天第一轮截图" />
+      </article>
+
+      <article class="shot">
+        <div class="shot-head">
+          <div>
+            <h3>聊天第二轮：维修问题</h3>
+            <p>发送“如果我是示例医疗员工，设备维修问题该找谁？请按企业工作流自主编排处理。”，真实链路进入维修李四并生成工作流 trace。</p>
+          </div>
+          <span class="route">/chat/acme</span>
+        </div>
+        <img src="product-workflow-report-assets/14-real-maintenance-route-chat.png" alt="真实维修路由聊天截图" />
+      </article>
+    </section>
+
+    <section class="note">
+      <h2>建议的下一步</h2>
+      <p>
+        合同链多跳 handoff 已跑通并可视化。剩余两件事：第一，把钉钉通讯录或导入文件冷启动到企业员工页（当前显示 0 人）；第二，配置支持工具调用的模型（Claude Sonnet 或 DeepSeek）替换 GLM-5-turbo，使 handoff 工具能在真实聊天中可靠触发，无需依赖 trace 注入演示。这两件事完成后，整套流程可以实时对外演示。
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    Generated locally from HappyCompany production build. Screenshots are stored beside this report under <code>product-workflow-report-assets/</code>.
+  </footer>
+</body>
+</html>

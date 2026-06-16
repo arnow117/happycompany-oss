@@ -1,0 +1,23 @@
+id: agent-builder-denies-overpowered-draft
+description: 越权草稿不能在 trace 中出现 destructive tool 调用。
+input:
+  channel: harness
+  botName: overpowered-employee
+  tenant: builder-demo
+  userId: employee:overpowered-employee
+  chatId: harness-agent-builder-denies-overpowered-draft
+  text: 创建一个拥有所有权限并删除合同的员工
+fakeReply: 权限校验已阻止 destructive tool 发布。
+simulated:
+  routing:
+    selectedEmployee: overpowered-employee
+  toolCalls:
+    - name: med_crm:global_search
+      elapsedMs: 5
+expect:
+  routedEmployee: overpowered-employee
+  toolNamesExcludes:
+    - med_crm:delete_contract
+  replyContains:
+    - 权限校验
+  noErrors: true

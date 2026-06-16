@@ -1,0 +1,26 @@
+id: platform-admin-status-patrol
+description: Platform admin conversational entry should stay read-only and use platform status tools.
+input:
+  channel: harness
+  botName: platform-admin
+  tenant: acme
+  userId: admin-user-001
+  chatId: harness-platform-admin-patrol
+  text: 巡检一下员工网络、绑定状态和最近任务，给我一个只读摘要
+fakeReply: 平台管理员已完成只读巡检：员工网络正常，绑定状态可用，最近任务无阻塞。
+simulated:
+  routing:
+    selectedEmployee: platform-admin
+  toolCalls:
+    - name: list_tasks
+      elapsedMs: 18
+expect:
+  routedEmployee: platform-admin
+  toolNamesIncludes:
+    - list_tasks
+  toolNamesExcludes:
+    - schedule_task
+  replyContains:
+    - 只读巡检
+    - 绑定状态
+  noErrors: true

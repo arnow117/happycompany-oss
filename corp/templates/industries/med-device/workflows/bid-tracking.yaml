@@ -1,0 +1,21 @@
+id: bid-tracking
+name: 招投标跟进
+role: sales
+description: 销售围绕医院、设备和关键词查询招投标线索，并整理可跟进商机。
+triggerExamples:
+  - 查一下最近的中标信息
+  - 这个医院有没有相关招标
+  - 帮我汇总 CT 设备的招投标机会
+steps:
+  - 识别医院、设备类型、区域、时间范围等查询条件
+  - 优先使用综合搜索定位线索
+  - 根据线索调用中标或医院工具补齐详情
+  - 输出可跟进机会、风险和缺失信息
+missingInfoPolicy: 如果医院、设备类型和时间范围都缺失，先询问用户希望查询的范围。
+output:
+  type: markdown
+  sections:
+    - 机会摘要
+    - 关键证据
+    - 建议动作
+

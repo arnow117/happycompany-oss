@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HappyCompany E2E Story Review 2026-06-04</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #191916; background: #fbfaf7; line-height: 1.55; }
+    header { padding: 48px 6vw 28px; background: #e8edf0; border-bottom: 1px solid #d6dde1; }
+    main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 64px; }
+    h1 { margin: 10px 0 0; font-size: clamp(32px, 5vw, 56px); line-height: 1.05; letter-spacing: 0; }
+    h2 { margin: 42px 0 16px; font-size: 25px; letter-spacing: 0; }
+    h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: 0; }
+    p { margin: 0; }
+    .lead { margin-top: 18px; max-width: 900px; color: #3d3932; font-size: 18px; }
+    .pill, .tag { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border-radius: 999px; background: #fff; border: 1px solid #d6dde1; font-size: 13px; font-weight: 650; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: -24px; }
+    .metric, .story, .note { padding: 18px; border: 1px solid #d6dde1; border-radius: 8px; background: #fff; }
+    .metric strong { display: block; font-size: 34px; line-height: 1; margin-bottom: 10px; }
+    .metric span, .story p, .note p, td, th { color: #68635b; font-size: 14px; }
+    .story-grid, .note-grid, .screenshots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .checks { margin: 10px 0 0; padding-left: 19px; font-size: 14px; }
+    figure { margin: 0; border: 1px solid #d6dde1; border-radius: 8px; overflow: hidden; background: #fff; }
+    figure img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid #d6dde1; }
+    figcaption { padding: 10px 12px; color: #68635b; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d6dde1; border-radius: 8px; overflow: hidden; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #d6dde1; }
+    th { color: #191916; }
+    @media (max-width: 880px) { main { padding: 24px 16px 48px; } .summary, .story-grid, .note-grid, .screenshots { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="pill">2026-06-04</span>
+    <h1>HappyCompany E2E Story Review</h1>
+    <p class="lead">按产品故事整理当前 Web E2E 覆盖。当前扫描到 20 个故事/路线，57 条测试。运行结果请结合最新 Playwright 输出确认。</p>
+  </header>
+  <main>
+    <section class="summary">
+      <article class="metric"><strong>57</strong><span>Total tests discovered from specs</span></article>
+      
+      <article class="metric">
+        <strong>42</strong>
+        <span>Mainline: 7 stories/routes</span>
+      </article>
+
+      <article class="metric">
+        <strong>6</strong>
+        <span>Journey: 6 stories/routes</span>
+      </article>
+
+      <article class="metric">
+        <strong>9</strong>
+        <span>Probe: 7 stories/routes</span>
+      </article>
+    </section>
+    <section>
+      <h2>产品故事地图</h2>
+      <div class="story-grid">
+    <article class="story">
+      <div class="tags"><span class="tag">Implemented baseline</span><span class="tag">01-employee-activation.md</span></div>
+      <h3>Employee Activation</h3>
+      <p>从员工创建、发布、绑定到 Chat 使用，证明一个数字员工能进入真实业务链路。</p>
+      <ul class="checks">
+        <li>Mainline: `story-v2-product-journey`, `story-q-chat-websocket`, `story-h-sessions`</li>
+        <li>Probe: `probe-enterprise-people-binding`</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Partial / mainline covered</span><span class="tag">02-first-run-enterprise-initialization.md</span></div>
+      <h3>First Run Enterprise Initialization</h3>
+      <p>完成模型配置、企业创建、员工网络准备和人员绑定引导。</p>
+      <ul class="checks">
+        <li>Mainline: `story-bootstrap`, `story-v2-product-journey`</li>
+        <li>Probe: Config 编辑能力由 `probe-config-editing` 间接覆盖</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Partial / probe covered</span><span class="tag">03-entry-channel-configuration.md</span></div>
+      <h3>Entry Channel Configuration</h3>
+      <p>配置 Web、钉钉、飞书入口，并确认入口能进入运行态。</p>
+      <ul class="checks">
+        <li>Mainline: `story-config-page`</li>
+        <li>Probe: `probe-config-editing`</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Implemented</span><span class="tag">04-chat-collaboration-handoff.md</span></div>
+      <h3>Chat Collaboration Handoff</h3>
+      <p>用户发起请求后，平台能路由到合适数字员工，必要时转交，并展示可理解的过程。</p>
+      <ul class="checks">
+        <li>Mainline: `story-q-chat-websocket`, `story-v2-product-journey`</li>
+        <li>Probe: 协议主线由 `story-q-chat-websocket` 覆盖；Chat UI 边界 Probe 在发现新 bug 时补。</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Implemented</span><span class="tag">05-session-runtime-review.md</span></div>
+      <h3>Session Runtime Review</h3>
+      <p>聊天或工作流运行后，能通过 Sessions 和 Orchestration 追踪过程。</p>
+      <ul class="checks">
+        <li>Mainline: `story-h-sessions`, `story-v2-product-journey`</li>
+        <li>Probe: `probe-orchestration-interactions`</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Probe only</span><span class="tag">06-knowledge-memory-management.md</span></div>
+      <h3>Knowledge And Memory Management</h3>
+      <p>管理知识库和记忆文件，支持搜索、查看、编辑、删除。</p>
+      <ul class="checks">
+        <li>Mainline: 暂无完整 Journey</li>
+        <li>Probe: `probe-knowledge-interactions`, `probe-memory-editor`</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Implemented</span><span class="tag">07-harness-acceptance.md</span></div>
+      <h3>Harness Acceptance</h3>
+      <p>用 Harness 对员工能力或工作流进行可重复验收。</p>
+      <ul class="checks">
+        <li>Mainline: `story-v2-harness`</li>
+        <li>Probe: 暂无，后续只在 Harness 表单校验或错误态出现 bug 时补。</li>
+      </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Implemented</span><span class="tag">08-multi-tenant-isolation.md</span></div>
+      <h3>Multi Tenant Isolation</h3>
+      <p>切换企业时，入口、员工、知识、会话数据不会串租户。</p>
+      <ul class="checks">
+        <li>Mainline: 部分在 `story-v2-product-journey`</li>
+        <li>Probe: `probe-layout-shell`</li>
+      </ul>
+    </article></div>
+    </section>
+    <section>
+      <h2>截图证据</h2>
+      <div class="screenshots"><figure><img src="e2e-story-review-assets/01-dashboard.png" alt="01-dashboard.png"><figcaption>01-dashboard.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/02-agent-builder.png" alt="02-agent-builder.png"><figcaption>02-agent-builder.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/03-employees.png" alt="03-employees.png"><figcaption>03-employees.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/04-employee-builder-published.png" alt="04-employee-builder-published.png"><figcaption>04-employee-builder-published.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/05-employee-directory.png" alt="05-employee-directory.png"><figcaption>05-employee-directory.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/06-people-binding.png" alt="06-people-binding.png"><figcaption>06-people-binding.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/07-chat-activation.png" alt="07-chat-activation.png"><figcaption>07-chat-activation.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/08-session-review.png" alt="08-session-review.png"><figcaption>08-session-review.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/09-chat-handoff-processing.png" alt="09-chat-handoff-processing.png"><figcaption>09-chat-handoff-processing.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/10-orchestration-handoff-timeline.png" alt="10-orchestration-handoff-timeline.png"><figcaption>10-orchestration-handoff-timeline.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/11-session-message-detail.png" alt="11-session-message-detail.png"><figcaption>11-session-message-detail.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/12-harness-trace-report.png" alt="12-harness-trace-report.png"><figcaption>12-harness-trace-report.png</figcaption></figure>
+<figure><img src="e2e-story-review-assets/13-multi-tenant-sessions-isolation.png" alt="13-multi-tenant-sessions-isolation.png"><figcaption>13-multi-tenant-sessions-isolation.png</figcaption></figure></div>
+    </section>
+    <section>
+      <h2>故事/路线清单</h2>
+      <table><thead><tr><th>Type</th><th>Directory</th><th>Tests</th></tr></thead><tbody><tr><td>Mainline</td><td>story-bootstrap</td><td>9</td></tr>
+<tr><td>Mainline</td><td>story-config-page</td><td>7</td></tr>
+<tr><td>Mainline</td><td>story-h-sessions</td><td>4</td></tr>
+<tr><td>Mainline</td><td>story-q-chat-websocket</td><td>8</td></tr>
+<tr><td>Mainline</td><td>story-v2-agent-builder-doc</td><td>1</td></tr>
+<tr><td>Mainline</td><td>story-v2-harness</td><td>1</td></tr>
+<tr><td>Mainline</td><td>story-v2-product-journey</td><td>12</td></tr>
+<tr><td>Journey</td><td>journey-chat-collaboration-handoff</td><td>1</td></tr>
+<tr><td>Journey</td><td>journey-console-overview</td><td>1</td></tr>
+<tr><td>Journey</td><td>journey-employee-activation</td><td>1</td></tr>
+<tr><td>Journey</td><td>journey-harness-acceptance</td><td>1</td></tr>
+<tr><td>Journey</td><td>journey-multi-tenant-isolation</td><td>1</td></tr>
+<tr><td>Journey</td><td>journey-session-runtime-review</td><td>1</td></tr>
+<tr><td>Probe</td><td>probe-config-editing</td><td>1</td></tr>
+<tr><td>Probe</td><td>probe-enterprise-people-binding</td><td>1</td></tr>
+<tr><td>Probe</td><td>probe-knowledge-interactions</td><td>1</td></tr>
+<tr><td>Probe</td><td>probe-layout-shell</td><td>2</td></tr>
+<tr><td>Probe</td><td>probe-memory-editor</td><td>1</td></tr>
+<tr><td>Probe</td><td>probe-orchestration-interactions</td><td>1</td></tr>
+<tr><td>Probe</td><td>probe-skill-marketplace-package</td><td>2</td></tr></tbody></table>
+    </section>
+    <section>
+      <h2>还没有覆盖什么</h2>
+      <div class="note-grid">
+    <article class="note">
+      <h3>First Run Enterprise Initialization</h3>
+      <p>Partial · Add report Journey when onboarding changes</p>
+    </article>
+
+    <article class="note">
+      <h3>Entry Channel Configuration</h3>
+      <p>Partial · Add Journey when channel onboarding changes</p>
+    </article>
+
+    <article class="note">
+      <h3>Knowledge And Memory Management</h3>
+      <p>Probe only · Promote to Journey if product priority rises</p>
+    </article>
+
+    <article class="note">
+      <h3>Skill Marketplace Package View</h3>
+      <p>Probe only · Add Journey only if marketplace becomes a release focus</p>
+    </article></div>
+    </section>
+  </main>
+</body>
+</html>

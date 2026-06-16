@@ -1,0 +1,44 @@
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Test artifacts
+coverage/
+test-results/
+web/playwright-report/
+web/e2e/__screenshots__/
+e2e-report/
+
+# Data & runtime
+data/
+.runtime/
+logs/
+*.db
+
+# Config with secrets
+config.json
+config.e2e.json
+config.test.json
+
+# OS files
+.DS_Store
+
+# Session files
+.superpowers/
+.playwright-mcp/
+.gstack/
+.test-server-pid
+tests/.test-server-pid
+
+# Sensitive tenant data
+corp/*/people.json
+corp/*/*/.session-*.json
+corp/*/agents/*/.session-*.json
+
+# Large generated files
+*.min.js
+*.bundle.*
+*.map

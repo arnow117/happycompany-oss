@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# hospital-crm CLI entry point
+# Delegates to the med_crm Python package
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WORKDIR="${WORKDIR:-.}"
+
+# Try to find med_crm package
+if [ -d "${WORKDIR}/med_crm" ]; then
+  PYTHONPATH="${WORKDIR}" python3 -m med_crm.cli "$@"
+elif command -v med_crm &> /dev/null; then
+  python3 -m med_crm.cli "$@"
+else
+  echo "Error: med_crm package not found in workdir" >&2
+  echo "Set WORKDIR to the directory containing med_crm/ (e.g. corp/acme/)" >&2
+  exit 1
+fi

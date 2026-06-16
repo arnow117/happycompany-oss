@@ -1,0 +1,25 @@
+id: event-contract-signed-routes-service
+description: Contract signed event should route into the same ingress runtime and create a service handoff.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: system-event-001
+  chatId: harness-event-contract-signed
+  text: "domain_event: contract.signed hospital=浙一医院 contract=HX-2026-011 service_start=2026-06-01"
+fakeReply: 已接收合同签署事件 HX-2026-011，并转交售后员工准备浙一医院服务启动。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  handoffs:
+    - from: sales-zhangsan
+      to: maintenance-lisi
+      reason: service-kickoff-after-contract-signed
+expect:
+  routedEmployee: sales-zhangsan
+  handoffCount: 1
+  replyContains:
+    - HX-2026-011
+    - 服务启动
+  noErrors: true

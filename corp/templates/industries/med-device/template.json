@@ -1,0 +1,12 @@
+{
+  "id": "med-device",
+  "name": "医疗器械",
+  "description": "适合医疗器械经销/生产企业，包含销售、财务、售后三个角色",
+  "version": "1.0.0",
+  "employees": [
+    { "template": "employees/sales.yaml", "role": "sales" },
+    { "template": "employees/finance.yaml", "role": "finance" },
+    { "template": "employees/maintenance.yaml", "role": "maintenance" }
+  ],
+  "defaultRoles": "roles.json"
+}

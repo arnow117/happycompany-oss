@@ -1,0 +1,72 @@
+id: acme-bid-win-to-contract-intake
+description: Acme Flow A — sales follows Hangzhou Acme bid win, hands contract intake to finance, and finance creates a maintenance schedule.
+input:
+  channel: harness
+  botName: sales-zhangsan
+  tenant: acme-happycompany
+  userId: acme-operator
+  chatId: harness-acme-bid-win-to-contract-intake
+  text: 跟进杭州示例医疗近期中标项目，确认中标后交给财务录入合同，并根据合同维修周期创建维修定时任务。
+fakeReply: 已确认杭州示例医疗中标记录 330382263180160000008-WZLCZB-2026-03047，供应商杭州示例医疗器械有限公司，金额 161.8 万；合同待补齐。已交给财务王五录入合同，并为江山市人民医院 GE16排 CT 生成半年维保计划。
+simulated:
+  routing:
+    selectedEmployee: sales-zhangsan
+  toolCalls:
+    - name: med_crm:search_bids
+      elapsedMs: 45
+    - name: med_crm:contract_intake
+      elapsedMs: 80
+    - name: scheduler:create_task
+      elapsedMs: 35
+  memory:
+    - operation: append
+      subject: bid:330382263180160000008-WZLCZB-2026-03047
+      workspace: /corp/acme-happycompany/agents/sales-zhangsan/memory
+    - operation: append
+      subject: contract:jsrm-540ct-full-service
+      workspace: /corp/acme-happycompany/agents/finance-wangwu/memory
+  handoffs:
+    - from: sales-zhangsan
+      to: finance-wangwu
+      reason: 中标后合同录入和维修周期解析
+  businessArtifacts:
+    - type: bid_win
+      id: 330382263180160000008-WZLCZB-2026-03047
+      status: created
+    - type: contract_intake
+      id: jsrm-540ct-full-service
+      status: created
+    - type: maintenance_schedule
+      id: schedule-jsrm-540ct-half-yearly
+      status: created
+expect:
+  routedEmployee: sales-zhangsan
+  replyContains:
+    - 杭州示例医疗
+    - 中标
+    - 财务王五
+    - 半年维保计划
+  toolNamesIncludes:
+    - med_crm:search_bids
+    - med_crm:contract_intake
+    - scheduler:create_task
+  memoryOperations:
+    - operation: append
+      subjectContains: 330382263180160000008-WZLCZB-2026-03047
+      workspaceContains: sales-zhangsan
+    - operation: append
+      subjectContains: jsrm-540ct-full-service
+      workspaceContains: finance-wangwu
+  handoffChain:
+    - from: sales-zhangsan
+      to: finance-wangwu
+      reasonContains: 合同录入
+  businessArtifactsCreated:
+    - bid_win
+    - contract_intake
+    - maintenance_schedule
+  businessArtifactIdsInclude:
+    - 330382263180160000008-WZLCZB-2026-03047
+    - jsrm-540ct-full-service
+    - schedule-jsrm-540ct-half-yearly
+  noErrors: true

@@ -1,0 +1,16 @@
+id: no-handoff-and-no-tool
+description: Pure conversational reply — no handoff, no forbidden tools fired.
+input:
+  channel: harness
+  botName: harness-bot
+  chatId: harness-chat-chat
+  userId: harness-user
+  text: 周末天气怎么样？
+fakeReply: 我不太清楚天气信息，建议你查询天气预报应用。
+expect:
+  replyContains:
+    - 天气
+  handoffCount: 0
+  toolNamesExcludes:
+    - med_crm:global_search
+  noErrors: true

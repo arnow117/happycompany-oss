@@ -1,0 +1,95 @@
+{
+  "status": "passed",
+  "mode": "memory-acceptance",
+  "tenant": "acme-happycompany",
+  "dataDir": "/workspace/happycompany/.runtime/acme-memory-20260604141013/data",
+  "corpDir": "/workspace/happycompany/.runtime/acme-memory-20260604141013/corp",
+  "date": "2026-06-04",
+  "targetModified": false,
+  "employees": [
+    {
+      "employeeId": "finance-wangwu",
+      "sources": [
+        {
+          "file": "2026-06-04.md",
+          "type": "date",
+          "size": 353
+        }
+      ],
+      "searches": [
+        {
+          "query": "江山市人民医院",
+          "results": [
+            {
+              "file": "2026-06-04.md",
+              "line": 6,
+              "context": "# Acme Flow A contract memory\n客户: 江山市人民医院\n设备: GE16排 CT"
+            }
+          ]
+        },
+        {
+          "query": "每半年",
+          "results": [
+            {
+              "file": "2026-06-04.md",
+              "line": 9,
+              "context": "合同: jsrm-540ct-full-service\n维保周期: 每半年一次\n付款规则: 每服务满半年并验收合格后付款"
+            }
+          ]
+        },
+        {
+          "query": "杭州示例医疗",
+          "results": [
+            {
+              "file": "2026-06-04.md",
+              "line": 11,
+              "context": "付款规则: 每服务满半年并验收合格后付款\n需要跟进: 杭州示例医疗中标项目 330382263180160000008-WZLCZB-2026-03047 合同链接缺失时由销售补齐。\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeId": "maintenance-lisi",
+      "sources": [
+        {
+          "file": "2026-06-04.md",
+          "type": "date",
+          "size": 318
+        }
+      ],
+      "searches": [
+        {
+          "query": "SERVICE RECORD",
+          "results": [
+            {
+              "file": "2026-06-04.md",
+              "line": 7,
+              "context": "维修任务: task-jsrm-ge16ct-2026h2\nSERVICE RECORD: sr-jsrm-540ct-001\n现场结论: GE16排 CT 半年维保完成，扫描床和高压系统检查正常。"
+            }
+          ]
+        },
+        {
+          "query": "扫描床",
+          "results": [
+            {
+              "file": "2026-06-04.md",
+              "line": 8,
+              "context": "SERVICE RECORD: sr-jsrm-540ct-001\n现场结论: GE16排 CT 半年维保完成，扫描床和高压系统检查正常。\n客户签字: yes"
+            }
+          ]
+        },
+        {
+          "query": "settlement-jsrm-540ct-sr-001",
+          "results": [
+            {
+              "file": "2026-06-04.md",
+              "line": 10,
+              "context": "客户签字: yes\n财务回传: settlement-jsrm-540ct-sr-001 可按合同付款规则归档。\n"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

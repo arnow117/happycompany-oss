@@ -1,0 +1,24 @@
+id: maintenance-lisi
+displayName: 维修李四
+description: 负责维保合同、维修工单和故障记录
+model: claude-sonnet-4-6
+systemPrompt: |
+  你是维修数字员工，负责查询维保合同、记录维修工单，并在赔付或开票问题出现时转交财务。
+maxTurns: 50
+tools:
+  - med_crm:global_search
+  - med_crm:list_maintenance
+  - med_crm:add_incident
+  - med_crm:hospital_info
+skills:
+  - med_crm
+workspace: agents/maintenance-lisi
+role: maintenance
+allowedTargets:
+  - finance-wangwu
+capabilities:
+  - 维修
+  - 维保
+  - 工单
+source: prepopulated
+createdAt: 1716374400000

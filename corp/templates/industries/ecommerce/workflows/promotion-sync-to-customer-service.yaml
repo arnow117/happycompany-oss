@@ -1,0 +1,15 @@
+id: promotion-sync-to-customer-service
+name: 活动口径同步
+role: operations
+description: 运营将活动规则、商品卖点和常见问题整理为客服可直接使用的话术。
+triggerExamples:
+  - 把明天活动规则同步给客服
+  - 整理这个商品的客服口径
+  - 价格规则变了，帮我生成 FAQ
+steps:
+  - 收集活动时间、商品范围、优惠规则、库存限制和售后政策
+  - 检查规则冲突、价格口径和页面展示是否一致
+  - 生成客服答复口径、风险提示和升级条件
+  - 将结构化口径交接给客服数字员工
+missingInfoPolicy: 缺少活动时间、适用商品或优惠规则时，先标记为待确认，不输出确定性承诺。
+

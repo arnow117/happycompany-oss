@@ -1,0 +1,15 @@
+id: reply-contains
+description: Reply must contain all configured keywords for sales-flavored prompts.
+input:
+  channel: harness
+  botName: harness-bot
+  chatId: harness-chat-sales
+  userId: harness-user
+  tenant: acme
+  text: 查一下浙一医院相关维保合同
+fakeReply: 已经为你查询浙一医院的维保合同，最近一份是 2026 年签订的维保协议。
+expect:
+  replyContains:
+    - 浙一医院
+    - 维保
+  noErrors: true

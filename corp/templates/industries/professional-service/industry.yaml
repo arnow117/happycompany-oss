@@ -1,0 +1,20 @@
+id: professional-service
+name: 专业服务
+description: 适合咨询、法律、营销等专业服务企业，覆盖项目经理、顾问、财务三类核心角色。
+version: 1.1.0
+businessObjects:
+  - client
+  - project
+  - deliverable
+  - milestone
+  - contract
+  - invoice
+roles:
+  - project-manager
+  - consultant
+  - finance
+defaultWorkflows:
+  - project-kickoff
+  - consultant-deliverable-review
+  - milestone-settlement
+

@@ -1,0 +1,118 @@
+{
+  "status": "passed",
+  "generatedAt": "2026-06-04T14:10:14.299Z",
+  "targetModified": false,
+  "reports": {
+    "cliAcceptance": "/workspace/happycompany/docs/reports/2026-06-04-acme-ultimate-acceptance-run.json",
+    "shadowTenant": "/workspace/happycompany/docs/reports/2026-06-04-acme-shadow-tenant-acceptance-run.json",
+    "runtimeProfile": "/workspace/happycompany/docs/reports/2026-06-04-acme-runtime-profile-acceptance-run.json",
+    "memory": "/workspace/happycompany/docs/reports/2026-06-04-acme-memory-acceptance-run.json",
+    "realTenantReadiness": "/workspace/happycompany/docs/reports/2026-06-04-acme-real-tenant-readiness-run.json"
+  },
+  "summary": {
+    "cliAcceptance": {
+      "status": "passed",
+      "artifactCounts": {
+        "contract_intakes": 1,
+        "maintenance_schedules": 1,
+        "service_incidents": 1,
+        "service_records": 1,
+        "finance_settlements": 1
+      },
+      "flows": [
+        {
+          "id": "acme-bid-win-to-contract-intake",
+          "status": "passed"
+        },
+        {
+          "id": "acme-maintenance-schedule-dispatch-to-receipt",
+          "status": "passed"
+        }
+      ]
+    },
+    "shadowTenant": {
+      "status": "passed",
+      "targetModified": false,
+      "toolCount": 12,
+      "missingWriteTools": [],
+      "missingBeforeOverlay": [],
+      "artifactCounts": {
+        "contract_intakes": 1,
+        "maintenance_schedules": 1,
+        "service_incidents": 1,
+        "service_records": 1,
+        "finance_settlements": 1
+      }
+    },
+    "runtimeProfile": {
+      "status": "passed",
+      "profile": "acme-ultimate-20260604141013",
+      "targetModified": false,
+      "toolCount": 12,
+      "missingWriteTools": [],
+      "registry": {
+        "status": "passed",
+        "tenant": "acme-happycompany",
+        "corpDir": "/workspace/happycompany/.runtime/acme-ultimate-20260604141013/corp",
+        "toolCount": 12,
+        "tools": [
+          {
+            "name": "med_crm:contract_intake",
+            "found": true
+          },
+          {
+            "name": "med_crm:create_service_record",
+            "found": true
+          },
+          {
+            "name": "med_crm:finance_settlement",
+            "found": true
+          }
+        ]
+      },
+      "artifactCounts": {
+        "contract_intakes": 1,
+        "maintenance_schedules": 1,
+        "service_incidents": 1,
+        "service_records": 1,
+        "finance_settlements": 1
+      }
+    },
+    "memory": {
+      "status": "passed",
+      "targetModified": false,
+      "employees": [
+        {
+          "employeeId": "finance-wangwu",
+          "sourceFiles": [
+            "2026-06-04.md"
+          ],
+          "searchQueries": [
+            "江山市人民医院",
+            "每半年",
+            "杭州示例医疗"
+          ]
+        },
+        {
+          "employeeId": "maintenance-lisi",
+          "sourceFiles": [
+            "2026-06-04.md"
+          ],
+          "searchQueries": [
+            "SERVICE RECORD",
+            "扫描床",
+            "settlement-jsrm-540ct-sr-001"
+          ]
+        }
+      ]
+    },
+    "realTenantReadiness": {
+      "status": "passed",
+      "reason": "ready",
+      "targetModified": false,
+      "toolCount": 12,
+      "missingWriteTools": []
+    }
+  },
+  "nextGate": "real-tenant-ready"
+}

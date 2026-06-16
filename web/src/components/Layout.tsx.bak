@@ -1,0 +1,478 @@
+import { useEffect, useState } from 'react';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { clearToken } from '../lib/auth';
+import { Sun, Moon, Menu, X } from 'lucide-react';
+
+interface NavItem {
+  to: string;
+  label: string;
+}
+
+interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
+const NAV_GROUPS: readonly NavGroup[] = [
+  {
+    title: '工作台',
+    items: [
+      { to: '/chat', label: 'Chat' },
+      { to: '/sessions', label: 'Sessions' },
+    ],
+  },
+  {
+    title: '管理',
+    items: [
+      { to: '/apps', label: '应用' },
+      { to: '/bots', label: 'Bots' },
+      { to: '/skills', label: 'Skills' },
+      { to: '/knowledge', label: '知识库' },
+      { to: '/memory', label: 'Memory' },
+      { to: '/scheduler', label: 'Scheduler' },
+      { to: '/config', label: 'Config' },
+      { to: '/build', label: 'Build' },
+    ],
+  },
+  {
+    title: '监控',
+    items: [
+      { to: '/', label: 'Dashboard' },
+      { to: '/stats', label: 'Stats' },
+      { to: '/insights', label: 'Insights' },
+    ],
+  },
+] as const;
+
+const EXACT_MATCH = new Set(['/', '/chat']);
+
+type Theme = 'light' | 'dark' | null;
+
+function getSystemTheme(): 'dark' | 'light' {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function getInitialTheme(): Theme {
+  const saved = localStorage.getItem('theme') as Theme | null;
+  if (saved === 'light' || saved === 'dark') return saved;
+  return getSystemTheme();
+}
+
+interface LayoutProps {
+  needsSetup: boolean;
+}
+
+export function Layout({ needsSetup }: LayoutProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isChat = location.pathname.startsWith('/chat');
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile) setSidebarOpen(false);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
+  return (
+    <div style={isChat ? { ...shell, height: '100dvh' } : shell}>
+      {isMobile && (
+        <header style={mobileHeader}>
+          <button
+            onClick={() => setSidebarOpen(true)}
+            style={menuButton}
+            aria-label="Open menu"
+          >
+            <Menu size={20} color="var(--color-on-dark)" />
+          </button>
+          <div style={mobileBrand}>
+            <h1 style={mobileBrandTitle}>HappyCompany</h1>
+          </div>
+        </header>
+      )}
+
+      <aside style={{
+        ...sidebar,
+        ...(isMobile ? { ...sidebarMobile, ...(sidebarOpen ? { transform: 'translateX(0)' } : {}) } : sidebarDesktop),
+        ...(isMobile && !sidebarOpen ? { display: 'none' } : {}),
+      }}>
+        <div style={brand}>
+          <h1 style={brandTitle}>HappyCompany</h1>
+          <p style={brandSub}>Admin Console</p>
+          {isMobile && (
+            <button
+              onClick={() => setSidebarOpen(false)}
+              style={closeButton}
+              aria-label="Close menu"
+            >
+              <X size={18} color="var(--color-on-dark-soft)" />
+            </button>
+          )}
+        </div>
+
+        <nav style={nav}>
+          {NAV_GROUPS.map((group) => (
+            <div key={group.title} style={groupContainer}>
+              <div style={groupTitle}>{group.title}</div>
+              {group.items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={EXACT_MATCH.has(item.to)}
+                  style={({ isActive }) => ({
+                    display: 'block',
+                    padding: '6px 12px',
+                    borderRadius: 'var(--radius-sm)',
+                    fontSize: '13px',
+                    fontWeight: isActive ? 500 : 400,
+                    fontFamily: 'var(--font-body)',
+                    color: isActive
+                      ? 'var(--color-on-dark)'
+                      : 'var(--color-on-dark-soft)',
+                    background: isActive
+                      ? 'var(--color-surface-dark-elevated)'
+                      : 'transparent',
+                    transition: 'all var(--transition-fast) var(--ease-out-expo)',
+                    textDecoration: 'none',
+                  })}
+                  className={({ isActive, isPending }) => isPending ? 'nav-link--pending' : ''}
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
+          ))}
+          {needsSetup && (
+            <NavLink
+              to="/setup"
+              style={({ isActive }) => ({
+                display: 'block',
+                padding: '6px 12px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '13px',
+                fontWeight: isActive ? 500 : 600,
+                fontFamily: 'var(--font-body)',
+                color: 'var(--color-accent)',
+                background: isActive
+                  ? 'var(--color-surface-dark-elevated)'
+                  : 'transparent',
+                transition: 'all var(--transition-fast)',
+                textDecoration: 'none',
+              })}
+              onClick={() => isMobile && setSidebarOpen(false)}
+            >
+              配置
+            </NavLink>
+          )}
+        </nav>
+
+        <div style={version}>
+          <span style={versionText}>v0.1.0</span>
+          <button
+            onClick={toggleTheme}
+            style={themeButton}
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun size={16} color="var(--color-on-dark-soft)" /> : <Moon size={16} color="var(--color-on-dark-soft)" />}
+          </button>
+          <button
+            onClick={() => { clearToken(); window.location.href = '/login'; }}
+            style={logoutBtn}
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      {isMobile && sidebarOpen && (
+        <div
+          style={overlay}
+          onClick={() => setSidebarOpen(false)}
+          aria-label="Close sidebar"
+        />
+      )}
+
+      <main style={isChat ? chatMain : main}>
+        {needsSetup && !isChat && (
+          <div style={banner}>
+            <span style={bannerText}>尚未完成初始配置，部分功能可能不可用。</span>
+            <button onClick={() => navigate('/setup')} style={bannerBtn}>
+              去配置
+            </button>
+          </div>
+        )}
+        <div style={isChat ? chatContainer : container}>
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+}
+
+const shell: React.CSSProperties = {
+  display: 'flex',
+  minHeight: '100vh',
+  background: 'var(--color-bg-deep)',
+};
+
+const sidebar: React.CSSProperties = {
+  width: '240px',
+  flexShrink: 0,
+  background: 'var(--color-surface-dark)',
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '24px 0',
+  color: 'var(--color-on-dark)',
+  position: 'relative',
+};
+
+const sidebarDesktop: React.CSSProperties = {
+  position: 'static',
+};
+
+const sidebarMobile: React.CSSProperties = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  bottom: 0,
+  zIndex: 100,
+  transform: 'translateX(-100%)',
+  transition: 'transform var(--transition-normal) var(--ease-out-expo)',
+  willChange: 'transform',
+};
+
+const overlay: React.CSSProperties = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  background: 'rgba(0, 0, 0, 0.5)',
+  zIndex: 90,
+  opacity: 0,
+  transition: 'opacity var(--transition-normal) var(--ease-out-expo)',
+};
+
+};
+
+const mobileHeader: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  padding: '12px 16px',
+  background: 'var(--color-surface-dark)',
+  borderBottom: '1px solid var(--color-surface-dark-elevated)',
+};
+
+const menuButton: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  padding: '4px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 'var(--radius-sm)',
+  transition: background var(--transition-fast) var(--ease-out-expo), color var(--transition-fast) var(--ease-out-expo),
+};
+
+menuButton[':hover'] = {
+  background: 'var(--color-surface-dark-soft)',
+};
+
+const mobileBrand: React.CSSProperties = {
+  flex: 1,
+  textAlign: 'center',
+};
+
+const mobileBrandTitle: React.CSSProperties = {
+  margin: 0,
+  fontSize: '14px',
+  fontWeight: 400,
+  fontFamily: 'var(--font-display)',
+  color: 'var(--color-on-dark)',
+  letterSpacing: '-0.02em',
+};
+
+const brand: React.CSSProperties = {
+  padding: '0 24px 28px',
+  borderBottom: '1px solid var(--color-surface-dark-elevated)',
+  marginBottom: '16px',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'space-between',
+};
+
+const closeButton: React.CSSProperties = {
+  transition: 'background var(--transition-fast) var(--ease-out-expo), color var(--transition-fast) var(--ease-out-expo)',
+  background: 'none',
+  border: 'none',
+  padding: '4px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const brandTitle: React.CSSProperties = {
+  margin: 0,
+  fontSize: '16px',
+  fontWeight: 400,
+  fontFamily: 'var(--font-display)',
+  letterSpacing: '-0.02em',
+  color: 'var(--color-on-dark)',
+};
+
+const brandSub: React.CSSProperties = {
+  margin: '4px 0 0',
+  fontSize: '12px',
+  fontWeight: 500,
+  color: 'var(--color-on-dark-soft)',
+  letterSpacing: '1.5px',
+  textTransform: 'uppercase',
+};
+
+const nav: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px',
+  padding: '0 12px',
+};
+
+const groupContainer: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+};
+
+const groupTitle: React.CSSProperties = {
+  fontSize: '11px',
+  fontWeight: 600,
+  color: 'var(--color-on-dark-soft)',
+  textTransform: 'uppercase',
+  letterSpacing: '1px',
+  padding: '4px 12px 2px',
+};
+
+const version: React.CSSProperties = {
+  marginTop: 'auto',
+  padding: '0 24px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+  alignItems: 'flex-start',
+};
+
+const versionText: React.CSSProperties = {
+  fontSize: '12px',
+  color: 'var(--color-on-dark-soft)',
+  fontFamily: 'var(--font-mono)',
+};
+
+const themeButton: React.CSSProperties = {
+  transition: 'background var(--transition-fast) var(--ease-out-expo), color var(--transition-fast) var(--ease-out-expo)',
+  background: 'none',
+  border: 'none',
+  color: 'var(--color-on-dark-soft)',
+  fontSize: '12px',
+  fontFamily: 'var(--font-body)',
+  cursor: 'pointer',
+  padding: '4px 0',
+  textAlign: 'left',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  width: 'fit-content',
+  borderRadius: 'var(--radius-sm)',
+  transition: 'all var(--transition-fast) var(--ease-out-expo)',
+};
+
+const logoutBtn: React.CSSProperties = {
+  borderRadius: 'var(--radius-sm)',
+  transition: 'background var(--transition-fast) var(--ease-out-expo), color var(--transition-fast) var(--ease-out-expo)',
+  background: 'none',
+  border: 'none',
+  color: 'var(--color-on-dark-soft)',
+  fontSize: '12px',
+  fontFamily: 'var(--font-body)',
+  cursor: 'pointer',
+  padding: '4px 0',
+  textAlign: 'left',
+  borderRadius: 'var(--radius-sm)',
+  transition: 'all var(--transition-fast) var(--ease-out-expo)',
+};
+
+const main: React.CSSProperties = {
+  flex: 1,
+  minWidth: 0,
+  overflow: 'auto',
+  background: 'var(--color-bg-deep)',
+};
+
+const container: React.CSSProperties = {
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: '48px 24px',
+};
+
+const chatMain: React.CSSProperties = {
+  flex: 1,
+  minWidth: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  background: 'var(--color-bg-deep)',
+};
+
+const chatContainer: React.CSSProperties = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+};
+
+const banner: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '12px',
+  padding: '10px 24px',
+  background: 'rgba(250, 204, 21, 0.08)',
+  borderBottom: '1px solid rgba(250, 204, 21, 0.2)',
+};
+
+const bannerText: React.CSSProperties = {
+  fontSize: '13px',
+  color: 'var(--color-on-dark-soft)',
+};
+
+const bannerBtn: React.CSSProperties = {
+  padding: '4px 14px',
+  borderRadius: 'var(--radius-sm)',
+  border: '1px solid var(--color-accent)',
+  background: 'transparent',
+  color: 'var(--color-accent)',
+  fontSize: '13px',
+  fontWeight: 500,
+  fontFamily: 'var(--font-body)',
+  cursor: 'pointer',
+};

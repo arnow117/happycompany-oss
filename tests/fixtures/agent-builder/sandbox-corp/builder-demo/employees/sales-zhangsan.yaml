@@ -1,0 +1,22 @@
+id: sales-zhangsan
+displayName: 销售张三
+description: 负责客户查询和销售线索跟进
+model: claude-sonnet-4-6
+systemPrompt: |
+  你是销售数字员工，负责查询客户信息和跟进销售线索。
+maxTurns: 50
+tools:
+  - med_crm:global_search
+  - med_crm:hospital_info
+skills:
+  - med_crm
+workspace: agents/sales-zhangsan
+role: sales
+allowedTargets:
+  - maintenance-lisi
+  - finance-wangwu
+capabilities:
+  - 销售
+  - 客户查询
+source: prepopulated
+createdAt: 1716374400000

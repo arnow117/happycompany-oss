@@ -1,0 +1,13 @@
+id: echo-basic
+description: Runtime persists user message, calls agent, returns reply, records no errors.
+input:
+  channel: harness
+  botName: harness-bot
+  chatId: harness-chat-1
+  userId: harness-user
+  text: 你好，介绍一下你能做什么？
+fakeReply: 我是数字员工，可以协助你处理销售、服务和合规相关的工作。
+expect:
+  replyContains:
+    - 数字员工
+  noErrors: true

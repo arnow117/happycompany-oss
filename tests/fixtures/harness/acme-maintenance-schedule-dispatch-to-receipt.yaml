@@ -1,0 +1,97 @@
+id: acme-maintenance-schedule-dispatch-to-receipt
+description: Acme Flow B — a maintenance schedule triggers finance dispatch, maintenance reads manuals/history, records service log and receipt, then hands back to finance.
+input:
+  channel: harness
+  botName: finance-wangwu
+  tenant: acme-happycompany
+  userId: acme-operator
+  chatId: harness-acme-maintenance-schedule-dispatch-to-receipt
+  text: 触发江山市人民医院 GE16排 CT 半年维保任务，请财务派单维修李四，维修完成后记录日志和回执并反馈财务。
+fakeReply: 维保定时任务已触发，财务王五已派单维修李四；维修李四查阅说明书和历史维保后完成现场维保，生成 SERVICE RECORD 回执 sr-jsrm-540ct-001，并已反馈财务处理结算和归档。
+simulated:
+  routing:
+    selectedEmployee: finance-wangwu
+  toolCalls:
+    - name: scheduler:trigger_task
+      elapsedMs: 30
+    - name: med_crm:list_maintenance
+      elapsedMs: 45
+    - name: manual:lookup
+      elapsedMs: 60
+    - name: med_crm:add_incident
+      elapsedMs: 70
+    - name: med_crm:create_service_record
+      elapsedMs: 95
+    - name: med_crm:finance_settlement
+      elapsedMs: 50
+  memory:
+    - operation: search
+      subject: contract:jsrm-540ct-full-service
+      workspace: /corp/acme-happycompany/agents/finance-wangwu/memory
+    - operation: append
+      subject: service_record:sr-jsrm-540ct-001
+      workspace: /corp/acme-happycompany/agents/maintenance-lisi/memory
+    - operation: append
+      subject: finance_settlement:jsrm-540ct-full-service:sr-jsrm-540ct-001
+      workspace: /corp/acme-happycompany/agents/finance-wangwu/memory
+  handoffs:
+    - from: finance-wangwu
+      to: maintenance-lisi
+      reason: 维保定时任务触发后派单
+    - from: maintenance-lisi
+      to: finance-wangwu
+      reason: SERVICE RECORD 回执完成后反馈财务
+  businessArtifacts:
+    - type: maintenance_task
+      id: task-jsrm-540ct-2026h2
+      status: triggered
+    - type: maintenance_dispatch
+      id: dispatch-jsrm-540ct-lisi
+      status: created
+    - type: service_record
+      id: sr-jsrm-540ct-001
+      status: created
+    - type: finance_settlement
+      id: settlement-jsrm-540ct-sr-001
+      status: created
+expect:
+  routedEmployee: finance-wangwu
+  replyContains:
+    - 维保定时任务
+    - 维修李四
+    - SERVICE RECORD
+    - 反馈财务
+  toolNamesIncludes:
+    - scheduler:trigger_task
+    - med_crm:list_maintenance
+    - manual:lookup
+    - med_crm:add_incident
+    - med_crm:create_service_record
+    - med_crm:finance_settlement
+  memoryOperations:
+    - operation: search
+      subjectContains: jsrm-540ct-full-service
+      workspaceContains: finance-wangwu
+    - operation: append
+      subjectContains: sr-jsrm-540ct-001
+      workspaceContains: maintenance-lisi
+    - operation: append
+      subjectContains: finance_settlement
+      workspaceContains: finance-wangwu
+  handoffChain:
+    - from: finance-wangwu
+      to: maintenance-lisi
+      reasonContains: 派单
+    - from: maintenance-lisi
+      to: finance-wangwu
+      reasonContains: 回执
+  businessArtifactsCreated:
+    - maintenance_dispatch
+    - service_record
+    - finance_settlement
+  businessArtifactIdsInclude:
+    - task-jsrm-540ct-2026h2
+    - dispatch-jsrm-540ct-lisi
+    - sr-jsrm-540ct-001
+    - settlement-jsrm-540ct-sr-001
+  noErrors: true

@@ -1,0 +1,17 @@
+id: selector-visible-employees
+description: An unbound user in selector mode sees the visible employee picker.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-unbound-001
+  chatId: harness-selector-shown
+  text: 你好，有人在吗？
+fakeReply: 请选择数字员工
+simulated:
+  routing:
+    mode: employee-director
+    selectorShown: true
+expect:
+  selectorShown: true
+  noErrors: true

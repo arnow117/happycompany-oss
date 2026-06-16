@@ -1,0 +1,27 @@
+{
+  "status": "applied",
+  "generatedAt": "2026-06-04T14:10:02.981Z",
+  "targetTenant": "acme-happycompany",
+  "targetSkillDir": "/workspace/corp/acme-happycompany/.claude/skills/med_crm",
+  "sourceSkillDir": "/workspace/happycompany/corp/acme/.claude/skills/med_crm",
+  "backupDir": "/workspace/corp/acme-happycompany/.claude/skills/med_crm/.backups/backup-2026-06-04T14-10-02-981Z",
+  "writeToolsEnabled": [
+    "contract_intake",
+    "create_service_record",
+    "finance_settlement"
+  ],
+  "targetToolsAfter": [
+    "search_hospitals",
+    "search_devices",
+    "list_maintenance",
+    "search_bids",
+    "add_sales_activity",
+    "add_contact",
+    "add_incident",
+    "global_search",
+    "hospital_info",
+    "contract_intake",
+    "create_service_record",
+    "finance_settlement"
+  ]
+}

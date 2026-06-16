@@ -1,0 +1,19 @@
+id: maintenance-handoff-to-finance
+name: 维修完成后交接财务
+role: maintenance
+description: 维修完成并取得回执后，将结算所需信息交接给财务数字员工。
+triggerExamples:
+  - 维修完成了，走结算
+  - 回执已经签好，交给财务
+  - 这个工单可以开票了
+steps:
+  - 确认维修任务已完成
+  - 校验回执单号、客户、设备、服务日期、工程师、结算金额和签字状态
+  - 缺少关键字段时向用户或医院联系人确认
+  - 调用 handoff，将结构化 context 交给财务数字员工
+missingInfoPolicy: 如果 receipt_id、service_date、settlement_amount 或 customer_signed 缺失，不要交接财务。
+output:
+  type: handoff
+  targetRole: finance
+  contract: maintenance-to-finance
+

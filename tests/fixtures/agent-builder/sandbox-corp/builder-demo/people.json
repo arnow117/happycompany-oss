@@ -1,0 +1,11 @@
+[
+  {
+    "userId": "demo-admin",
+    "name": "Demo Admin",
+    "role": "admin",
+    "status": "active",
+    "entryEmployee": "sales-zhangsan",
+    "routingMode": "bound",
+    "visibleEmployees": ["sales-zhangsan", "maintenance-lisi", "finance-wangwu"]
+  }
+]

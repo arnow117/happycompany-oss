@@ -1,0 +1,21 @@
+id: maintenance-to-finance
+fromRole: maintenance
+toRole: finance
+description: 维修在回执签署后交接给财务结算的结构化上下文。
+requiredFields:
+  contract_id: 合同编号
+  receipt_id: 维修回执单号
+  customer: 医院或客户名称
+  device_model: 设备型号
+  service_date: 服务日期
+  engineer: 现场工程师
+  settlement_amount: 结算金额
+  customer_signed: 客户是否已签字
+optionalFields:
+  arrival_time: 到达时间
+  departure_time: 离开时间
+  replaced_parts: 更换部件
+  fault_summary: 故障摘要
+  payment_terms: 付款条款
+  notes: 其他注意事项
+

@@ -1,0 +1,21 @@
+id: med-device
+name: 医疗器械
+description: 适合医疗器械经销/维保企业，覆盖销售、维修、财务三类核心角色。
+version: 1.1.0
+businessObjects:
+  - hospital
+  - device
+  - bid
+  - contract
+  - maintenance_order
+  - service_receipt
+  - invoice
+roles:
+  - sales
+  - maintenance
+  - finance
+defaultWorkflows:
+  - bid-tracking
+  - contract-handoff-to-maintenance
+  - maintenance-handoff-to-finance
+

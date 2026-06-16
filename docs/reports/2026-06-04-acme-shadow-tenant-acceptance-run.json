@@ -1,0 +1,166 @@
+{
+  "status": "passed",
+  "mode": "shadow-tenant",
+  "targetModified": false,
+  "sourceSkillDir": "/workspace/happycompany/corp/acme/.claude/skills/med_crm",
+  "targetSkillDir": "/workspace/corp/acme-happycompany/.claude/skills/med_crm",
+  "stage": {
+    "apply": true,
+    "sourceSkillDir": "/workspace/happycompany/corp/acme/.claude/skills/med_crm",
+    "targetSkillDir": "<temporary shadow skill package removed>",
+    "writeTools": [
+      "contract_intake",
+      "create_service_record",
+      "finance_settlement"
+    ],
+    "sourceHasAllWriteTools": true,
+    "targetHasAllWriteTools": true,
+    "missingInSource": [],
+    "missingInTarget": [],
+    "action": "applied",
+    "backupDir": "<temporary shadow backup removed>",
+    "targetToolsAfter": [
+      "search_hospitals",
+      "search_devices",
+      "list_maintenance",
+      "search_bids",
+      "add_sales_activity",
+      "add_contact",
+      "add_incident",
+      "global_search",
+      "hospital_info",
+      "contract_intake",
+      "create_service_record",
+      "finance_settlement"
+    ]
+  },
+  "acceptance": {
+    "status": "passed",
+    "generatedAt": "2026-06-04T14:10:13.520Z",
+    "skillDir": "<temporary shadow skill package removed>",
+    "flows": [
+      {
+        "id": "acme-bid-win-to-contract-intake",
+        "status": "passed",
+        "steps": [
+          {
+            "tool": "search_bids",
+            "result": {
+              "query": "杭州示例医疗",
+              "items": [
+                {
+                  "id": 6428,
+                  "hospital_id": 6428,
+                  "project_code": "330382263180160000008-WZLCZB-2026-03047",
+                  "announcement_url": "https://zfcg.czt.zj.gov.cn/site/detail?articleId=NdprtXoYFooHk00DeGoBHw==",
+                  "contract_url": null,
+                  "contract_amount": 1618000,
+                  "supplier": "杭州示例医疗器械有限公司",
+                  "contract_no": null,
+                  "publish_date": "2026-04-07",
+                  "device_category": "CT",
+                  "supplier_category": "self",
+                  "stage": "result"
+                }
+              ],
+              "count": 1
+            }
+          },
+          {
+            "tool": "contract_intake",
+            "result": {
+              "created": true,
+              "artifacts": [
+                {
+                  "type": "contract_intake",
+                  "id": "jsrm-540ct-full-service",
+                  "status": "created"
+                },
+                {
+                  "type": "maintenance_schedule",
+                  "id": "schedule-jsrm-540ct-full-service",
+                  "status": "created"
+                }
+              ]
+            }
+          }
+        ],
+        "artifacts": [
+          {
+            "type": "contract_intake",
+            "id": "jsrm-540ct-full-service",
+            "status": "created"
+          },
+          {
+            "type": "maintenance_schedule",
+            "id": "schedule-jsrm-540ct-full-service",
+            "status": "created"
+          }
+        ]
+      },
+      {
+        "id": "acme-maintenance-schedule-dispatch-to-receipt",
+        "status": "passed",
+        "steps": [
+          {
+            "tool": "add_incident",
+            "result": {
+              "created": true,
+              "artifact": {
+                "type": "service_incident",
+                "id": "incident-jsrm-540ct-001",
+                "status": "created"
+              }
+            }
+          },
+          {
+            "tool": "create_service_record",
+            "result": {
+              "created": true,
+              "artifact": {
+                "type": "service_record",
+                "id": "sr-jsrm-540ct-001",
+                "status": "created"
+              }
+            }
+          },
+          {
+            "tool": "finance_settlement",
+            "result": {
+              "created": true,
+              "artifact": {
+                "type": "finance_settlement",
+                "id": "settlement-jsrm-540ct-sr-001",
+                "status": "created"
+              }
+            }
+          }
+        ],
+        "artifacts": [
+          {
+            "type": "service_incident",
+            "id": "incident-jsrm-540ct-001",
+            "status": "created"
+          },
+          {
+            "type": "service_record",
+            "id": "sr-jsrm-540ct-001",
+            "status": "created"
+          },
+          {
+            "type": "finance_settlement",
+            "id": "settlement-jsrm-540ct-sr-001",
+            "status": "created"
+          }
+        ]
+      }
+    ],
+    "artifactCounts": {
+      "contract_intakes": 1,
+      "maintenance_schedules": 1,
+      "service_incidents": 1,
+      "service_records": 1,
+      "finance_settlements": 1
+    }
+  }
+}

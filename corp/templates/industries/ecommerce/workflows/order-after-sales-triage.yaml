@@ -1,0 +1,22 @@
+id: order-after-sales-triage
+name: 订单售后分诊
+role: customer-service
+description: 客服根据订单、商品、物流和售后诉求判断处理路径，并生成交接上下文。
+triggerExamples:
+  - 这个订单客户说没收到货
+  - 帮我处理一下退款退货
+  - 客户反馈商品破损要补发
+steps:
+  - 收集订单号、客户身份、SKU、物流单号和售后诉求
+  - 查询订单、物流和商品状态
+  - 判断是客服可直接答复、仓储核查还是运营确认
+  - 输出当前状态、建议动作和需要交接的结构化字段
+missingInfoPolicy: 如果订单号或客户身份缺失，先追问；涉及实物核查时必须带上 SKU 与物流单号。
+output:
+  type: markdown
+  sections:
+    - 问题归类
+    - 已确认信息
+    - 待确认信息
+    - 下一步动作
+

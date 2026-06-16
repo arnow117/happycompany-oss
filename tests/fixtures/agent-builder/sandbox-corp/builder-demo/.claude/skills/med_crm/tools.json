@@ -1,0 +1,53 @@
+{
+  "name": "med_crm",
+  "version": "1.0.0",
+  "displayName": "医疗 CRM",
+  "description": "Sandbox CRM tools for Agent Builder tests",
+  "tools": [
+    {
+      "name": "global_search",
+      "description": "跨医院、设备、合同和维保记录搜索",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "keyword": { "type": "string" } }, "required": ["keyword"] }
+    },
+    {
+      "name": "hospital_info",
+      "description": "读取医院客户详情",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "hospital": { "type": "string" } }, "required": ["hospital"] }
+    },
+    {
+      "name": "list_maintenance",
+      "description": "查询维保合同和服务周期",
+      "riskLevel": "read",
+      "parameters": { "type": "object", "properties": { "hospital": { "type": "string" } } }
+    },
+    {
+      "name": "add_incident",
+      "description": "新增维修工单或故障记录",
+      "riskLevel": "internal_write",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "hospital": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["hospital", "description"]
+      }
+    },
+    {
+      "name": "delete_contract",
+      "description": "删除合同记录（仅用于风险测试）",
+      "riskLevel": "destructive",
+      "parameters": {
+        "type": "object",
+        "properties": { "contractId": { "type": "string" } },
+        "required": ["contractId"]
+      }
+    }
+  ],
+  "server": {
+    "entry": "med_crm/server.py",
+    "python": "python3"
+  }
+}

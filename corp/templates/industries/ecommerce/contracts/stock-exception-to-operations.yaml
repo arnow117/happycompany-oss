@@ -1,0 +1,15 @@
+id: stock-exception-to-operations
+fromRole: warehouse
+toRole: operations
+description: 仓储将库存异常交接给运营调整销售策略的结构化上下文。
+requiredFields:
+  sku_id: 商品 SKU
+  warehouse: 仓库
+  exception_type: 异常类型
+  affected_quantity: 影响数量
+  suggested_action: 建议动作
+optionalFields:
+  affected_order_ids: 受影响订单
+  available_time: 预计恢复时间
+  notes: 其他说明
+

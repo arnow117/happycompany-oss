@@ -1,0 +1,20 @@
+id: unbound-user-blocked
+description: An employee-director bot with no personal binding and no visible employees blocks the user.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-no-visibility-999
+  chatId: harness-blocked
+  text: 我想咨询业务
+fakeReply: 您尚未绑定个人数字员工，请在企业员工页面完成绑定后重试。
+simulated:
+  routing:
+    mode: employee-director
+    selectorShown: false
+expect:
+  replyContains:
+    - 尚未绑定
+  selectorShown: false
+  handoffCount: 0
+  noErrors: true

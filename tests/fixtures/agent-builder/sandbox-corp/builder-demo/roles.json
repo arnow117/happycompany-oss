@@ -1,0 +1,41 @@
+{
+  "roles": {
+    "admin": {
+      "displayName": "管理员",
+      "tools": "*"
+    },
+    "sales": {
+      "displayName": "销售",
+      "tools": [
+        "med_crm:global_search",
+        "med_crm:hospital_info"
+      ]
+    },
+    "maintenance": {
+      "displayName": "维修",
+      "tools": [
+        "med_crm:global_search",
+        "med_crm:list_maintenance",
+        "med_crm:add_incident",
+        "med_crm:hospital_info"
+      ]
+    },
+    "finance": {
+      "displayName": "财务",
+      "tools": [
+        "med_crm:global_search",
+        "med_crm:list_maintenance",
+        "med_crm:hospital_info"
+      ]
+    },
+    "member": {
+      "displayName": "员工",
+      "tools": []
+    }
+  },
+  "users": {
+    "employee:sales-zhangsan": "sales",
+    "employee:maintenance-lisi": "maintenance",
+    "employee:finance-wangwu": "finance"
+  }
+}

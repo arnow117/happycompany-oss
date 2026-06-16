@@ -1,0 +1,15 @@
+id: stock-exception-handoff
+name: 库存异常交接
+role: warehouse
+description: 仓储围绕缺货、超卖、退货入库和物流异常向运营或客服反馈可执行结论。
+triggerExamples:
+  - 这个 SKU 为什么发不出去
+  - 退货到了没
+  - 大促库存不够了怎么办
+steps:
+  - 查询 SKU、仓库、订单、物流和退货入库状态
+  - 判断异常类型和影响范围
+  - 给出补发、等待、退款、调拨或下架建议
+  - 向客服或运营交接原因、影响订单和建议动作
+missingInfoPolicy: 缺少 SKU、订单号或仓库信息时先追问；库存结果必须注明查询时间。
+

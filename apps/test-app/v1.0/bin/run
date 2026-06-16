@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP_NAME="test-app"
+echo "App CLI: ${APP_NAME}"
+echo "Args: $*"
+
+# If stdin has data, read and echo it
+if [ ! -t 0 ]; then
+  echo "Stdin:"
+  cat
+fi

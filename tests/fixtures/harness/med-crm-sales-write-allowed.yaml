@@ -1,0 +1,25 @@
+id: med-crm-sales-write-allowed
+description: Bound sales employee may write an internal sales follow-up activity.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-bound-001
+  chatId: harness-med-crm-sales-write
+  text: 给浙一医院追加一条销售跟进：六月前确认维保续约预算
+fakeReply: 已为浙一医院新增销售跟进记录：六月前确认维保续约预算。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  toolCalls:
+    - name: med_crm:add_sales_activity
+      elapsedMs: 35
+expect:
+  routedEmployee: sales-zhangsan
+  toolNamesIncludes:
+    - med_crm:add_sales_activity
+  replyContains:
+    - 销售跟进
+    - 浙一医院
+  noErrors: true

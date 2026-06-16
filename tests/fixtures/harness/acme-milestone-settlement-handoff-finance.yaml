@@ -1,0 +1,24 @@
+id: acme-milestone-settlement-handoff-finance
+description: Accepted milestones should be handed from project manager to finance with settlement context.
+input:
+  channel: harness
+  botName: project-manager-template
+  tenant: acme-demo
+  userId: acme-user-001
+  chatId: harness-acme-milestone-settlement
+  text: ACME-001 第一阶段已验收，合同 C-2026-001，本次结算 120000 元，请财务开票
+fakeReply: 项目经理已记录 ACME-001 第一阶段验收，并转交财务处理 120000 元里程碑结算和开票。
+simulated:
+  routing:
+    selectedEmployee: project-manager-template
+  handoffs:
+    - from: project-manager-template
+      to: finance-template
+      reason: milestone-settlement
+expect:
+  routedEmployee: project-manager-template
+  handoffCount: 1
+  replyContains:
+    - 里程碑结算
+    - 开票
+  noErrors: true

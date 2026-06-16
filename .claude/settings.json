@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(dist/**)",
+      "Edit(node_modules/**)",
+      "Edit(coverage/**)",
+      "Edit(*.db)",
+      "Edit(web/dist/**)",
+      "Edit(e2e-report/**)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "just server check 2>&1"
+          }
+        ]
+      }
+    ],
+    "Stop": []
+  }
+}

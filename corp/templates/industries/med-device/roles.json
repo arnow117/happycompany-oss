@@ -1,0 +1,25 @@
+{
+  "roles": {
+    "admin": {
+      "displayName": "管理员",
+      "tools": "*"
+    },
+    "sales": {
+      "displayName": "销售",
+      "tools": []
+    },
+    "finance": {
+      "displayName": "财务",
+      "tools": []
+    },
+    "maintenance": {
+      "displayName": "维修",
+      "tools": []
+    },
+    "member": {
+      "displayName": "员工",
+      "tools": []
+    }
+  },
+  "users": {}
+}

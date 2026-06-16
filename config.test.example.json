@@ -1,0 +1,25 @@
+{
+  "web": { "port": 3100 },
+  "dataDir": "data",
+  "corpDir": "corp",
+  "claude": {
+    "apiKey": "sk-ant-test",
+    "model": "claude-sonnet-4-6",
+    "directorEnabled": true,
+    "directorModel": "claude-haiku-4-5"
+  },
+  "bots": {
+    "web-bot": {
+      "channel": "web",
+      "displayName": "Assistant",
+      "agentDir": "agents/web-bot",
+      "routingMode": "employee-director",
+      "entryEmployeeId": "dispatcher"
+    },
+    "__test-bot__": {
+      "channel": "web",
+      "displayName": "Test Bot",
+      "agentDir": "agents/__test-bot__"
+    }
+  }
+}

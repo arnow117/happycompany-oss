@@ -1,0 +1,17 @@
+id: project-manager-to-consultant
+fromRole: project-manager
+toRole: consultant
+description: 项目经理向顾问分派专业交付任务的结构化上下文。
+requiredFields:
+  project_id: 项目编号
+  client: 客户名称
+  objective: 客户目标
+  scope: 本次任务范围
+  deliverable: 交付物名称
+  due_date: 期望完成日期
+optionalFields:
+  source_materials: 参考资料
+  client_feedback: 客户反馈
+  constraints: 限制条件
+  success_criteria: 验收标准
+

@@ -1,0 +1,16 @@
+id: med-device
+name: 医疗器械
+description: Agent Builder sandbox 医疗器械模板
+version: 1.0.0
+businessObjects:
+  - 医院
+  - 维保合同
+  - 维修工单
+roles:
+  - maintenance-qa
+defaultWorkflows:
+  - work-order-quality-check
+segments:
+  - 售后
+defaultRoleOrder:
+  - maintenance-qa

@@ -1,0 +1,25 @@
+{
+  "roles": {
+    "admin": {
+      "displayName": "管理员",
+      "tools": "*"
+    },
+    "project-manager": {
+      "displayName": "项目经理",
+      "tools": []
+    },
+    "consultant": {
+      "displayName": "顾问",
+      "tools": []
+    },
+    "finance": {
+      "displayName": "财务",
+      "tools": []
+    },
+    "member": {
+      "displayName": "员工",
+      "tools": []
+    }
+  },
+  "users": {}
+}

@@ -1,0 +1,21 @@
+id: finance-wangwu
+displayName: 财务王五
+description: 负责合同管理、开票、赔付和结算审核。
+model: claude-sonnet-4-6
+systemPrompt: |
+  你是示例医疗的财务数字员工，负责合同管理、开票、赔付和结算审核。
+maxTurns: 50
+tools:
+  - med_crm:global_search
+  - med_crm:hospital_info
+skills:
+  - med_crm
+workspace: agents/finance-wangwu
+role: finance
+allowedTargets: []
+capabilities:
+  - 财务
+  - 合同管理
+  - 结算
+source: prepopulated
+createdAt: 1716374400000

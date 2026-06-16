@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* ── Claude Design System Tokens ─────────────────────────── */
+
+:root {
+  /* Surface - warm cream canvas */
+  --color-bg-deep: #faf9f5;
+  --color-bg-base: #f5f0e8;
+  --color-bg-raised: #efe9de;
+  --color-bg-overlay: #e8e0d2;
+  --color-bg-input: #faf9f5;
+
+  /* Surface - light mode (follows theme toggle) */
+  --color-surface-dark: #efe9de;
+  --color-surface-dark-elevated: #e8e0d2;
+  --color-surface-dark-soft: #f0ece5;
+  --color-on-dark: #141413;
+  --color-on-dark-soft: #6c6a64;
+
+  /* Text - warm ink */
+  --color-text-primary: #141413;
+  --color-text-strong: #252523;
+  --color-text-secondary: #3d3d3a;
+  --color-text-muted: #6c6a64;
+  --color-text-muted-soft: #8e8b82;
+
+  /* Accent - warm coral */
+  --color-accent: #cc785c;
+  --color-accent-active: #a9583e;
+  --color-accent-disabled: #e6dfd8;
+  --color-accent-dim: rgba(204, 120, 92, 0.12);
+
+  /* Accent companions */
+  --color-accent-teal: #5db8a6;
+  --color-accent-amber: #e8a55a;
+
+  /* Semantic */
+  --color-danger: #c64545;
+  --color-danger-dim: rgba(198, 69, 69, 0.1);
+  --color-warning: #d4a017;
+  --color-warning-dim: rgba(212, 160, 23, 0.1);
+  --color-success: #5db872;
+  --color-success-dim: rgba(93, 184, 114, 0.1);
+
+  /* Border - warm hairline */
+  --color-border: #e6dfd8;
+  --color-border-hover: #d6cdc2;
+  --color-border-soft: #ebe6df;
+
+  /* Login gradient */
+  --login-gradient: linear-gradient(135deg, #faf9f5 0%, #efe9de 100%);
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  /* Shadow - minimal, color-block first */
+  --shadow-card: 0 1px 3px rgba(20, 20, 19, 0.06);
+  --shadow-card-hover: 0 4px 12px rgba(20, 20, 19, 0.1);
+  --shadow-elevated: 0 8px 32px rgba(20, 20, 19, 0.12);
+
+  /* Transition */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Font */
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Spacing */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  /* Responsive breakpoints */
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+}
+
+/* Dark mode tokens */
+[data-theme='dark'] {
+  --color-bg-deep: #0d0c0b;
+  --color-bg-base: #121110;
+  --color-bg-raised: #1a1917;
+  --color-bg-overlay: #252320;
+  --color-bg-input: #181715;
+
+  --color-text-primary: #e8e6e1;
+  --color-text-strong: #f5f3f0;
+  --color-text-secondary: #a09d96;
+  --color-text-muted: #6c6a64;
+  --color-text-muted-soft: #4a4843;
+
+  --color-border: #252320;
+  --color-border-hover: #353330;
+  --color-border-soft: #2a2825;
+
+  /* Surface dark - dark mode values */
+  --color-surface-dark: #181715;
+  --color-surface-dark-elevated: #252320;
+  --color-surface-dark-soft: #1f1e1b;
+  --color-on-dark: #faf9f5;
+  --color-on-dark-soft: #a09d96;
+
+  --color-shadow: rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  --login-gradient: linear-gradient(135deg, #0d0c0b 0%, #1a1917 100%);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-deep);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted-soft);
+}
+
+/* ── Focus ring ───────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ── Selection ────────────────────────────────────────────── */
+
+::selection {
+  background: var(--color-accent-dim);
+  color: var(--color-text-primary);
+}
+
+/* ── Streaming cursor blink ─────────────────────────────────── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Chat empty state animations ────────────────────────────── */
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.15; }
+  50% { transform: scale(1.08); opacity: 0.25; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}

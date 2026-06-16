@@ -1,0 +1,22 @@
+id: acme-happycompany-contract-service-chain
+description: Current product smoke for Acme HappyCompany contract-to-service employee workflow.
+input:
+  channel: harness
+  botName: sales-zhangsan
+  tenant: acme-happycompany
+  userId: web-harness-user
+  chatId: harness-acme-happycompany-contract-service-chain
+  handoffMode: disabled
+  text: 你是销售张三。请只完成销售签约字段确认，不要转交其他员工。查询并输出江山市人民医院 GE16排 CT 维保合同的客户、设备、合同期限、金额和付款条款。
+fakeReply: 已确认江山市人民医院 GE16排 CT 维保合同，客户为江山市人民医院，设备为 GE16排 CT，合同金额 1710000 元。
+simulated:
+  routing:
+    selectedEmployee: sales-zhangsan
+expect:
+  routedEmployee: sales-zhangsan
+  replyContains:
+    - 江山市人民医院
+    - 16排
+    - 合同
+  handoffCount: 0
+  noErrors: true

@@ -1,0 +1,25 @@
+{
+  "roles": {
+    "admin": {
+      "displayName": "管理员",
+      "tools": "*"
+    },
+    "customer-service": {
+      "displayName": "客服",
+      "tools": []
+    },
+    "operations": {
+      "displayName": "运营",
+      "tools": []
+    },
+    "warehouse": {
+      "displayName": "仓储",
+      "tools": []
+    },
+    "member": {
+      "displayName": "员工",
+      "tools": []
+    }
+  },
+  "users": {}
+}

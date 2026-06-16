@@ -1,0 +1,22 @@
+id: bound-user-default-employee
+description: A user with a persisted entryEmployee routes to that employee without selector.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-bound-001
+  chatId: harness-bound-user
+  text: 帮我看下浙一医院近期合同
+fakeReply: 已检索浙一医院最近三份合同，下面给出摘要。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+    boundEmployee: sales-zhangsan
+    selectorShown: false
+expect:
+  replyContains:
+    - 浙一医院
+  routedEmployee: sales-zhangsan
+  selectorShown: false
+  noErrors: true

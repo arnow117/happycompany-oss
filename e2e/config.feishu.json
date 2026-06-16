@@ -1,0 +1,18 @@
+{
+  "bots": {
+    "feishu-test": {
+      "channel": "feishu",
+      "credentials": {
+        "appId": "$FEISHU_APP_ID",
+        "appSecret": "$FEISHU_APP_SECRET"
+      },
+      "displayName": "飞书测试Bot",
+      "agentDir": "./e2e/agents/feishu-test",
+      "cwd": "./e2e/data/feishu-workdir",
+      "model": "claude-sonnet-4-20250514"
+    }
+  },
+  "claude": { "apiKey": "$ANTHROPIC_API_KEY" },
+  "web": { "port": 3100 },
+  "dataDir": "e2e/data"
+}

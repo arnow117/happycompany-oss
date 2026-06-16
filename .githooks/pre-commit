@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Pre-commit: fast checks only (< 5s target)
+# Inspired by Dori .githooks/pre-commit
+set -euo pipefail
+
+hook_dir="$(CDPATH= cd "$(dirname "$0")" && pwd)"
+repo_root="$(cd "$hook_dir/.." && pwd)"
+cd "$repo_root"
+
+# === CLAUDE.md / AGENTS.md symlink auto-heal ===
+# CLAUDE.md is primary; AGENTS.md must be a symlink to it.
+for claude_file in $(find . -name CLAUDE.md -not -path './.git/*' -not -path './data/*' -not -path './.runtime/*' -not -path '*/node_modules/*' -not -path '*/.build/*' -not -path '*/dist/*' -not -path '*/e2e/data/*' | sed 's|^\./||'); do
+    dir=$(dirname "$claude_file")
+    agents_file="$dir/AGENTS.md"
+    if [ ! -e "$agents_file" ]; then
+        ln -s CLAUDE.md "$agents_file"
+        git add "$agents_file"
+        echo "[pre-commit] Created AGENTS.md -> CLAUDE.md in $dir/"
+    elif [ ! -L "$agents_file" ] || [ "$(readlink "$agents_file")" != "CLAUDE.md" ]; then
+        echo "[pre-commit] ERROR: $agents_file must be a symlink to CLAUDE.md"
+        exit 1
+    fi
+done
+
+# === Server: fast type check ===
+if git diff --cached --name-only | grep -qE '^src/.*\.ts$'; then
+    echo "[pre-commit] just server check..."
+    just server check || { echo "[pre-commit] ERROR: type check failed"; exit 1; }
+fi
+
+# === Web: fast type check + build ===
+if git diff --cached --name-only | grep -qE '^web/src/.*\.(ts|tsx)$'; then
+    echo "[pre-commit] just web check..."
+    just web check || { echo "[pre-commit] ERROR: web check failed"; exit 1; }
+fi
+
+echo "[pre-commit] OK"

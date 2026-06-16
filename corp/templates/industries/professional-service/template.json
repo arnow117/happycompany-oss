@@ -1,0 +1,12 @@
+{
+  "id": "professional-service",
+  "name": "专业服务",
+  "description": "适合咨询/法律/营销等专业服务企业，包含项目经理、顾问、财务三个角色",
+  "version": "1.0.0",
+  "employees": [
+    { "template": "employees/project-manager.yaml", "role": "project-manager" },
+    { "template": "employees/consultant.yaml", "role": "consultant" },
+    { "template": "employees/finance.yaml", "role": "finance" }
+  ],
+  "defaultRoles": "roles.json"
+}

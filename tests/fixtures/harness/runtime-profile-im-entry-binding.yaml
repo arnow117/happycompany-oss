@@ -1,0 +1,35 @@
+id: runtime-profile-im-entry-binding
+description: IM entry resolves a bound platform actor into the same runtime session shape as Web.
+input:
+  channel: harness
+  botName: legacy-im-entry
+  tenant: tenant-a
+  userId: ding-user-sales
+  chatId: harness-runtime-im-binding
+  text: 客户说设备需要维修，帮我交给合适员工
+  runtime:
+    tenant: tenant-a
+    entryId: dingtalk-entry
+    actorId: ding-user-sales
+    target:
+      employeeId: maintenance-lisi
+    resolved:
+      channel: dingtalk
+      employeeId: maintenance-lisi
+      instanceId: tenant-a:ding-user-sales:maintenance-lisi
+      workdir: /tmp/tenant-a/agents/maintenance-lisi/ding-user-sales
+      sdkSessionScope: tenant-a:dingtalk-entry:ding-user-sales:maintenance-lisi:harness-runtime-im-binding
+fakeReply: 已按钉钉绑定路由到维修李四。
+expect:
+  replyContains:
+    - 维修李四
+  runtime:
+    tenant: tenant-a
+    entryId: dingtalk-entry
+    actorId: ding-user-sales
+    employeeId: maintenance-lisi
+    instanceId: tenant-a:ding-user-sales:maintenance-lisi
+    sdkSessionScope: tenant-a:dingtalk-entry:ding-user-sales:maintenance-lisi:harness-runtime-im-binding
+    workdirContains: agents/maintenance-lisi/ding-user-sales
+    mode: single_employee
+  noErrors: true

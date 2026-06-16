@@ -1,0 +1,7 @@
+{
+  "id": "general",
+  "name": "通用",
+  "description": "空白模板，从零开始创建",
+  "version": "1.0.0",
+  "employees": []
+}

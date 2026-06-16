@@ -1,0 +1,17 @@
+id: project-manager-to-finance
+fromRole: project-manager
+toRole: finance
+description: 项目经理向财务发起里程碑结算的结构化上下文。
+requiredFields:
+  project_id: 项目编号
+  contract_id: 合同编号
+  client: 客户名称
+  milestone: 里程碑名称
+  acceptance_status: 验收状态
+  settlement_amount: 本次结算金额
+optionalFields:
+  acceptance_files: 验收材料
+  invoice_title: 开票抬头
+  payment_due_date: 付款到期日
+  notes: 其他说明
+

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acme Ultimate Acceptance Story Review</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #5b6776;
+      --line: #d9e0e8;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --good: #176b4d;
+      --warn: #8a5a00;
+      --blue: #245c9c;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+
+    header {
+      padding: 40px 48px 28px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+    h2 {
+      margin-top: 30px;
+      font-size: 22px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    p {
+      margin: 8px 0 0;
+    }
+
+    .meta {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .metric, .section, figure {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(20, 28, 38, 0.04);
+    }
+
+    .metric {
+      padding: 16px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      color: var(--good);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    ul, ol {
+      margin: 10px 0 0 22px;
+      padding: 0;
+    }
+
+    li + li {
+      margin-top: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    figure {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid var(--line);
+      background: #eef2f6;
+    }
+
+    figcaption {
+      padding: 12px 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--good);
+    }
+
+    .badge.warn {
+      background: var(--warn);
+    }
+
+    .evidence {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+      color: var(--blue);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    @media (max-width: 860px) {
+      header {
+        padding: 28px 22px 20px;
+      }
+
+      main {
+        padding: 18px;
+      }
+
+      .status-row, .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="badge">Passed with real tenant readiness</span>
+    <h1>Acme Ultimate Acceptance Story Review</h1>
+    <p class="meta">2026-06-04 · 招标中标到合同入库、维保定时任务到维修回执的两条准出流程</p>
+    <p>这份报告给出当前可验证结果：两个流程已经能在隔离 med_crm SQLite、真实租户 skill package、shadow tenant、runtime profile、Memory acceptance 和 Web Journey 页面中跑通；真实运行租户已在备份后启用写入工具。</p>
+  </header>
+
+  <main>
+    <section class="status-row">
+      <div class="metric"><strong>2</strong><span>准出业务流程</span></div>
+      <div class="metric"><strong>5</strong><span>业务产物类型已写入隔离库</span></div>
+      <div class="metric"><strong>6</strong><span>Journey 验收截图</span></div>
+      <div class="metric"><strong>2</strong><span>员工 memory 已写入检索</span></div>
+    </section>
+
+    <section class="section">
+      <h2>验收结论</h2>
+      <p><span class="badge">已验证</span> Flow A 能查询杭州示例医疗中标样本，完成合同 intake，并生成维保计划业务产物。</p>
+      <p><span class="badge">已验证</span> Flow B 能从维保任务进入维修事件、维修记录和财务结算产物。</p>
+      <p><span class="badge">已验证</span> Scheduler 到 MessageIngressRuntime 的集成测试覆盖了财务派单、维修 handoff、说明书查询、memory 操作、工具调用和业务产物 timeline。</p>
+      <p><span class="badge">已验证</span> 真实 <code>acme-happycompany</code> 租户 skill package 可读取到临时影子副本，叠加已验证写入工具后两条流程 acceptance passed，且真实目标未被修改。</p>
+      <p><span class="badge">已验证</span> Workspace 内隔离 runtime profile 已复制真实租户并应用写入工具，<code>ToolRegistry.scan()</code> 可注册 12 个工具，三项写入工具均可 lookup。</p>
+      <p><span class="badge">已验证</span> <code>MemoryManager</code> 已对财务王五和维修李四写入 Flow A / Flow B 关键事实，并能检索合同、维保周期、SERVICE RECORD 和财务结算线索。</p>
+      <p><span class="badge">已验证</span> 外部真实租户 <code>acme-happycompany</code> 已在备份后启用 <code>contract_intake</code>、<code>create_service_record</code>、<code>finance_settlement</code> 三个写入工具；只读 readiness verifier 当前返回 <code>passed</code>，toolCount=12。</p>
+    </section>
+
+    <section class="section">
+      <h2>实际运行证据</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>证据</th>
+            <th>结果</th>
+            <th>文件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Real tenant enablement</td>
+            <td>applied，已备份并启用三项写入工具</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-real-tenant-enable-run.json</td>
+          </tr>
+          <tr>
+            <td>Acceptance suite</td>
+            <td>passed：CLI、shadow tenant、runtime profile、memory 和真实租户 readiness 均 passed；nextGate=real-tenant-ready</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-acceptance-suite-run.json</td>
+          </tr>
+          <tr>
+            <td>CLI acceptance runner</td>
+            <td>passed，产物计数 contract_intakes=1、maintenance_schedules=1、service_incidents=1、service_records=1、finance_settlements=1</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-ultimate-acceptance-run.json</td>
+          </tr>
+          <tr>
+            <td>Playwright Journey</td>
+            <td>passed，启动前先运行真实 med_crm CLI acceptance runner，页面用确定性 E2E 数据展示结果</td>
+            <td class="evidence">/workspace/happycompany/web/e2e/journey-acme-ultimate-acceptance/journey.spec.ts</td>
+          </tr>
+          <tr>
+            <td>Scheduler runtime integration</td>
+            <td>passed，真实 SQLite store 持久化 run_count、message、runtime event、handoff 和 business_artifact</td>
+            <td class="evidence">/workspace/happycompany/tests/integration-acme-scheduler-runtime.test.ts</td>
+          </tr>
+          <tr>
+            <td>Shadow tenant acceptance</td>
+            <td>passed，读取真实租户 skill package 到临时目录，叠加写入工具后两条流程通过；targetModified=false</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-shadow-tenant-acceptance-run.json</td>
+          </tr>
+          <tr>
+            <td>Runtime profile acceptance</td>
+            <td>passed，创建 workspace 内隔离 profile，复制真实租户并应用写入工具；ToolRegistry 可注册 12 个工具</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-runtime-profile-acceptance-run.json</td>
+          </tr>
+          <tr>
+            <td>Memory acceptance</td>
+            <td>passed，财务王五和维修李四各自写入 2026-06-04.md，并能搜索到合同/维保/回执/结算关键事实</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-memory-acceptance-run.json</td>
+          </tr>
+          <tr>
+            <td>Tenant dry-run</td>
+            <td>source 和 target 真实租户均已具备三项写入工具</td>
+            <td class="evidence">node scripts/stage-acme-med-crm-write-tools.mjs</td>
+          </tr>
+          <tr>
+            <td>Real tenant readiness</td>
+            <td>passed，只读检查真实租户 toolCount=12，三项写入工具齐全，并使用真实租户 skill package 跑通 Flow A / Flow B；verifier targetModified=false</td>
+            <td class="evidence">/workspace/happycompany/docs/reports/2026-06-04-acme-real-tenant-readiness-run.json</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>截图</h2>
+      <div class="grid">
+        <figure>
+          <img alt="Harness 展示示例医疗两条准出流程" src="/workspace/happycompany/web/e2e/__journey-output__/journey-acme-ultimate-a-f4267-ultimate-acceptance-journey-chromium/journey-acme-ultimate-acceptance/01-harness-two-flows.png">
+          <figcaption>Harness 展示两条流程：中标到合同/维保计划，以及维保派单到维修回执。</figcaption>
+        </figure>
+        <figure>
+          <img alt="Flow A 展示中标、合同入库和维保计划产物" src="/workspace/happycompany/web/e2e/__journey-output__/journey-acme-ultimate-a-f4267-ultimate-acceptance-journey-chromium/journey-acme-ultimate-acceptance/02-flow-a-contract-schedule-trace.png">
+          <figcaption>Flow A：杭州示例医疗中标、销售交财务、合同 intake、维保计划业务产物。</figcaption>
+        </figure>
+        <figure>
+          <img alt="Flow B 展示说明书查询、维修日志和回执产物" src="/workspace/happycompany/web/e2e/__journey-output__/journey-acme-ultimate-a-f4267-ultimate-acceptance-journey-chromium/journey-acme-ultimate-acceptance/03-flow-b-receipt-trace.png">
+          <figcaption>Flow B：维保触发、财务派单、说明书查询、维修日志、SERVICE RECORD。</figcaption>
+        </figure>
+        <figure>
+          <img alt="Orchestration 时间线展示业务产物" src="/workspace/happycompany/web/e2e/__journey-output__/journey-acme-ultimate-a-f4267-ultimate-acceptance-journey-chromium/journey-acme-ultimate-acceptance/04-orchestration-business-artifacts.png">
+          <figcaption>Orchestration：timeline 可见 business_artifact，包括维修任务、回执和财务结算。</figcaption>
+        </figure>
+        <figure>
+          <img alt="Memory 展示财务王五沉淀的合同和维保周期" src="/workspace/happycompany/web/e2e/__journey-output__/journey-acme-ultimate-a-f4267-ultimate-acceptance-journey-chromium/journey-acme-ultimate-acceptance/05-memory-finance-contract-cycle.png">
+          <figcaption>Memory：财务王五沉淀江山市人民医院 GE16排 CT 合同、半年维保周期和付款规则。</figcaption>
+        </figure>
+        <figure>
+          <img alt="Memory 展示维修李四沉淀的回执和现场结论" src="/workspace/happycompany/web/e2e/__journey-output__/journey-acme-ultimate-a-f4267-ultimate-acceptance-journey-chromium/journey-acme-ultimate-acceptance/06-memory-maintenance-service-record.png">
+          <figcaption>Memory：维修李四沉淀 SERVICE RECORD、现场结论、客户签字和财务回传信息。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>仍需产品化的部分</h2>
+      <ul>
+        <li>合同 OCR、人工复核、附件签字图片和真实说明书检索仍是后续产品化范围。</li>
+        <li>招标“持续跟进直到中标”的长期监控状态机还未实现，目前验收使用固定中标样本。</li>
+        <li>Journey 的页面展示部分使用确定性 E2E 数据，真实 CLI 写入在 Journey 开始前执行并验证。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>真实租户启用记录</h2>
+      <p>真实租户已在明确授权后执行带备份的 staging 脚本；后端服务如已在启用前启动，需要重启让工具注册表重新扫描。</p>
+      <p class="evidence">node scripts/stage-acme-med-crm-write-tools.mjs --apply</p>
+      <p>这个动作已备份并覆盖目标租户的 <code>SKILL.md</code>、<code>tools.json</code>、<code>med_crm/cli.py</code>，让 Flow A/Flow B 能在 <code>acme-happycompany</code> 运行态里使用写入工具。备份目录：<code>/workspace/corp/acme-happycompany/.claude/skills/med_crm/.backups/backup-2026-06-04T14-10-02-981Z</code>。</p>
+    </section>
+  </main>
+</body>
+</html>

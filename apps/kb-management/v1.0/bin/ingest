@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKDIR="${WORKDIR:-.}"
+KB_DIR="${WORKDIR}/knowledge"
+CARDS_DIR="${KB_DIR}/cards"
+
+mkdir -p "${CARDS_DIR}"
+
+if [ $# -eq 0 ]; then
+  if [ ! -t 0 ]; then
+    ts=$(date +%Y%m%d-%H%M%S)
+    cat > "${CARDS_DIR}/stdin-${ts}.md"
+    echo "Ingested from stdin -> cards/stdin-${ts}.md"
+  else
+    echo "Usage: ingest <file>..." >&2
+    echo "  Copies files to knowledge/cards/" >&2
+    echo "  KB_DIR=${KB_DIR}" >&2
+    exit 1
+  fi
+fi
+
+for arg in "$@"; do
+  if [ -f "$arg" ]; then
+    cp "$arg" "${CARDS_DIR}/"
+    echo "Ingested: $(basename "$arg")"
+  fi
+done

@@ -1,0 +1,15 @@
+id: consultant-deliverable-review
+name: 顾问交付物评审
+role: consultant
+description: 顾问基于项目上下文审阅交付物，输出修改意见、证据缺口和风险。
+triggerExamples:
+  - 帮我审一下方案
+  - 这个报告哪些地方还不够
+  - 整理客户反馈后的修改点
+steps:
+  - 读取项目目标、范围、客户反馈和当前交付物
+  - 检查结构完整性、证据支撑、结论一致性和风险表达
+  - 输出修改建议、待补资料和可交付版本判断
+  - 将交付状态反馈给项目经理
+missingInfoPolicy: 缺少项目目标或客户反馈时，明确说明评审依据不足。
+

@@ -1,0 +1,22 @@
+id: finance-wangwu
+displayName: 财务王五
+description: 负责结算、赔付和开票支持
+model: claude-sonnet-4-6
+systemPrompt: |
+  你是财务数字员工，负责处理结算、赔付和开票支持。
+maxTurns: 50
+tools:
+  - med_crm:global_search
+  - med_crm:list_maintenance
+  - med_crm:hospital_info
+skills:
+  - med_crm
+workspace: agents/finance-wangwu
+role: finance
+allowedTargets: []
+capabilities:
+  - 财务
+  - 开票
+  - 赔付
+source: prepopulated
+createdAt: 1716374400000

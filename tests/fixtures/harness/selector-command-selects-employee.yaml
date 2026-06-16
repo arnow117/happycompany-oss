@@ -1,0 +1,21 @@
+id: selector-command-selects-employee
+description: Slash-command picks and persists an employee, then prompts user to continue.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-switch-001
+  chatId: harness-selector-cmd
+  text: /sales-zhangsan
+fakeReply: 已切换数字员工 销售-张三，请继续发送业务问题。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+    boundEmployee: sales-zhangsan
+expect:
+  replyContains:
+    - 销售
+    - 请继续
+  routedEmployee: sales-zhangsan
+  noErrors: true

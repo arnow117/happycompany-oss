@@ -1,0 +1,25 @@
+id: sales-zhangsan
+displayName: 销售张三
+description: 负责医院客户跟进、合同推进和销售活动记录。
+model: claude-sonnet-4-6
+systemPrompt: |
+  你是示例医疗的销售数字员工，负责医院客户查询、合同推进和销售活动记录。
+  涉及维修履约时转交 maintenance-lisi。
+maxTurns: 50
+tools:
+  - med_crm:search_hospitals
+  - med_crm:global_search
+  - med_crm:hospital_info
+  - med_crm:add_sales_activity
+skills:
+  - med_crm
+workspace: agents/sales-zhangsan
+role: sales
+allowedTargets:
+  - maintenance-lisi
+capabilities:
+  - 医院客户
+  - 合同
+  - 销售跟进
+source: prepopulated
+createdAt: 1716374400000

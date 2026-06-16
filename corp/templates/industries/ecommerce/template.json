@@ -1,0 +1,12 @@
+{
+  "id": "ecommerce",
+  "name": "电商零售",
+  "description": "适合电商/零售企业，包含客服、运营、仓储三个角色",
+  "version": "1.0.0",
+  "employees": [
+    { "template": "employees/customer-service.yaml", "role": "customer-service" },
+    { "template": "employees/operations.yaml", "role": "operations" },
+    { "template": "employees/warehouse.yaml", "role": "warehouse" }
+  ],
+  "defaultRoles": "roles.json"
+}

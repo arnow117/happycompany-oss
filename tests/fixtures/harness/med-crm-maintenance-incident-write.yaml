@@ -1,0 +1,24 @@
+id: med-crm-maintenance-incident-write
+description: Maintenance employee should record service incidents with the incident write tool.
+input:
+  channel: harness
+  botName: maintenance-lisi
+  tenant: acme
+  userId: user-service-001
+  chatId: harness-med-crm-incident-write
+  text: 给浙一医院记录一个故障工单：CT 扫描床异响，需要安排工程师
+fakeReply: 已为浙一医院记录故障工单，设备为 CT，问题为扫描床异响并需要安排工程师。
+simulated:
+  routing:
+    selectedEmployee: maintenance-lisi
+  toolCalls:
+    - name: med_crm:add_incident
+      elapsedMs: 40
+expect:
+  routedEmployee: maintenance-lisi
+  toolNamesIncludes:
+    - med_crm:add_incident
+  replyContains:
+    - 故障工单
+    - CT
+  noErrors: true

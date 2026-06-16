@@ -1,0 +1,24 @@
+id: sales-query-uses-med-crm
+description: Sales-flavored question routed to sales-zhangsan must hit med_crm read tool.
+input:
+  channel: harness
+  botName: acme-dingtalk
+  tenant: acme
+  userId: user-bound-001
+  chatId: harness-sales-tool
+  text: 查一下浙一医院的近期维保合同状态
+fakeReply: 已经为你查询浙一医院最近的维保合同，状态正常。
+simulated:
+  routing:
+    mode: employee-director
+    selectedEmployee: sales-zhangsan
+  toolCalls:
+    - name: med_crm:global_search
+      elapsedMs: 32
+expect:
+  routedEmployee: sales-zhangsan
+  toolNamesIncludes:
+    - med_crm:global_search
+  replyContains:
+    - 浙一医院
+  noErrors: true
