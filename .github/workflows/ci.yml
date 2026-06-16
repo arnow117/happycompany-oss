@@ -43,6 +43,11 @@ jobs:
     name: Playwright E2E (mainline)
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    # Run inside Playwright's official image: browsers + OS deps are preinstalled,
+    # so there is no flaky "install browsers" download/apt step. Tag must match
+    # @playwright/test in web/package.json (1.59.1).
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
     steps:
       - uses: actions/checkout@v4
 
@@ -58,18 +63,6 @@ jobs:
         run: |
           npm ci
           npm --prefix web ci
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('web/package-lock.json') }}
-
-      # timeout-minutes bounds the occasional GitHub-runner hang on the
-      # browser download / apt step so the job fails fast instead of stalling.
-      - name: Install Playwright browsers
-        timeout-minutes: 10
-        run: npm --prefix web exec -- playwright install --with-deps chromium chromium-headless-shell
 
       - name: Run mainline E2E
         run: npm --prefix web run test:e2e:mainline
