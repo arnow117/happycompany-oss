@@ -6,6 +6,8 @@ export interface ServerConfig {
   cwd: string;
   entry: string;
   python?: string;
+  /** Extra env merged over the sanitized base env (e.g. per-tenant DB path). */
+  env?: Record<string, string>;
 }
 
 export interface ServerStatus {
@@ -55,7 +57,7 @@ export class AppServerMgr {
       {
         cwd: config.cwd,
         stdio: ['pipe', 'pipe', 'pipe'],
-        env: sanitizeEnv(process.env as Record<string, string>),
+        env: { ...sanitizeEnv(process.env as Record<string, string>), ...(config.env ?? {}) },
       },
     );
 
@@ -103,6 +105,12 @@ export class AppServerMgr {
 
     this.servers.set(appName, managed);
     logger.info({ appName, pid: proc.pid }, 'Server started');
+  }
+
+  /** Start the server only if it is not already running (idempotent lazy start). */
+  async ensureServer(appName: string, config: ServerConfig): Promise<void> {
+    if (this.getServerStatus(appName).running) return;
+    await this.startServer(appName, config);
   }
 
   async call(appName: string, method: string, params: Record<string, unknown>): Promise<unknown> {

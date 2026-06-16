@@ -7,6 +7,7 @@ import type { ToolRegistry } from '../tool-registry.js';
 import type { AppServerMgr } from '../app-server.js';
 import type { RegisteredTool } from '../types.js';
 import { buildHandoffToolDef } from '../mcp-tools.js';
+import { ensureSkillServer } from './skill-server.js';
 import { logger } from '../logger.js';
 import type { MemoryManager } from '../memory.js';
 
@@ -232,7 +233,11 @@ export class SkillRunner {
         { skillName: registered.skillName, tool: registered.name, skillDir: registered.skillDir, err: err instanceof Error ? err.message : String(err) },
         'SkillRunner CLI call failed, falling back to skill server',
       );
-      return this.deps.appServerMgr.call(registered.appName, registered.name, params);
+      const serverKey = await ensureSkillServer(
+        { appServerMgr: this.deps.appServerMgr, toolRegistry: this.deps.toolRegistry, corpDir: this.deps.corpDir },
+        registered,
+      );
+      return this.deps.appServerMgr.call(serverKey, registered.name, params);
     });
   }
 

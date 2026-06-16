@@ -168,7 +168,7 @@ describe('SkillBridge', () => {
       const mcpTools = bridge.buildMcpTools(app, 'acme', callerContext);
       const result = await mcpTools[0].handler({ q: 'test' }, {});
       expect(mockAppServerMgr.call).toHaveBeenCalledWith(
-        'med_crm',
+        'acme:med_crm',
         'search_hospitals',
         expect.objectContaining({ q: 'test', callerContext }),
       );
@@ -192,7 +192,7 @@ describe('SkillBridge', () => {
       const mcpTools = bridge.buildMcpTools(app, 'acme', callerContext);
       await mcpTools[0].handler({ contractId: '001' }, {});
       expect(mockAppServerMgr.call).toHaveBeenCalledWith(
-        'med_crm',
+        'acme:med_crm',
         'contract_read',
         expect.objectContaining({
           contractId: '001',

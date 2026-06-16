@@ -7,6 +7,7 @@ import type { ToolRegistry } from '../tool-registry.js';
 import type { AppServerMgr } from '../app-server.js';
 import type { EmployeeDefinition } from './employee-schema.js';
 import type { WriteLockManager } from './write-lock.js';
+import { ensureSkillServer } from './skill-server.js';
 import { buildHandoffToolDef } from '../mcp-tools.js';
 import { parseFrontmatter } from '../skills.js';
 import { skillToolSchema, type SkillToolDef } from '../tool-schemas.js';
@@ -139,7 +140,11 @@ export class SkillBridge {
           let result: unknown;
 
           if (registered.hasServer) {
-            result = await appServerMgr.call(registered.appName, registered.name, params);
+            const serverKey = await ensureSkillServer(
+              { appServerMgr, toolRegistry: this.options.toolRegistry, corpDir: this.options.corpDir },
+              registered,
+            );
+            result = await appServerMgr.call(serverKey, registered.name, params);
           } else {
             result = await appServerMgr.callCli({
               cwd: registered.skillDir,
