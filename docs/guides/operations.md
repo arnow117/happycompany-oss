@@ -28,8 +28,8 @@ pm2 stop happycompany     # 停止
 export NODE_ENV=production
 export HAPPYCOMPANY_ADMIN_TOKEN="$(openssl rand -hex 32)"
 export HAPPYCOMPANY_CORP_DIR="/srv/happycompany/corp"
-export DINGGUO_DINGTALK_CLIENT_ID="..."
-export DINGGUO_DINGTALK_CLIENT_SECRET="..."
+export ACME_DINGTALK_CLIENT_ID="..."
+export ACME_DINGTALK_CLIENT_SECRET="..."
 ```
 
 生产启动时如果没有有效 `HAPPYCOMPANY_ADMIN_TOKEN`，服务会拒绝启动。企业凭证必须使用环境变量或加密配置，不能以明文写入 `config.json`。

@@ -120,7 +120,7 @@ describe('SkillRunner', () => {
       cwd: realpathSync(join(corpDir, 'acme', '.claude', 'skills', 'med_crm')),
       command: 'python3',
       args: ['-m', 'med_crm.cli', 'global_search', '--keyword', '浙一'],
-      env: { DINGGUO_CRM_DB: join(corpDir, 'acme', 'cdata', 'crm.db') },
+      env: { ACME_CRM_DB: join(corpDir, 'acme', 'cdata', 'crm.db') },
     }));
   });
 

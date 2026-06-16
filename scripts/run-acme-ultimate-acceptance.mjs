@@ -66,7 +66,7 @@ function cliArgs(toolName, params) {
 function runTool(skillDir, dbPath, toolName, params) {
   const stdout = run('python3', cliArgs(toolName, params), {
     cwd: skillDir,
-    env: { ...process.env, DINGGUO_CRM_DB: dbPath },
+    env: { ...process.env, ACME_CRM_DB: dbPath },
   });
   return JSON.parse(stdout);
 }

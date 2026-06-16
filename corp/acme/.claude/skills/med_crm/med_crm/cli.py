@@ -8,9 +8,9 @@ from datetime import datetime
 
 
 def connect():
-    db_path = os.environ.get("DINGGUO_CRM_DB")
+    db_path = os.environ.get("ACME_CRM_DB")
     if not db_path:
-        raise SystemExit("DINGGUO_CRM_DB is required")
+        raise SystemExit("ACME_CRM_DB is required")
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn

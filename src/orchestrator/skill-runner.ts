@@ -241,7 +241,7 @@ export class SkillRunner {
     const tenantDb = path.join(this.deps.corpDir, registered.tenantName, 'cdata', 'crm.db');
     const legacyDb = path.join(this.deps.corpDir, 'acme', 'cdata', 'crm.db');
     const dbPath = existsSync(tenantDb) ? tenantDb : existsSync(legacyDb) ? legacyDb : undefined;
-    return dbPath ? { DINGGUO_CRM_DB: dbPath } : undefined;
+    return dbPath ? { ACME_CRM_DB: dbPath } : undefined;
   }
 }
 

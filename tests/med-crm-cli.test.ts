@@ -93,7 +93,7 @@ describe('acme med_crm CLI adapter', () => {
     const result = spawnSync(
       'python3',
       ['-m', 'med_crm.cli', 'search_hospitals', '--keyword', '浙一'],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(result.status).toBe(0);
@@ -114,7 +114,7 @@ describe('acme med_crm CLI adapter', () => {
     const result = spawnSync(
       'python3',
       ['-m', 'med_crm.cli', 'hospital_info', '--hospital-name', '浙一'],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(result.status).toBe(0);
@@ -133,7 +133,7 @@ describe('acme med_crm CLI adapter', () => {
     const bidSearch = spawnSync(
       'python3',
       ['-m', 'med_crm.cli', 'search_bids', '--keyword', '示例医疗'],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(bidSearch.status).toBe(0);
@@ -156,7 +156,7 @@ describe('acme med_crm CLI adapter', () => {
         '--maintenance-cycle', 'half-yearly',
         '--payment-terms', '每服务满半年并验收合格后付款',
       ],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(intake.status).toBe(0);
@@ -175,7 +175,7 @@ describe('acme med_crm CLI adapter', () => {
         '--device', 'GE16排 CT',
         '--description', '半年维保任务触发，现场检查扫描床和高压系统',
       ],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(incident.status).toBe(0);
@@ -197,7 +197,7 @@ describe('acme med_crm CLI adapter', () => {
         '--diagnosis', '完成半年维保，扫描床和高压系统检查正常',
         '--customer-signed', 'yes',
       ],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(serviceRecord.status).toBe(0);
@@ -217,7 +217,7 @@ describe('acme med_crm CLI adapter', () => {
         '--billing-amount', '285000',
         '--archive-status', 'ready',
       ],
-      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, DINGGUO_CRM_DB: dbPath } },
+      { cwd: skillPackageDir, encoding: 'utf-8', env: { ...process.env, ACME_CRM_DB: dbPath } },
     );
 
     expect(settlement.status).toBe(0);
