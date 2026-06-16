@@ -1,5 +1,16 @@
 import path from 'node:path';
+import { existsSync, copyFileSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+
+// The backend webServer boots with config.e2e.json before globalSetup runs, so
+// materialize it from the committed example here (clean checkout / CI) — this
+// runs at config-load time, before any webServer process starts.
+const repoRoot = path.resolve(import.meta.dirname, '..');
+const e2eConfigPath = path.join(repoRoot, 'config.e2e.json');
+const e2eConfigExample = path.join(repoRoot, 'config.e2e.example.json');
+if (!existsSync(e2eConfigPath) && existsSync(e2eConfigExample)) {
+  copyFileSync(e2eConfigExample, e2eConfigPath);
+}
 
 function readPort(name: string, fallback: number): number {
   const raw = process.env[name];

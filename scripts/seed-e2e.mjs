@@ -7,6 +7,17 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.join(ROOT, '..');
+
+// Materialize the gitignored E2E config from the committed example so a clean
+// checkout / CI can run Playwright without a hand-written config.e2e.json.
+const E2E_CONFIG = path.join(REPO_ROOT, 'config.e2e.json');
+const E2E_CONFIG_EXAMPLE = path.join(REPO_ROOT, 'config.e2e.example.json');
+if (!fs.existsSync(E2E_CONFIG) && fs.existsSync(E2E_CONFIG_EXAMPLE)) {
+  fs.copyFileSync(E2E_CONFIG_EXAMPLE, E2E_CONFIG);
+  console.log('  Created config.e2e.json from config.e2e.example.json');
+}
+
 const DATA_DIR = path.join(ROOT, '..', 'e2e', 'data');
 const WORKDIR = path.join(DATA_DIR, 'acme-workdir');
 const AGENTS_DIR = path.join(ROOT, '..', 'e2e', 'agents', 'acme');
