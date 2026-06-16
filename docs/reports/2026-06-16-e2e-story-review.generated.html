@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HappyCompany E2E Story Review 2026-06-04</title>
+  <title>HappyCompany E2E Story Review 2026-06-16</title>
   <style>
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #191916; background: #fbfaf7; line-height: 1.55; }
     header { padding: 48px 6vw 28px; background: #e8edf0; border-bottom: 1px solid #d6dde1; }
@@ -32,13 +32,13 @@
 </head>
 <body>
   <header>
-    <span class="pill">2026-06-04</span>
+    <span class="pill">2026-06-16</span>
     <h1>HappyCompany E2E Story Review</h1>
-    <p class="lead">按产品故事整理当前 Web E2E 覆盖。当前扫描到 20 个故事/路线，57 条测试。运行结果请结合最新 Playwright 输出确认。</p>
+    <p class="lead">按产品故事整理当前 Web E2E 覆盖。当前扫描到 22 个故事/路线，59 条测试。运行结果请结合最新 Playwright 输出确认。</p>
   </header>
   <main>
     <section class="summary">
-      <article class="metric"><strong>57</strong><span>Total tests discovered from specs</span></article>
+      <article class="metric"><strong>59</strong><span>Total tests discovered from specs</span></article>
       
       <article class="metric">
         <strong>42</strong>
@@ -46,13 +46,13 @@
       </article>
 
       <article class="metric">
-        <strong>6</strong>
-        <span>Journey: 6 stories/routes</span>
+        <strong>7</strong>
+        <span>Journey: 7 stories/routes</span>
       </article>
 
       <article class="metric">
-        <strong>9</strong>
-        <span>Probe: 7 stories/routes</span>
+        <strong>10</strong>
+        <span>Probe: 8 stories/routes</span>
       </article>
     </section>
     <section>
@@ -136,23 +136,21 @@
         <li>Mainline: 部分在 `story-v2-product-journey`</li>
         <li>Probe: `probe-layout-shell`</li>
       </ul>
+    </article>
+
+    <article class="story">
+      <div class="tags"><span class="tag">Acceptance passed; real tenant write tools enabled with backup</span><span class="tag">09-acme-ultimate-acceptance.md</span></div>
+      <h3>Acme Ultimate Acceptance</h3>
+      <p>证明 HappyCompany 能处理示例医疗真实长链路业务：招标中标、合同录入、维保定时、派单、现场维修、回执和财务闭环。</p>
+      <ul class="checks">
+        <li>Mainline: 待新增 `story-acme-ultimate-acceptance` 的稳定可见性断言；现有 `story-q-chat-websocket` 和 `journey-chat-collaboration-handoff` 只覆盖 handoff 子集。</li>
+        <li>Probe: 未来按 bug 增加合同字段复核、scheduler task 创建、派单确认、回执表单校验等 probe。</li>
+      </ul>
     </article></div>
     </section>
     <section>
       <h2>截图证据</h2>
-      <div class="screenshots"><figure><img src="e2e-story-review-assets/01-dashboard.png" alt="01-dashboard.png"><figcaption>01-dashboard.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/02-agent-builder.png" alt="02-agent-builder.png"><figcaption>02-agent-builder.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/03-employees.png" alt="03-employees.png"><figcaption>03-employees.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/04-employee-builder-published.png" alt="04-employee-builder-published.png"><figcaption>04-employee-builder-published.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/05-employee-directory.png" alt="05-employee-directory.png"><figcaption>05-employee-directory.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/06-people-binding.png" alt="06-people-binding.png"><figcaption>06-people-binding.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/07-chat-activation.png" alt="07-chat-activation.png"><figcaption>07-chat-activation.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/08-session-review.png" alt="08-session-review.png"><figcaption>08-session-review.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/09-chat-handoff-processing.png" alt="09-chat-handoff-processing.png"><figcaption>09-chat-handoff-processing.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/10-orchestration-handoff-timeline.png" alt="10-orchestration-handoff-timeline.png"><figcaption>10-orchestration-handoff-timeline.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/11-session-message-detail.png" alt="11-session-message-detail.png"><figcaption>11-session-message-detail.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/12-harness-trace-report.png" alt="12-harness-trace-report.png"><figcaption>12-harness-trace-report.png</figcaption></figure>
-<figure><img src="e2e-story-review-assets/13-multi-tenant-sessions-isolation.png" alt="13-multi-tenant-sessions-isolation.png"><figcaption>13-multi-tenant-sessions-isolation.png</figcaption></figure></div>
+      <div class="note"><p>没有找到稳定截图资产。运行 Journey 后可把关键截图复制到 docs/reports/e2e-story-review-assets/。</p></div>
     </section>
     <section>
       <h2>故事/路线清单</h2>
@@ -163,6 +161,7 @@
 <tr><td>Mainline</td><td>story-v2-agent-builder-doc</td><td>1</td></tr>
 <tr><td>Mainline</td><td>story-v2-harness</td><td>1</td></tr>
 <tr><td>Mainline</td><td>story-v2-product-journey</td><td>12</td></tr>
+<tr><td>Journey</td><td>journey-acme-ultimate-acceptance</td><td>1</td></tr>
 <tr><td>Journey</td><td>journey-chat-collaboration-handoff</td><td>1</td></tr>
 <tr><td>Journey</td><td>journey-console-overview</td><td>1</td></tr>
 <tr><td>Journey</td><td>journey-employee-activation</td><td>1</td></tr>
@@ -173,6 +172,7 @@
 <tr><td>Probe</td><td>probe-enterprise-people-binding</td><td>1</td></tr>
 <tr><td>Probe</td><td>probe-knowledge-interactions</td><td>1</td></tr>
 <tr><td>Probe</td><td>probe-layout-shell</td><td>2</td></tr>
+<tr><td>Probe</td><td>probe-long-chat-session</td><td>1</td></tr>
 <tr><td>Probe</td><td>probe-memory-editor</td><td>1</td></tr>
 <tr><td>Probe</td><td>probe-orchestration-interactions</td><td>1</td></tr>
 <tr><td>Probe</td><td>probe-skill-marketplace-package</td><td>2</td></tr></tbody></table>
