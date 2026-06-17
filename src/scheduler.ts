@@ -139,10 +139,32 @@ export class TaskScheduler {
 
   start(): void {
     if (this.timer) return;
+    this.reconcileMissedRuns();
     this.timer = setInterval(() => this.tick(), this.pollIntervalMs);
     // Don't hold the process open
     if (this.timer.unref) this.timer.unref();
     logger.info('Task scheduler started (poll every %dms)', this.pollIntervalMs);
+  }
+
+  /**
+   * On startup, skip missed recurring runs forward instead of replaying them.
+   * Without this, every overdue cron/interval task fires at once on the first
+   * tick (a startup "thundering herd" of model calls). One-shot (`once`) tasks
+   * are left untouched so a job scheduled during downtime still runs once.
+   */
+  private reconcileMissedRuns(): void {
+    const now = Date.now();
+    let skipped = 0;
+    for (const task of this.store.listTasks()) {
+      if (!task.enabled || task.nextRunAt === null || task.nextRunAt > now) continue;
+      if (task.scheduleType !== 'cron' && task.scheduleType !== 'interval') continue;
+      const next = computeNextRun(task.scheduleType, task.scheduleValue, now, now);
+      this.store.updateTask(task.id, { nextRunAt: next });
+      skipped += 1;
+    }
+    if (skipped > 0) {
+      logger.info({ skipped }, 'Scheduler skipped missed recurring runs forward on startup');
+    }
   }
 
   stop(): void {

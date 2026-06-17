@@ -1,9 +1,79 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   parseDuration,
   computeNextRun,
   computeInitialNextRun,
+  TaskScheduler,
+  type ScheduledTask,
+  type TaskStore,
 } from '../src/scheduler.js';
+
+function makeTask(over: Partial<ScheduledTask>): ScheduledTask {
+  return {
+    id: 't1',
+    name: 'task',
+    botName: 'web-bot',
+    scheduleType: 'cron',
+    scheduleValue: '0 9 * * 1-5',
+    prompt: 'do it',
+    enabled: true,
+    createdAt: Date.now(),
+    lastRunAt: null,
+    nextRunAt: null,
+    runCount: 0,
+    ...over,
+  };
+}
+
+function memoryStore(tasks: ScheduledTask[]): TaskStore {
+  const map = new Map(tasks.map((t) => [t.id, { ...t }]));
+  return {
+    createTask: (t) => makeTask({ name: t.name, botName: t.botName, scheduleType: t.scheduleType, scheduleValue: t.scheduleValue, prompt: t.prompt }),
+    listTasks: () => [...map.values()],
+    getTask: (id) => map.get(id) ?? null,
+    updateTask: (id, patch) => {
+      const cur = map.get(id);
+      if (!cur) return null;
+      const next = { ...cur, ...patch };
+      map.set(id, next);
+      return next;
+    },
+    deleteTask: (id) => map.delete(id),
+  };
+}
+
+describe('TaskScheduler startup reconciliation (no missed-run storm)', () => {
+  it('skips overdue cron tasks forward on start() without executing them', () => {
+    const now = Date.now();
+    const store = memoryStore([
+      makeTask({ id: 'cron1', scheduleType: 'cron', scheduleValue: '* * * * *', nextRunAt: now - 600_000 }),
+      makeTask({ id: 'cron2', scheduleType: 'cron', scheduleValue: '* * * * *', nextRunAt: now - 600_000 }),
+    ]);
+    const agent = { respond: vi.fn().mockResolvedValue('ok') };
+    const sched = new TaskScheduler(store, agent, undefined, 60_000);
+
+    sched.start();
+    sched.stop();
+
+    expect(agent.respond).not.toHaveBeenCalled();
+    for (const t of store.listTasks()) {
+      expect(t.nextRunAt).not.toBeNull();
+      expect(t.nextRunAt!).toBeGreaterThan(now);
+    }
+  });
+
+  it('leaves a `once` task overdue so it still fires (no skip for one-shot)', () => {
+    const now = Date.now();
+    const store = memoryStore([
+      makeTask({ id: 'once1', scheduleType: 'once', scheduleValue: new Date(now - 1000).toISOString(), nextRunAt: now - 1000 }),
+    ]);
+    const agent = { respond: vi.fn().mockResolvedValue('ok') };
+    const sched = new TaskScheduler(store, agent, undefined, 60_000);
+    sched.start();
+    sched.stop();
+    expect(store.getTask('once1')!.nextRunAt).toBe(now - 1000);
+  });
+});
 
 describe('parseDuration', () => {
   it('parses PT30M', () => {

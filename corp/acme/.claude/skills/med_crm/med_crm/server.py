@@ -27,6 +27,8 @@ HANDLERS = {
         "list_maintenance",
         "search_bids",
         "add_incident",
+        "add_sales_activity",
+        "add_contact",
         "contract_intake",
         "create_service_record",
         "finance_settlement",

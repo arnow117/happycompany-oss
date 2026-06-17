@@ -55,4 +55,24 @@ describe('med_crm JSON-RPC server', () => {
     expect(result.items[0].project_code).toContain('330382');
     expect(result.items[0].supplier).toContain('示例医疗');
   });
+
+  it('serves add_sales_activity (declared in tools.json, previously had no handler)', async () => {
+    const result = (await mgr.call('med_crm', 'add_sales_activity', {
+      hospital_id: 5401,
+      summary: '拜访江山市人民医院，跟进 CT 维保续约',
+    })) as { created: boolean; artifact: { type: string; id: string } };
+    expect(result.created).toBe(true);
+    expect(result.artifact.type).toBe('sales_activity');
+    expect(result.artifact.id).toBeTruthy();
+  });
+
+  it('serves add_contact (declared in tools.json, previously had no handler)', async () => {
+    const result = (await mgr.call('med_crm', 'add_contact', {
+      hospital_id: 5401,
+      name: '张主任',
+    })) as { created: boolean; artifact: { type: string; id: string } };
+    expect(result.created).toBe(true);
+    expect(result.artifact.type).toBe('contact');
+    expect(result.artifact.id).toBeTruthy();
+  });
 });

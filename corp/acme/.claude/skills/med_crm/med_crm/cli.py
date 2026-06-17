@@ -76,6 +76,22 @@ def ensure_artifact_tables(db):
           archive_status TEXT,
           created_at TEXT NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS sales_activities (
+          activity_id TEXT PRIMARY KEY,
+          hospital_id INTEGER,
+          summary TEXT NOT NULL,
+          created_at TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS contacts (
+          contact_id TEXT PRIMARY KEY,
+          hospital_id INTEGER,
+          name TEXT NOT NULL,
+          title TEXT,
+          phone TEXT,
+          created_at TEXT NOT NULL
+        );
         """
     )
 
@@ -240,6 +256,40 @@ def add_incident(args):
     }
 
 
+def add_sales_activity(args):
+    activity_id = getattr(args, "activity_id", None) or f"activity-{int(datetime.utcnow().timestamp())}"
+    summary = getattr(args, "summary", None) or ""
+    hospital_id = getattr(args, "hospital_id", None)
+    created_at = now_iso()
+    with connect() as db:
+        ensure_artifact_tables(db)
+        db.execute(
+            "INSERT OR REPLACE INTO sales_activities (activity_id, hospital_id, summary, created_at) VALUES (?, ?, ?, ?)",
+            (activity_id, hospital_id, summary, created_at),
+        )
+    return {
+        "created": True,
+        "artifact": {"type": "sales_activity", "id": activity_id, "status": "created"},
+    }
+
+
+def add_contact(args):
+    contact_id = getattr(args, "contact_id", None) or f"contact-{int(datetime.utcnow().timestamp())}"
+    name = getattr(args, "name", None) or ""
+    hospital_id = getattr(args, "hospital_id", None)
+    created_at = now_iso()
+    with connect() as db:
+        ensure_artifact_tables(db)
+        db.execute(
+            "INSERT OR REPLACE INTO contacts (contact_id, hospital_id, name, title, phone, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            (contact_id, hospital_id, name, getattr(args, "title", None), getattr(args, "phone", None), created_at),
+        )
+    return {
+        "created": True,
+        "artifact": {"type": "contact", "id": contact_id, "status": "created"},
+    }
+
+
 def contract_intake(args):
     contract_id = args.contract_id
     schedule_id = schedule_id_for(contract_id)
@@ -399,6 +449,20 @@ def main(argv=None):
     p_incident.add_argument("--device")
     p_incident.add_argument("--description", required=True)
     p_incident.set_defaults(handler=add_incident)
+
+    p_activity = sub.add_parser("add_sales_activity")
+    p_activity.add_argument("--activity-id")
+    p_activity.add_argument("--hospital-id", type=int)
+    p_activity.add_argument("--summary", required=True)
+    p_activity.set_defaults(handler=add_sales_activity)
+
+    p_contact = sub.add_parser("add_contact")
+    p_contact.add_argument("--contact-id")
+    p_contact.add_argument("--hospital-id", type=int)
+    p_contact.add_argument("--name", required=True)
+    p_contact.add_argument("--title")
+    p_contact.add_argument("--phone")
+    p_contact.set_defaults(handler=add_contact)
 
     p_contract = sub.add_parser("contract_intake")
     p_contract.add_argument("--contract-id", required=True)
