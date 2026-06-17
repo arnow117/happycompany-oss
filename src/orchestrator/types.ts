@@ -1,8 +1,24 @@
 import { HandoffRequest } from './handoff.js';
 
+/** Tool-use event surfaced from an agent run so the orchestrator can observe it. */
+export interface ToolUseEvent {
+  phase: 'start' | 'end';
+  toolName: string;
+  toolUseId: string;
+  elapsedMs?: number;
+}
+
 export interface AgentProtocol {
   readonly name: string;
-  execute(inputText: string, context?: Record<string, unknown>): Promise<AgentResponse>;
+  /**
+   * @param onToolUse optional sink for tool-use events fired during the run, so
+   *   orchestrated tool calls become observable upstream (ingress trace, etc.).
+   */
+  execute(
+    inputText: string,
+    context?: Record<string, unknown>,
+    onToolUse?: (event: ToolUseEvent) => void,
+  ): Promise<AgentResponse>;
 }
 
 export class AgentResponse {

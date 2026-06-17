@@ -1,6 +1,6 @@
 import type { LoadedEmployee } from './employee-loader.js';
 import type { ClaudeAgent, AgentOptions } from '../agent.js';
-import type { AgentProtocol } from './types.js';
+import type { AgentProtocol, ToolUseEvent } from './types.js';
 import { AgentResponse } from './types.js';
 import { claimsCompletedHandoff, extractHandoffRequest, extractHandoffFromToolUse, type HandoffRequest } from './handoff.js';
 import { SkillBridge, type CallerContext } from './skill-bridge.js';
@@ -38,8 +38,27 @@ class AgentAdapter implements AgentProtocol {
     return this.app.id;
   }
 
-  async execute(inputText: string, context?: Record<string, unknown>): Promise<AgentResponse> {
+  async execute(
+    inputText: string,
+    context?: Record<string, unknown>,
+    onToolUse?: (event: ToolUseEvent) => void,
+  ): Promise<AgentResponse> {
     const chatId = (context?.chatId as string) ?? '__orchestrator__';
+    // SDK tool names are colon-free (med_crm.search_bids); restore the
+    // namespaced form (med_crm:search_bids) so trace/observability matches the
+    // tool ids used elsewhere.
+    const denamespace = (n: string): string => (n.includes('.') ? n.replace('.', ':') : n);
+    // Employees call tenant tools through the `run_skill` wrapper; surface the
+    // real skill:command (e.g. med_crm:search_bids) it invokes instead of the
+    // opaque wrapper name, so the trace shows the actual business tool.
+    const toolDisplayName = (name: string, input?: Record<string, unknown>): string => {
+      if (name.endsWith('run_skill') && input) {
+        const skill = input.skill;
+        const command = input.command;
+        if (typeof skill === 'string' && typeof command === 'string') return `${skill}:${command}`;
+      }
+      return denamespace(name);
+    };
     const employeeMcp = this.skillRunner
       ? this.skillRunner.buildEmployeeMcpServer(this.app)
       : this.skillBridge.buildMcpServer(
@@ -65,7 +84,13 @@ class AgentAdapter implements AgentProtocol {
               },
             };
             handoffFromTool = extractHandoffFromToolUse(mockMsg);
+          } else {
+            onToolUse?.({ phase: 'start', toolName: toolDisplayName(info.toolName, info.toolInput), toolUseId: info.toolUseId });
           }
+        },
+        onToolEnd: (info) => {
+          if (info.toolName === 'handoff') return;
+          onToolUse?.({ phase: 'end', toolName: denamespace(info.toolName), toolUseId: info.toolUseId, elapsedMs: info.elapsedMs });
         },
       });
 

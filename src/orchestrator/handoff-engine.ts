@@ -31,6 +31,8 @@ export type OrchestrationEvent =
   | { type: 'agent_start'; agentName: string }
   | { type: 'handoff'; from: string; to: string; reason?: string }
   | { type: 'cue_user'; prompt?: string }
+  | { type: 'tool_use_start'; agentName: string; toolName: string; toolUseId: string }
+  | { type: 'tool_use_end'; agentName: string; toolName: string; toolUseId: string; elapsedMs: number }
   | { type: 'done'; success: boolean; summary?: string }
   // Contract lifecycle
   | { type: 'contract_created'; contractId: string; parentId?: string | null; fromAgent: string; toAgent?: string | null; task: string }
@@ -125,7 +127,11 @@ export class DynamicHandoffOrchestrator {
 
         onEvent?.({ type: 'agent_start', agentName: currentAgent.name });
 
-        const response = await currentAgent.execute(currentInput, ctx.context);
+        const response = await currentAgent.execute(currentInput, ctx.context, (e) => {
+          onEvent?.(e.phase === 'start'
+            ? { type: 'tool_use_start', agentName: currentAgent.name, toolName: e.toolName, toolUseId: e.toolUseId }
+            : { type: 'tool_use_end', agentName: currentAgent.name, toolName: e.toolName, toolUseId: e.toolUseId, elapsedMs: e.elapsedMs ?? 0 });
+        });
         lastResponse = response;
 
         if (response.done) {
@@ -283,7 +289,11 @@ export class DynamicHandoffOrchestrator {
         onEvent?.({ type: 'contract_active', contractId: currentContract.id });
         onEvent?.({ type: 'agent_start', agentName });
 
-        const response = await agent.execute(currentInput, ctx.context);
+        const response = await agent.execute(currentInput, ctx.context, (e) => {
+          onEvent?.(e.phase === 'start'
+            ? { type: 'tool_use_start', agentName, toolName: e.toolName, toolUseId: e.toolUseId }
+            : { type: 'tool_use_end', agentName, toolName: e.toolName, toolUseId: e.toolUseId, elapsedMs: e.elapsedMs ?? 0 });
+        });
         lastResponse = response;
 
         const handoff = response.handoff;

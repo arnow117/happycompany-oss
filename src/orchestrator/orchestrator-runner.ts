@@ -29,6 +29,8 @@ export interface OrchestratorRunOptions {
   preRoute?: boolean;
   chatId?: string;
   onHandoff?: (info: { from: string; to: string; reason?: string }) => void;
+  onToolStart?: (info: { toolName: string; toolUseId: string }) => void;
+  onToolEnd?: (info: { toolName: string; toolUseId: string; elapsedMs: number }) => void;
 }
 
 /**
@@ -107,6 +109,12 @@ export class PMOOrchestratorRunner implements OrchestratorRunner {
             handoffTo: ev.to,
             text: ev.reason,
           });
+          break;
+        case 'tool_use_start':
+          options.onToolStart?.({ toolName: ev.toolName, toolUseId: ev.toolUseId });
+          break;
+        case 'tool_use_end':
+          options.onToolEnd?.({ toolName: ev.toolName, toolUseId: ev.toolUseId, elapsedMs: ev.elapsedMs });
           break;
         case 'cue_user':
           this.deps.bus.publish({
@@ -340,6 +348,9 @@ export class PMOOrchestratorRunner implements OrchestratorRunner {
       chatId: `__orchestrated__:${Date.now()}`,
       routedBy: entryAgent,
       routingReason: reason,
+    }, (e) => {
+      if (e.phase === 'start') options.onToolStart?.({ toolName: e.toolName, toolUseId: e.toolUseId });
+      else options.onToolEnd?.({ toolName: e.toolName, toolUseId: e.toolUseId, elapsedMs: e.elapsedMs ?? 0 });
     });
 
     const contractId = `orchestration:${Date.now()}`;

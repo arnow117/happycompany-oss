@@ -381,6 +381,8 @@ async function main(): Promise<void> {
           return orchestratorRunner.respond(prompt, chatId, selectedEmployeeId, {
             preRoute: false,
             onHandoff: opts?.onHandoff,
+            onToolStart: opts?.onToolStart,
+            onToolEnd: opts?.onToolEnd,
           });
         }
 
@@ -402,6 +404,8 @@ async function main(): Promise<void> {
         const result = await orchestratorRunner.respond(prompt, chatId, enterpriseEntryAgent, {
           preRoute: false,
           onHandoff: opts?.onHandoff,
+          onToolStart: opts?.onToolStart,
+          onToolEnd: opts?.onToolEnd,
         });
         return result;
       }
@@ -425,6 +429,8 @@ async function main(): Promise<void> {
           return orchestratorRunner.respond(prompt, chatId, botName, {
             preRoute: false,
             onHandoff: opts?.onHandoff,
+            onToolStart: opts?.onToolStart,
+            onToolEnd: opts?.onToolEnd,
           });
         }
       }
