@@ -182,6 +182,8 @@ export default async function globalSetup(): Promise<() => Promise<void>> {
 
   writeFileSync(PID_FILE, `${server.pid}`);
 
-  await waitForServer(`${BASE}/api/health`, 20000);
+  // Cold CI runners (tsx warmup + native deps) can take well over 20s to serve
+  // /api/health; a tight timeout makes the whole api-integration suite flake.
+  await waitForServer(`${BASE}/api/health`, 90_000);
   return globalTeardown;
 }
