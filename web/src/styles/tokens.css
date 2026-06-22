@@ -23,7 +23,10 @@
   --color-text-muted: #687782;
   --color-text-muted-soft: #9aa7b1;
 
-  /* ── Colors: Accent (warm coral) ─────────────────────────── */
+  /* ── Colors: Accent (teal — single source of truth) ──────── */
+  /* NOTE: previously this comment read "warm coral" while the value was teal,
+     and the README screenshots showed terracotta. The value below is the brand
+     accent the live app renders. Keep comment + value + docs in sync from here. */
   --color-accent: #2f7d8c;
   --color-accent-active: #205d69;
   --color-accent-disabled: #d8e3e7;
@@ -92,14 +95,14 @@
   --space-3xl: 64px;
   --space-4xl: 80px;
 
-  /* ── Radius ──────────────────────────────────────────────── */
+  /* ── Radius (real, distinct scale — was all 8px before) ──── */
   --radius-none: 0;
   --radius-xs: 4px;
   --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 8px;
-  --radius-xl: 8px;
-  --radius-2xl: 8px;
+  --radius-md: 8px;   /* buttons, inputs, small controls */
+  --radius-lg: 12px;  /* cards, panels */
+  --radius-xl: 16px;  /* large surfaces, modals */
+  --radius-2xl: 20px; /* hero / feature containers */
   --radius-pill: 9999px;
   --radius-full: 9999px;
 
@@ -107,8 +110,8 @@
   --shadow-xs: 0 1px 2px rgba(20, 20, 19, 0.04);
   --shadow-sm: 0 1px 3px rgba(20, 20, 19, 0.06);
   --shadow-md: 0 2px 6px rgba(20, 20, 19, 0.08);
-  --shadow-card: 0 1px 2px rgba(16, 22, 26, 0.04);
-  --shadow-card-hover: 0 2px 6px rgba(16, 22, 26, 0.08);
+  --shadow-card: 0 2px 8px rgba(16, 22, 26, 0.06);
+  --shadow-card-hover: 0 4px 14px rgba(16, 22, 26, 0.1);
   --shadow-lg: 0 4px 12px rgba(20, 20, 19, 0.1);
   --shadow-xl: 0 8px 24px rgba(20, 20, 19, 0.12);
 
@@ -172,8 +175,8 @@
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.3);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.28);
+  --shadow-card-hover: 0 4px 14px rgba(0, 0, 0, 0.42);
   --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.35);
   --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.4);
 }

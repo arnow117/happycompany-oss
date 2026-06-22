@@ -38,8 +38,9 @@ test.describe('Bootstrap Flow', () => {
     await page.goto('/');
 
     // Banner should show step 1
-    await expect(page.getByText('步骤 1 / 3: 配置模型')).toBeVisible();
-    await expect(page.getByRole('button', { name: '继续配置' })).toBeVisible();
+    await expect(page.getByText('配置模型')).toBeVisible();
+    await expect(page.getByText('0/3')).toBeVisible();
+    await expect(page.getByRole('button', { name: '继续' })).toBeVisible();
   });
 
   test('step 1: ModelConfig page saves API key', async ({ page }) => {
@@ -91,7 +92,8 @@ test.describe('Bootstrap Flow', () => {
 
     await page.goto('/');
 
-    await expect(page.getByText('步骤 2 / 3: 创建数字员工')).toBeVisible();
+    await expect(page.getByText('创建数字员工')).toBeVisible();
+    await expect(page.getByText('1/3')).toBeVisible();
   });
 
   test('step 2: legacy employee-network URL redirects to Employees', async ({ page }) => {
@@ -151,7 +153,8 @@ test.describe('Bootstrap Flow', () => {
 
     await page.goto('/');
 
-    await expect(page.getByText('步骤 3 / 3: 绑定人员')).toBeVisible();
+    await expect(page.getByText('绑定人员')).toBeVisible();
+    await expect(page.getByText('2/3')).toBeVisible();
   });
 
   test('step 3: legacy people-binding URL redirects to People', async ({ page }) => {
@@ -196,9 +199,7 @@ test.describe('Bootstrap Flow', () => {
     await page.goto('/');
 
     // Banner should not be visible
-    await expect(page.getByText('步骤 1 / 3')).not.toBeVisible();
-    await expect(page.getByText('步骤 2 / 3')).not.toBeVisible();
-    await expect(page.getByText('步骤 3 / 3')).not.toBeVisible();
+    await expect(page.getByText(/下一步/)).not.toBeVisible();
   });
 
   test('dismiss banner stores in localStorage', async ({ page }) => {
@@ -212,16 +213,16 @@ test.describe('Bootstrap Flow', () => {
     });
 
     await page.goto('/');
-    await expect(page.getByText('步骤 1 / 3')).toBeVisible();
+    await expect(page.getByText(/下一步/)).toBeVisible();
 
     // Click dismiss
-    await page.getByRole('button', { name: 'Dismiss' }).click();
+    await page.getByRole('button', { name: '暂时隐藏' }).click();
 
     // Verify localStorage
     const dismissed = await page.evaluate(() => localStorage.getItem('onboarding-dismissed'));
     expect(dismissed).toBe('true');
 
     // Banner should be gone
-    await expect(page.getByText('步骤 1 / 3')).not.toBeVisible();
+    await expect(page.getByText(/下一步/)).not.toBeVisible();
   });
 });

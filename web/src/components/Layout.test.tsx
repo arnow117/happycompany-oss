@@ -37,8 +37,8 @@ describe('Layout', () => {
       renderLayout();
 
       expect(screen.getByText('日常工作')).toBeInTheDocument();
-      expect(screen.getByText('Chat')).toBeInTheDocument();
-      expect(screen.getByText('Sessions')).toBeInTheDocument();
+      expect(screen.getByText('对话')).toBeInTheDocument();
+      expect(screen.getByText('会话')).toBeInTheDocument();
       expect(screen.getByText('知识库')).toBeInTheDocument();
       expect(screen.getByText('多员工工作流')).toBeInTheDocument();
     });
@@ -57,10 +57,10 @@ describe('Layout', () => {
       renderLayout();
 
       expect(screen.getByText('系统')).toBeInTheDocument();
-      expect(screen.getByText('Dashboard')).toBeInTheDocument();
-      expect(screen.getByText('Config')).toBeInTheDocument();
-      expect(screen.getByText('Memory')).toBeInTheDocument();
-      expect(screen.getByText('验收 Harness')).toBeInTheDocument();
+      expect(screen.getByText('概览')).toBeInTheDocument();
+      expect(screen.getByText('配置')).toBeInTheDocument();
+      expect(screen.getByText('记忆')).toBeInTheDocument();
+      expect(screen.getByText('验收')).toBeInTheDocument();
     });
 
     test('legacy standalone pages are not first-class navigation items', () => {
@@ -74,12 +74,14 @@ describe('Layout', () => {
       expect(screen.queryByText('Scheduler')).not.toBeInTheDocument();
     });
 
-    test('renders capability tier badges in expanded navigation', () => {
+    test('de-badged nav: production/build/ops items carry no tier badge', () => {
       renderLayout();
 
-      expect(screen.getAllByText('可用').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('构建').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('运维').length).toBeGreaterThan(0);
+      // Restyle removed the per-item tier badges (group titles carry the layer);
+      // only `preview` items would show a 预览 badge, and there are none.
+      expect(screen.queryByText('可用')).not.toBeInTheDocument();
+      expect(screen.queryByText('构建')).not.toBeInTheDocument();
+      expect(screen.queryByText('运维')).not.toBeInTheDocument();
     });
 
     test('renders Logout button', () => {

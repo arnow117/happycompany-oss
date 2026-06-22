@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
 
 interface BootstrapStatus {
@@ -41,6 +41,7 @@ export function OnboardingBanner({ isFullHeight }: OnboardingBannerProps) {
   if (status.steps.modelConfigured && status.steps.employeeNetworkReady && status.steps.peopleBound) {
     return null;
   }
+  if (isFullHeight) return null;
 
   let stepInfo: { step: number; name: string; path: string } | null = null;
   if (!status.steps.modelConfigured) {
@@ -53,65 +54,110 @@ export function OnboardingBanner({ isFullHeight }: OnboardingBannerProps) {
 
   if (!stepInfo) return null;
 
-  if (isFullHeight) return null;
+  const completed = [
+    status.steps.modelConfigured,
+    status.steps.employeeNetworkReady,
+    status.steps.peopleBound,
+  ].filter(Boolean).length;
+  const total = 3;
 
   return (
     <div style={banner}>
-      <span style={bannerText}>
-        步骤 {stepInfo.step} / 3: {stepInfo.name}
-      </span>
-      <div style={bannerActions}>
-        <button
-          onClick={() => navigate(stepInfo.path)}
-          style={continueBtn}
-        >
-          继续配置
-        </button>
-        <button
-          onClick={handleDismiss}
-          style={dismissBtn}
-          aria-label="Dismiss"
-        >
-          <X size={16} color="var(--color-on-dark-soft)" />
-        </button>
+      {/* slim progress track */}
+      <div style={progressTrack} aria-hidden="true">
+        <div style={{ ...progressFill, width: `${(completed / total) * 100}%` }} />
+      </div>
+
+      <div style={row}>
+        <span style={stepBadge}>{completed}/{total}</span>
+        <span style={bannerText}>
+          完成初始设置 · 下一步：<strong style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>{stepInfo.name}</strong>
+        </span>
+        <div style={bannerActions}>
+          <button onClick={() => navigate(stepInfo.path)} style={continueBtn}>
+            继续
+            <ArrowRight size={13} />
+          </button>
+          <button onClick={handleDismiss} style={dismissBtn} aria-label="暂时隐藏" title="暂时隐藏">
+            <X size={15} color="var(--color-text-muted)" />
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 const banner: React.CSSProperties = {
+  position: 'relative',
+  background: 'var(--color-bg-base)',
+  borderBottom: '1px solid var(--color-border)',
+};
+
+const progressTrack: React.CSSProperties = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  height: 2,
+  background: 'var(--color-bg-overlay)',
+};
+
+const progressFill: React.CSSProperties = {
+  height: '100%',
+  background: 'var(--color-accent)',
+  transition: 'width var(--transition-normal) var(--ease-out-expo)',
+};
+
+const row: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '16px',
-  padding: '12px 24px',
-  background: 'rgba(251, 191, 36, 0.08)',
-  borderBottom: '1px solid rgba(251, 191, 36, 0.2)',
+  gap: '12px',
+  padding: '8px 24px',
+};
+
+const stepBadge: React.CSSProperties = {
+  flexShrink: 0,
+  fontFamily: 'var(--font-mono)',
+  fontSize: '11px',
+  fontWeight: 600,
+  color: 'var(--color-accent)',
+  background: 'var(--color-accent-dim)',
+  padding: '2px 8px',
+  borderRadius: 'var(--radius-pill)',
 };
 
 const bannerText: React.CSSProperties = {
   fontSize: '13px',
-  color: 'var(--color-on-dark-soft)',
+  color: 'var(--color-text-secondary)',
   flex: 1,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 };
 
 const bannerActions: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  gap: '8px',
+  gap: '6px',
+  flexShrink: 0,
 };
 
 const continueBtn: React.CSSProperties = {
-  padding: '6px 14px',
-  borderRadius: 'var(--radius-sm)',
-  border: '1px solid var(--color-accent)',
-  background: 'transparent',
-  color: 'var(--color-accent)',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '5px',
+  padding: '5px 12px',
+  borderRadius: 'var(--radius-md)',
+  border: 'none',
+  background: 'var(--color-accent)',
+  color: '#fff',
   fontSize: '13px',
   fontWeight: 500,
   fontFamily: 'var(--font-body)',
   cursor: 'pointer',
   whiteSpace: 'nowrap' as const,
+  transition: 'background var(--transition-fast) var(--ease-out-expo)',
 };
 
 const dismissBtn: React.CSSProperties = {

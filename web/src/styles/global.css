@@ -53,6 +53,8 @@
   color: var(--color-text-muted);
 }
 
+/* Default text-only empty state (legacy). Prefer the <EmptyState/> component
+   for primary surfaces — it adds an icon + reason + call-to-action. */
 .empty-state {
   margin-top: var(--space-xl);
   padding: var(--space-xl);
@@ -62,6 +64,48 @@
   background: var(--color-bg-base);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+}
+
+/* ── Rich Empty State (icon + reason + CTA) ───────────────── */
+
+.empty-rich {
+  margin-top: var(--space-xl);
+  padding: var(--space-2xl) var(--space-xl);
+  text-align: center;
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.empty-rich__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--color-accent-dim);
+  color: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-xxs);
+}
+
+.empty-rich__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.empty-rich__desc {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 420px;
+  line-height: var(--leading-normal);
 }
 
 /* ── Error Banner ─────────────────────────────────────────── */
@@ -114,21 +158,17 @@
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition-normal) var(--ease-out-expo),
-              box-shadow var(--transition-normal) var(--ease-out-expo),
+  transition: box-shadow var(--transition-normal) var(--ease-out-expo),
               border-color var(--transition-fast) var(--ease-out-expo),
               background var(--transition-fast) var(--ease-out-expo);
 }
 
+/* Unified hover language: clickable surfaces change shadow + border + bg only,
+   never translate or scale. (Motion is reserved for genuinely movable items.) */
 .card:hover {
-  transform: none;
   box-shadow: var(--shadow-card-hover);
   border-color: var(--color-border-hover);
   background: var(--color-bg-raised);
-}
-
-.card:active {
-  transform: none;
 }
 
 .card:focus-visible {
@@ -160,12 +200,6 @@
   border-color: var(--color-border-hover);
   background: var(--color-bg-overlay);
   color: var(--color-text-primary);
-  transform: none;
-  box-shadow: none;
-}
-
-.action-button:active {
-  transform: translateY(0);
 }
 
 .action-button:focus-visible {
@@ -194,12 +228,6 @@
   border-color: var(--color-accent);
   background: var(--color-bg-raised);
   color: var(--color-accent-active);
-  transform: none;
-  box-shadow: none;
-}
-
-.action-link:active {
-  transform: translateY(0);
 }
 
 .action-link:focus-visible {
@@ -225,8 +253,6 @@
 .chat-button:hover {
   background: var(--color-accent);
   color: var(--color-on-dark);
-  transform: none;
-  box-shadow: none;
 }
 
 .chat-button:focus-visible {
@@ -253,7 +279,6 @@
   border-color: var(--color-border-hover);
   background: var(--color-bg-raised);
   color: var(--color-text-primary);
-  transform: none;
 }
 
 .sessions-button:focus-visible {
@@ -279,8 +304,6 @@
 .uninstall-button:hover {
   background: var(--color-danger);
   color: white;
-  transform: none;
-  box-shadow: none;
 }
 
 .uninstall-button:focus-visible {
@@ -383,9 +406,10 @@
   vertical-align: middle;
 }
 
+/* Subtle focus ring instead of a heavy outer glow. */
 .online-indicator {
   background: var(--color-success);
-  box-shadow: 0 0 6px rgba(93, 184, 114, 0.4);
+  box-shadow: 0 0 0 3px rgba(93, 184, 114, 0.16);
 }
 
 .offline-indicator {
@@ -415,7 +439,7 @@
 
 .online-badge::before {
   background: var(--color-success);
-  box-shadow: 0 0 6px rgba(93, 184, 114, 0.5);
+  box-shadow: 0 0 0 3px rgba(93, 184, 114, 0.18);
 }
 
 .online-badge {
@@ -552,18 +576,19 @@
   background: var(--color-surface-dark);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
-  transition: all var(--transition-fast) var(--ease-out-expo);
+  transition: background var(--transition-fast) var(--ease-out-expo),
+              border-color var(--transition-fast) var(--ease-out-expo);
 }
 
+/* Unified: no translate on hover — background + border only. */
 .app-row:hover {
   background: var(--color-surface-dark-soft);
   border-color: var(--color-border-hover);
-  transform: translateX(2px);
 }
 
 .app-row:focus-within {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 2px rgba(204, 120, 92, 0.1);
+  box-shadow: 0 0 0 2px var(--color-accent-dim);
 }
 
 .app-info {
@@ -666,34 +691,59 @@
 
 /* ── Metric Card Specifics ───────────────────────────────── */
 
+.metric-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.metric-card-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .metric-value {
-  font-size: 36px;
-  font-weight: var(--font-regular);
+  font-size: 34px;
+  font-weight: var(--font-semibold);
   font-family: var(--font-display);
   letter-spacing: var(--tracking-tight);
   margin: 0;
   color: var(--color-text-primary);
+  line-height: 1.1;
+}
+
+.metric-value--empty {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted-soft);
+}
+
+.metric-value--accent {
+  color: var(--color-accent);
 }
 
 .metric-label {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   color: var(--color-text-muted);
-  margin: 4px 0 0;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-widest);
+  margin: 0;
+  letter-spacing: var(--tracking-wide);
 }
 
 .metric-link {
-  color: var(--color-accent);
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: color var(--transition-fast) var(--ease-out-expo);
 }
 
 .metric-link:hover {
   color: var(--color-accent-active);
-  text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
 .metric-link:focus-visible {
@@ -742,21 +792,16 @@ a.nav-link.nav-link--pending {
 }
 
 /* ── Icon Button Hover States ───────────────────────────────── */
+/* Unified: background change only — no scale. */
 
 .icon-button {
-  transition: transform var(--transition-fast) var(--ease-out-expo),
-              background var(--transition-fast) var(--ease-out-expo),
+  transition: background var(--transition-fast) var(--ease-out-expo),
               color var(--transition-fast) var(--ease-out-expo);
 }
 
 .icon-button:hover {
-  transform: scale(1.05);
   background: var(--color-surface-dark-soft);
   color: var(--color-on-dark);
-}
-
-.icon-button:active {
-  transform: scale(0.95);
 }
 
 /* ── Input Field Focus States ───────────────────────────────── */

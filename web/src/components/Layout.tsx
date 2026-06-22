@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { clearToken } from '../lib/auth';
-import { LogOut, PanelLeftClose, PanelLeftOpen, Plus, Sun, Moon, Menu, X } from 'lucide-react';
+import {
+  LogOut, PanelLeftClose, PanelLeftOpen, Plus, Sun, Moon, Menu, X,
+  MessageSquare, ClipboardList, Network, BookOpen, Wrench, Users,
+  Contact, Package, LayoutDashboard, Settings, Brain, ShieldCheck,
+  type LucideIcon,
+} from 'lucide-react';
 import { TenantSwitcher } from './chat/TenantSwitcher';
 import { OnboardingBanner } from './OnboardingBanner';
 
 interface NavItem {
   to: string;
   label: string;
-  short: string;
+  icon: LucideIcon;
   tier?: 'production' | 'build' | 'preview' | 'ops';
 }
 
@@ -22,28 +27,28 @@ const NAV_GROUPS: readonly NavGroup[] = [
   {
     title: '日常工作',
     items: [
-      { to: '/chat', label: 'Chat', short: '💬', tier: 'production' },
-      { to: '/sessions', label: 'Sessions', short: '📋', tier: 'production' },
-      { to: '/orchestration', label: '多员工工作流', short: '▥', tier: 'production' },
-      { to: '/knowledge', label: '知识库', short: '📚', tier: 'production' },
+      { to: '/chat', label: '对话', icon: MessageSquare, tier: 'production' },
+      { to: '/sessions', label: '会话', icon: ClipboardList, tier: 'production' },
+      { to: '/orchestration', label: '多员工工作流', icon: Network, tier: 'production' },
+      { to: '/knowledge', label: '知识库', icon: BookOpen, tier: 'production' },
     ],
   },
   {
     title: '员工与能力',
     items: [
-      { to: '/agent-builder', label: '员工 Builder', short: '+', tier: 'build' },
-      { to: '/employees', label: '数字员工', short: '👥', tier: 'build' },
-      { to: '/people', label: '企业员工', short: '人', tier: 'build' },
-      { to: '/skills-marketplace', label: '技能市场', short: '📦', tier: 'build' },
+      { to: '/agent-builder', label: '员工 Builder', icon: Wrench, tier: 'build' },
+      { to: '/employees', label: '数字员工', icon: Users, tier: 'build' },
+      { to: '/people', label: '企业员工', icon: Contact, tier: 'build' },
+      { to: '/skills-marketplace', label: '技能市场', icon: Package, tier: 'build' },
     ],
   },
   {
     title: '系统',
     items: [
-      { to: '/', label: 'Dashboard', short: '🏠', tier: 'ops' },
-      { to: '/config', label: 'Config', short: '⚙', tier: 'ops' },
-      { to: '/memory', label: 'Memory', short: '🧠', tier: 'ops' },
-      { to: '/harness', label: '验收 Harness', short: '✓', tier: 'ops' },
+      { to: '/', label: '概览', icon: LayoutDashboard, tier: 'ops' },
+      { to: '/config', label: '配置', icon: Settings, tier: 'ops' },
+      { to: '/memory', label: '记忆', icon: Brain, tier: 'ops' },
+      { to: '/harness', label: '验收', icon: ShieldCheck, tier: 'ops' },
     ],
   },
 ] as const;
@@ -53,11 +58,11 @@ const EXACT_MATCH = new Set(['/', '/chat']);
 type Theme = 'light' | 'dark' | null;
 type BackendStatus = 'checking' | 'online' | 'offline';
 
+/* Tier badges are now reserved for EXCEPTIONS only (e.g. preview / coming-soon).
+   The group titles already convey 日常工作 / 员工与能力 / 系统, so badging every
+   item just added noise. Mark an item `tier: 'preview'` to surface its badge. */
 function tierLabel(tier?: NavItem['tier']): string | null {
-  if (tier === 'production') return '可用';
-  if (tier === 'build') return '构建';
   if (tier === 'preview') return '预览';
-  if (tier === 'ops') return '运维';
   return null;
 }
 
@@ -244,7 +249,9 @@ export function Layout({ needsSetup }: LayoutProps) {
                 </div>
               )}
               {sidebarCollapsed ? (
-                group.items.map((item) => (
+                group.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
                   <NavLink
                     key={item.to}
                     to={item.to}
@@ -252,31 +259,37 @@ export function Layout({ needsSetup }: LayoutProps) {
                     style={({ isActive }) => ({
                       display: 'flex',
                       justifyContent: 'center',
-                      padding: '6px 0',
+                      padding: '8px 0',
                       borderRadius: 'var(--radius-sm)',
-                      fontSize: '16px',
                       lineHeight: 1,
                       textDecoration: 'none',
-                      opacity: isActive ? 1 : 0.5,
-                      transition: 'opacity var(--transition-fast)',
+                      color: isActive ? 'var(--color-on-dark)' : 'var(--color-on-dark-soft)',
+                      background: isActive ? 'var(--color-surface-dark-elevated)' : 'transparent',
+                      opacity: isActive ? 1 : 0.65,
+                      transition: 'all var(--transition-fast) var(--ease-out-expo)',
                     })}
                     onClick={() => isMobile && setSidebarOpen(false)}
-                    title={tierLabel(item.tier) ? `${item.label} · ${tierLabel(item.tier)}` : item.label}
+                    title={item.label}
                   >
-                    {item.short}
+                    <Icon size={18} strokeWidth={1.6} />
                   </NavLink>
-                ))
-              ) : !isGroupCollapsed && group.items.map((item) => (
+                  );
+                })
+              ) : !isGroupCollapsed && group.items.map((item) => {
+                const Icon = item.icon;
+                const badge = tierLabel(item.tier);
+                return (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   end={EXACT_MATCH.has(item.to)}
                   style={({ isActive }) => ({
+                    position: 'relative',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: '8px',
-                    padding: '5px 12px 5px 20px',
+                    padding: '6px 12px 6px 18px',
                     margin: '0 0 1px 0',
                     borderRadius: 'var(--radius-sm)',
                     fontSize: '13px',
@@ -293,18 +306,29 @@ export function Layout({ needsSetup }: LayoutProps) {
                   })}
                   onClick={() => isMobile && setSidebarOpen(false)}
                 >
-                  <span style={navLabel}>{item.label}</span>
-                  {tierLabel(item.tier) && <span style={tierBadge}>{tierLabel(item.tier)}</span>}
+                  {({ isActive }) => (
+                    <>
+                      {isActive && <span style={activeBar} />}
+                      <span style={navLabelGroup}>
+                        <Icon size={16} strokeWidth={1.6} style={{ flexShrink: 0, opacity: isActive ? 1 : 0.7 }} />
+                        <span style={navLabel}>{item.label}</span>
+                      </span>
+                      {badge && <span style={tierBadge}>{badge}</span>}
+                    </>
+                  )}
                 </NavLink>
-              ))}
+                );
+              })}
             </div>
           )})}
           {needsSetup && !sidebarCollapsed && (
             <NavLink
               to="/model-config"
               style={({ isActive }) => ({
-                display: 'block',
-                padding: '6px 12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 12px 6px 18px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: '13px',
                 fontWeight: isActive ? 500 : 600,
@@ -318,7 +342,8 @@ export function Layout({ needsSetup }: LayoutProps) {
               })}
               onClick={() => isMobile && setSidebarOpen(false)}
             >
-              模型配置
+              <Settings size={16} strokeWidth={1.6} style={{ flexShrink: 0 }} />
+              <span>模型配置</span>
             </NavLink>
           )}
         </nav>
@@ -534,6 +559,13 @@ const groupTitle: React.CSSProperties = {
   flexShrink: 0,
 };
 
+const navLabelGroup: React.CSSProperties = {
+  minWidth: 0,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+};
+
 const navLabel: React.CSSProperties = {
   minWidth: 0,
   overflow: 'hidden',
@@ -541,15 +573,26 @@ const navLabel: React.CSSProperties = {
   whiteSpace: 'nowrap',
 };
 
+const activeBar: React.CSSProperties = {
+  position: 'absolute',
+  left: 6,
+  top: '50%',
+  transform: 'translateY(-50%)',
+  width: 3,
+  height: 16,
+  borderRadius: 2,
+  background: 'var(--color-accent)',
+};
+
 const tierBadge: React.CSSProperties = {
   flexShrink: 0,
-  padding: '1px 5px',
-  borderRadius: 'var(--radius-sm)',
-  border: '1px solid var(--color-surface-dark-elevated)',
-  color: 'var(--color-on-dark-soft)',
+  padding: '1px 7px',
+  borderRadius: 'var(--radius-pill)',
+  background: 'var(--color-warning-dim)',
+  color: 'var(--color-warning)',
   fontSize: '10px',
   fontWeight: 500,
-  lineHeight: 1.3,
+  lineHeight: 1.4,
 };
 
 const version: React.CSSProperties = {
@@ -644,8 +687,8 @@ const brandTitleCollapsed: React.CSSProperties = {
 const navCollapsed: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  gap: '12px',
-  padding: '0 4px',
+  gap: '6px',
+  padding: '0 8px',
   flex: 1,
   minHeight: 0,
   overflowY: 'auto',

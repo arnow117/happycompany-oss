@@ -687,12 +687,12 @@ test.describe('v2 product journey', () => {
 
   test('navigation reflects runtime, employee, and system layers', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '概览' })).toBeVisible();
 
     const nav = page.getByRole('navigation');
     await expect(page.getByText('日常工作', { exact: true })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Chat' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Sessions' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: '对话' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: '会话' })).toBeVisible();
     await expect(nav.getByRole('link', { name: '多员工工作流' })).toBeVisible();
     await expect(nav.getByRole('link', { name: '知识库' })).toBeVisible();
     await expect(page.getByText('员工与能力', { exact: true })).toBeVisible();
@@ -701,9 +701,10 @@ test.describe('v2 product journey', () => {
     await expect(nav.getByRole('link', { name: '企业员工' })).toBeVisible();
     await expect(nav.getByRole('link', { name: '技能市场' })).toBeVisible();
     await expect(page.getByText('系统', { exact: true })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Config' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Memory' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: '验收 Harness' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: '概览' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: '配置' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: '记忆' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: '验收' })).toBeVisible();
     await expect(nav.getByRole('link', { name: '入口路由' })).toHaveCount(0);
     await expect(nav.getByRole('link', { name: '人员绑定' })).toHaveCount(0);
     await expect(nav.getByRole('link', { name: '员工网络' })).toHaveCount(0);

@@ -1,23 +1,54 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import type { BotInfo } from '../../lib/api';
 
 /* ── MetricCard ───────────────────────────────────────────── */
 
-export function MetricCard({ label, value, linkTo }: { label: string; value: string; linkTo?: string }) {
+export function MetricCard({
+  label,
+  value,
+  linkTo,
+  icon,
+  accent,
+}: {
+  label: string;
+  value: string;
+  linkTo?: string;
+  icon?: ReactNode;
+  accent?: boolean;
+}) {
+  const isEmpty = value === '0';
+  const valueClass = isEmpty
+    ? 'metric-value metric-value--empty'
+    : accent
+      ? 'metric-value metric-value--accent number-animate'
+      : 'metric-value number-animate';
+
   return (
     <div className="card card-clickable" style={{ padding: 'var(--space-lg)' }}>
-      <p className="metric-value">
-        <span className={value !== '0' ? 'number-animate' : ''}>{value}</span>
-      </p>
-      <p className="metric-label">
-        {linkTo ? (
-          <Link to={linkTo} className="metric-link">
-            {label} &rarr;
-          </Link>
-        ) : (
-          label
+      <div className="metric-card-head">
+        {icon && (
+          <span
+            className="metric-card-icon"
+            style={{
+              background: accent && !isEmpty ? 'var(--color-accent-dim)' : 'var(--color-bg-raised)',
+              color: accent && !isEmpty ? 'var(--color-accent)' : 'var(--color-text-muted-soft)',
+            }}
+          >
+            {icon}
+          </span>
         )}
-      </p>
+        <p className="metric-label">
+          {linkTo ? (
+            <Link to={linkTo} className="metric-link">
+              {label} &rarr;
+            </Link>
+          ) : (
+            label
+          )}
+        </p>
+      </div>
+      <p className={valueClass}>{isEmpty ? '暂无' : value}</p>
     </div>
   );
 }
@@ -37,7 +68,7 @@ export function BotCard({ bot }: { bot: BotInfo }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <span className={isOnline ? 'online-indicator' : 'offline-indicator'} style={{ width: '8px', height: '8px', flexShrink: 0 }} />
         <span className="bot-name" style={{ fontSize: '15px' }}>{bot.displayName || bot.name}</span>
-        <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)', opacity: 0.6 }}>Chat &rarr;</span>
+        <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)', opacity: 0.6 }}>对话 &rarr;</span>
       </div>
       <p className="muted-text" style={{ margin: '6px 0 0', fontSize: '13px' }}>
         {bot.channel} &middot; {routeLabel}{tenantLabel}

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Settings, MessageSquare, Inbox } from 'lucide-react';
 import { api } from '../lib/api';
 import { LoadingSkeleton } from '../components/LoadingSkeleton';
 import type { BotInfo, ChatSummary } from '../lib/api';
 import { MetricCard, BotCard, ActionLink, ErrorBlock } from './dashboard/DashboardCards';
 import { useWebSocket } from '../hooks/useWebSocket';
-import type { LiveEvent } from '../hooks/useWebSocket';
 
 export function Dashboard() {
   const [bots, setBots] = useState<BotInfo[]>([]);
@@ -47,18 +46,18 @@ export function Dashboard() {
 
   return (
     <section className="page-enter">
-      <h2 className="heading">Dashboard</h2>
-      <p className="subtitle">System overview and quick navigation.</p>
+      <h2 className="heading">概览</h2>
+      <p className="subtitle">系统总览与快速入口。</p>
 
       <div className="card-grid">
-        <MetricCard label="入口配置" value={String(bots.length)} linkTo="/config" />
-        <MetricCard label="Active Chats" value={String(chats.length)} linkTo="/sessions" />
-        <MetricCard label="Total Messages" value={String(totalMessages)} linkTo="/stats" />
+        <MetricCard label="配置入口" value={String(bots.length)} linkTo="/config" icon={<Settings size={15} strokeWidth={2} />} accent />
+        <MetricCard label="进行中对话" value={String(chats.length)} linkTo="/sessions" icon={<MessageSquare size={15} strokeWidth={2} />} accent />
+        <MetricCard label="消息总数" value={String(totalMessages)} linkTo="/stats" icon={<Inbox size={15} strokeWidth={2} />} />
       </div>
 
       {bots.length > 0 && (
         <div style={{ marginTop: 'var(--space-xl)' }}>
-          <h3 className="section-title">Entry Status</h3>
+          <h3 className="section-title">入口状态</h3>
           <div className="grid-bot-mini">
             {bots.map((bot) => (
               <BotCard key={bot.name} bot={bot} />
@@ -69,14 +68,14 @@ export function Dashboard() {
 
       <div style={{ marginTop: 'var(--space-xl)' }}>
         <h3 className="section-title">
-          Live Activity
+          实时动态
           <span className={connected ? 'online-badge' : 'offline-badge'} style={{ marginLeft: '8px' }}>
             {connected ? 'live' : 'offline'}
           </span>
         </h3>
         <div className="feed-container">
           {liveEvents.length === 0 ? (
-            <p className="muted-text" style={{ padding: '16px' }}>No activity yet. Events will appear here in real time.</p>
+            <p className="muted-text" style={{ padding: '16px' }}>暂无动态，事件会在这里实时出现。</p>
           ) : (
             liveEvents.slice(-20).reverse().map((ev, i) => (
               <div key={`${ev.timestamp}-${i}`} className="feed-item">
@@ -97,10 +96,10 @@ export function Dashboard() {
       </div>
 
       <div style={{ marginTop: 'var(--space-xl)' }}>
-        <h3 className="section-title">Quick Actions</h3>
+        <h3 className="section-title">快捷操作</h3>
         <div className="link-grid">
-          <ActionLink to="/chat" label="Chat" />
-          <ActionLink to="/sessions" label="Sessions" />
+          <ActionLink to="/chat" label="对话" />
+          <ActionLink to="/sessions" label="会话" />
           <ActionLink to="/agent-builder" label="员工 Builder" />
           <ActionLink to="/orchestration" label="多员工工作流" />
           <ActionLink to="/employees" label="数字员工" />

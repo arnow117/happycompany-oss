@@ -40,9 +40,10 @@ describe('OnboardingBanner', () => {
 
     renderWithRouter({});
 
-    const el = await screen.findByText(/步骤 1 \/ 3: 配置模型/);
+    const el = await screen.findByText('配置模型');
     expect(el).toBeInTheDocument();
-    expect(screen.getByText('继续配置')).toBeInTheDocument();
+    expect(screen.getByText('继续')).toBeInTheDocument();
+    expect(screen.getByText('0/3')).toBeInTheDocument();
   });
 
   it('shows step 2 prompt when only model configured', async () => {
@@ -53,8 +54,9 @@ describe('OnboardingBanner', () => {
 
     renderWithRouter({});
 
-    const el = await screen.findByText(/步骤 2 \/ 3: 创建数字员工/);
+    const el = await screen.findByText('创建数字员工');
     expect(el).toBeInTheDocument();
+    expect(screen.getByText('1/3')).toBeInTheDocument();
   });
 
   it('shows step 3 prompt when only people not bound', async () => {
@@ -65,8 +67,9 @@ describe('OnboardingBanner', () => {
 
     renderWithRouter({});
 
-    const el = await screen.findByText(/步骤 3 \/ 3: 绑定人员/);
+    const el = await screen.findByText('绑定人员');
     expect(el).toBeInTheDocument();
+    expect(screen.getByText('2/3')).toBeInTheDocument();
   });
 
   it('hides banner when all steps complete', async () => {
@@ -78,7 +81,7 @@ describe('OnboardingBanner', () => {
     renderWithRouter({});
 
     await new Promise((r) => setTimeout(r, 100));
-    expect(screen.queryByText(/步骤/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/下一步/)).not.toBeInTheDocument();
   });
 
   it('dismisses and stores in localStorage', async () => {
@@ -88,13 +91,13 @@ describe('OnboardingBanner', () => {
     });
 
     renderWithRouter({});
-    await screen.findByText(/步骤 1/);
+    await screen.findByText('配置模型');
 
-    const dismissBtn = screen.getByRole('button', { name: /dismiss/i });
+    const dismissBtn = screen.getByRole('button', { name: '暂时隐藏' });
     await userEvent.click(dismissBtn);
 
     expect(localStorage.getItem('onboarding-dismissed')).toBe('true');
-    expect(screen.queryByText(/步骤/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/下一步/)).not.toBeInTheDocument();
   });
 
   it('does not render when isFullHeight is true', async () => {
