@@ -22,7 +22,8 @@
   --color-text-strong: #252523;
   --color-text-secondary: #3d3d3a;
   --color-text-muted: #5d5b55; /* a11y: 调暗以达 WCAG AA 4.5:1 on bg-raised/overlay（原 #6c6a64 仅 4.13–4.48） */
-  --color-text-muted-soft: #8e8b82;
+  --color-text-muted-soft: #8e8b82; /* 背景/分隔用（offline 圆点）；文字勿用此值，用 --color-text-faint */
+  --color-text-faint: #646159; /* a11y: 极弱文字（offline 徽章）on bg ≥4.5:1（拆自 muted-soft，原作文字仅 3.0） */
 
   /* Accent - warm coral */
   --color-accent: #cc785c;
@@ -99,7 +100,8 @@
   --color-text-strong: #f5f3f0;
   --color-text-secondary: #a09d96;
   --color-text-muted: #948f86; /* a11y: 调亮以达 WCAG AA 4.5:1 on 深色 bg（原 #6c6a64 仅 2.9–3.61） */
-  --color-text-muted-soft: #4a4843;
+  --color-text-muted-soft: #4a4843; /* 背景/分隔用；文字勿用此值，用 --color-text-faint */
+  --color-text-faint: #8d8a81; /* a11y: 极弱文字（offline 徽章）on 深 bg ≥4.5:1（拆自 muted-soft，原作文字仅 2.07） */
 
   --color-border: #252320;
   --color-border-hover: #353330;

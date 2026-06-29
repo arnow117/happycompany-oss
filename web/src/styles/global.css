@@ -451,7 +451,7 @@
 }
 
 .offline-badge {
-  color: var(--color-text-muted-soft);
+  color: var(--color-text-faint);
 }
 
 /* ── Feed Container (Live Activity) ───────────────────────── */
